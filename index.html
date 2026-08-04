@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>구몬 화상학습 안내</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#F2F4F7;--brand:#E00020;--brand-deep:#AA0018;--brand-text:#FF6675;--sky:#1A1D23;--sky2:#3A222A;--paper:#0E1013;--surface:#262B34;--line:#3A404B;--muted:#A7AEB9;--amber:#E0A94A;
+  /* ===== 폰트 스케일 토큰 (8개 페이지 공통 — 한 곳 수정 시 전 페이지 동기화) ===== */
+  --fs-3xs:11px;   /* 최소 단위: 배지·영상 표기 */
+  --fs-2xs:12px;   /* disclaimer·앱카드 설명 */
+  --fs-xs:13px;    /* eyebrow·QR 캡션·비교표 본문 */
+  --fs-sm:14px;    /* 탭·팁·아코디언 본문·부가설명 */
+  --fs-cap:15px;   /* 캡션·설명문 */
+  --fs-body:16px;  /* 본문 기본 */
+  --fs-md:17px;    /* 강조 본문·헤더 타이틀·CTA */
+  --fs-lg:18px;    /* 소제목 */
+  --fs-xl:20px;    /* 섹션 제목 */
+  --fs-2xl:23px;   /* 큰 강조문·수치 */
+  --fs-3xl:25px;   /* 섹션 헤드 h2 */
+  --fs-4xl:27px;   /* 하위 페이지 히어로 h1 */
+  --fs-5xl:30px;   /* index·Step01-01 히어로 h1 */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',sans-serif;background:#08090B;color:var(--ink);-webkit-font-smoothing:antialiased}
+  svg{display:block}
+  .shell{max-width:600px;margin:0 auto;background:var(--paper);min-height:100vh;position:relative;box-shadow:0 0 60px rgba(35,38,44,.06)}
+  .hdr{position:sticky;top:0;z-index:50;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:rgba(14,16,19,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  /* 헤더 BI 이미지 (구 .wordmark 텍스트 대체)
+     원본 kumon_bi.png는 512×512지만 실제 로고는 (63,148)~(447,361) = 385×214뿐이고
+     나머지가 투명 여백이라 그냥 넣으면 로고가 절반 크기로 보임 → 여백을 잘라내 표시.
+     로고 실제 높이 30px 기준: 이미지를 71.8px로 축소(512×30/214) 후 여백만큼 밀어냄. */
+  .bi{display:block;width:54px;height:30px;overflow:hidden;position:relative}
+  .bi img{position:absolute;width:71.8px;height:71.8px;left:-8.8px;top:-20.8px;display:block}
+  /* 히어로: 학습지 사진 배경 + 흰 글씨.
+     원본 사진이 이미 어두워(평균 58/255·최대 112/255) 오버레이는 48%만 —
+     이 값에서 흰 글씨 10.2:1, 브랜드 레드(--brand-text) 3.2:1로 큰 글자 기준을 만족하면서 사진이 보임 */
+  .hero{position:relative;padding:52px 24px 44px;background:#0E1013 center/cover no-repeat;
+        background-image:linear-gradient(180deg,rgba(14,16,20,.44),rgba(14,16,20,.52)),url('img/index_hero_bg.png');
+        color:#fff;overflow:hidden}
+  .hero>*{position:relative;z-index:1}
+  .eyebrow{display:inline-block;font-size:var(--fs-sm);font-weight:700;color:#fff;opacity:.9;letter-spacing:.04em;margin-bottom:16px}
+  .hero h1{font-size:var(--fs-5xl);line-height:1.32;font-weight:900;letter-spacing:-.03em;margin-bottom:14px;color:#fff}
+  .hero h1 .br{color:var(--brand-text)}   /* 브랜드 레드(어두운 배경용) */
+  .hero p{font-size:var(--fs-md);line-height:1.7;color:rgba(255,255,255,.88);max-width:34ch}
+  .group{padding:8px 20px 0}
+  .group-head{display:flex;align-items:center;gap:10px;padding:22px 4px 16px}
+  .group-no{font-size:var(--fs-sm);font-weight:900;color:#fff;background:var(--brand);width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center}
+  .group-head h2{font-size:var(--fs-lg);font-weight:800;letter-spacing:-.02em}
+  .card{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:12px;transition:transform .15s,border-color .15s,box-shadow .15s}
+  .card:active{transform:scale(.985)}
+  @media(hover:hover){.card:hover{border-color:var(--brand-text);box-shadow:0 8px 24px rgba(224,0,32,.10)}}
+  .card .step{font-size:var(--fs-xs);font-weight:800;color:var(--brand-text);letter-spacing:.12em;display:block;margin-bottom:9px}
+  .card .row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+  .card h3{font-size:var(--fs-xl);font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+  .card p{font-size:var(--fs-cap);line-height:1.6;color:var(--muted)}
+  .card .go{flex-shrink:0;width:34px;height:34px;border-radius:10px;background:#333944;color:var(--brand-text);display:flex;align-items:center;justify-content:center;margin-top:2px}
+  .ftr{margin-top:40px;padding:28px 24px 40px;background:var(--sky);border-top:1px solid var(--line)}
+  .ftr .cs{font-size:var(--fs-cap);color:var(--muted);margin-bottom:14px}
+  .ftr .cs b{font-size:var(--fs-2xl);font-weight:900;color:var(--brand-text);letter-spacing:-.02em}
+  .ftr .biz{font-size:var(--fs-xs);line-height:1.7;color:#8892A0}
+  .ftr .links{display:flex;gap:14px;margin:14px 0}
+  .ftr .links a{font-size:var(--fs-sm);color:var(--muted);text-decoration:none;font-weight:600;padding:12px 0}
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="hdr">
+    <span class="bi"><img src="img/kumon_bi.png" alt="구몬학습"></span>  </header>
+
+  <section class="hero reveal">
+    <span class="eyebrow">구몬 화상학습 안내</span>
+    <h1>스스로 해내는 힘,<br><span class="br">구몬 화상학습</span></h1>
+    <p>처음 문의부터 첫 수업 준비까지. 지금 내 단계에 맞는 안내를 차례대로 확인해 보세요.</p>
+  </section>
+
+  <div class="group">
+    <div class="group-head reveal"><span class="group-no">Ⅰ</span><h2>구몬학습 안내</h2></div>
+    <a class="card reveal" href="Step01-01.html">
+      <span class="step">STEP 01</span>
+      <div class="row"><div><h3>구몬학습 미리보기</h3><p>'누적 학습자 890만명'이 증명한 구몬, 그 비밀은?</p></div>
+      <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <a class="card reveal" href="Step01-02.html">
+      <span class="step">STEP 02</span>
+      <div class="row"><div><h3>상품구성 알아보기</h3><p>화상학습 vs 셀프학습, 나에게 맞는 학습방식은?</p></div>
+      <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <a class="card reveal" href="Step01-03.html">
+      <span class="step">STEP 03</span>
+      <div class="row"><div><h3>과목구성 알아보기</h3><p>과목별 특장점, 교재 구성, 회비가 궁금하다면?</p></div>
+      <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <!-- STEP 04 학습 체험하기(Step01-04.html): 콘텐츠 준비 중 — 완성 후 활성화 예정(숨김) -->
+    <!-- 기존 step03(학습 체험)↔step04(과목구성) 순서 교체됨 -->
+    <!--
+    <a class="card reveal" href="Step01-04.html">
+      <span class="step">STEP 04</span>
+      <div class="row"><div><h3>학습 체험하기</h3><p>실제 수업·풀이 화면·결과 분석까지, 받게 될 화면을 미리 경험.</p></div>
+      <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    -->
+
+  </div>
+
+  <div class="group">
+    <div class="group-head reveal"><span class="group-no">Ⅱ</span><h2>설치 · 학습 방법 안내</h2></div>
+    <a class="card reveal" href="Step02-01.html">
+      <span class="step">STEP 01</span>
+      <div class="row"><div><h3>스마트구몬 WINGS 학습 준비</h3></div>
+      <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <a class="card reveal" href="Step02-02.html">
+      <span class="step">STEP 02</span>
+      <div class="row"><div><h3>스마트구몬 마이러닝 학습 준비</h3></div>
+      <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <a class="card reveal" href="Step02-03.html">
+      <span class="step">STEP 03</span>
+      <div class="row"><div><h3>스마일(성인)화상 학습 준비</h3></div>
+      <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+  </div>
+
+  <footer class="ftr reveal">
+    <p class="cs">고객센터 <b>1588-5566</b><br>평일 09:00~18:00 (공휴일 제외)</p>
+    <div class="links"><a href="#">이용약관</a><a href="#">개인정보처리방침</a></div>
+    <p class="biz">(주)교원구몬 · 서울시 중구 을지로 51 (을지로2가 6번지)<br>통신판매업 신고 : 제2020-서울중구-1461호</p>
+  </footer>
+  <p style="font-size:var(--fs-2xs);color:#AEB2B8;text-align:center;line-height:1.6;padding:6px 24px 24px;margin:0">원활한 학습 안내를 위해 제작한 임시 안내 페이지입니다.</p>
+</div>
+<script>
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body></html>

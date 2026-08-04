@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>구몬학습 미리보기 · STEP 01</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#F2F4F7;--brand:#E00020;--brand-deep:#AA0018;--brand-text:#FF6675;--sky:#1A1D23;--sky2:#3A222A;--paper:#0E1013;--surface:#262B34;--line:#3A404B;--muted:#A7AEB9;--amber:#E0A94A;
+  /* ===== 폰트 스케일 토큰 (8개 페이지 공통 — 한 곳 수정 시 전 페이지 동기화) ===== */
+  --fs-3xs:11px;   /* 최소 단위: 배지·영상 표기 */
+  --fs-2xs:12px;   /* disclaimer·앱카드 설명 */
+  --fs-xs:13px;    /* eyebrow·QR 캡션·비교표 본문 */
+  --fs-sm:14px;    /* 탭·팁·아코디언 본문·부가설명 */
+  --fs-cap:15px;   /* 캡션·설명문 */
+  --fs-body:16px;  /* 본문 기본 */
+  --fs-md:17px;    /* 강조 본문·헤더 타이틀·CTA */
+  --fs-lg:18px;    /* 소제목 */
+  --fs-xl:20px;    /* 섹션 제목 */
+  --fs-2xl:23px;   /* 큰 강조문·수치 */
+  --fs-3xl:25px;   /* 섹션 헤드 h2 */
+  --fs-4xl:27px;   /* 하위 페이지 히어로 h1 */
+  --fs-5xl:30px;   /* index·Step01-01 히어로 h1 */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',sans-serif;background:#08090B;color:var(--ink);-webkit-font-smoothing:antialiased}
+  svg{display:block}
+  .shell{max-width:600px;margin:0 auto;background:var(--paper);min-height:100vh;position:relative;padding-bottom:92px;box-shadow:0 0 60px rgba(35,38,44,.06)}
+  .hdr{position:sticky;top:0;z-index:50;height:56px;display:grid;grid-template-columns:44px 1fr 44px;align-items:center;padding:0 12px;background:rgba(14,16,19,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .hdr a{color:var(--ink);text-decoration:none;display:flex;align-items:center;justify-content:center}
+  .hdr .title{text-align:center;font-size:var(--fs-md);font-weight:800;letter-spacing:-.02em}
+  .hdr .back{justify-self:center;width:44px;height:44px;border-radius:50%;background:var(--brand);color:#fff;box-shadow:0 2px 8px rgba(224,0,32,.22)}
+
+  /* 공통 섹션 */
+  .eyebrow{font-size:var(--fs-xs);font-weight:800;color:var(--brand-text);letter-spacing:.16em;margin-bottom:12px}
+  .band{padding:54px 24px}
+  .band.tint{background:var(--sky)}
+  .sec-head{margin-bottom:24px}
+  .sec-head h2{font-size:var(--fs-3xl);font-weight:900;line-height:1.34;letter-spacing:-.03em}
+  .subkicker{font-size:var(--fs-lg);font-weight:900;color:var(--brand-text);letter-spacing:-.02em;margin:12px 0 12px}
+  .sec-sub{font-size:var(--fs-body);line-height:1.75;color:var(--muted)}
+  .sec-sub b{color:var(--ink);font-weight:800}
+
+  /* 히어로 */
+  .hero{padding:50px 20px 34px;container-type:inline-size}
+  /* h1 3줄 고정(36년, / …배움, / 구몬학습). 가장 긴 2번째 줄 폭 = 글자크기 × 16.06 이므로
+     컨테이너 폭에 비례시켜 좁은 화면에서도 1·2줄이 각각 한 줄로 유지되게 함(우측 여백 ~6%).
+     앞 줄은 컨테이너 쿼리 미지원 브라우저용 폴백(30px 고정). */
+  .hero h1{font-size:var(--fs-5xl);font-size:min(var(--fs-5xl),5.85cqw);line-height:1.42;font-weight:900;letter-spacing:-.03em}
+  .hero h1 em{font-style:normal;color:var(--brand-text)}
+
+  /* 세대 스토리 + 영상 */
+  .story{padding:60px 26px;text-align:center;background:linear-gradient(180deg,var(--sky),var(--surface))}
+  .story .story-lead{font-size:var(--fs-lg);line-height:1.85;color:var(--ink);font-weight:600}
+  .story .story-strong{margin-top:24px;font-size:var(--fs-2xl);line-height:1.55;font-weight:900;letter-spacing:-.02em}
+  .story .story-strong em{font-style:normal;color:var(--brand-text)}
+  .vid{width:100%;display:block;border-radius:18px;background:#000;aspect-ratio:16/9}
+  .story .stats{margin-top:32px}
+  .story .vid{margin-top:28px}
+
+  /* 통계 (빨간 테두리 원형 · 가로 3개) */
+  .stats{display:flex;gap:9px;justify-content:center;align-items:stretch}
+  .stat{flex:1 1 0;min-width:0;container-type:inline-size;aspect-ratio:1;border:2px solid var(--brand);border-radius:50%;background:radial-gradient(circle at 50% 38%,#24272E,#191B20);box-shadow:0 6px 16px rgba(35,38,44,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px}
+  .stat .label{font-size:var(--fs-cap);font-size:13cqw;font-weight:800;color:var(--ink);line-height:1.25;margin-bottom:3px}
+  .stat .num{font-size:var(--fs-2xl);font-size:22cqw;font-weight:900;letter-spacing:-.03em;color:var(--brand-text);line-height:1.05;font-variant-numeric:tabular-nums}
+  .stat .num .unit{font-size:.5em;font-weight:800;margin-left:1px}
+  .stat .note{font-size:var(--fs-3xs);font-size:5.4cqw;color:var(--muted);margin-top:5px;line-height:1.3}
+
+  /* 전 생애 학습 파트너 (자동 무한 캐러셀) */
+  .lifes-wrap{margin:0 -24px;overflow:hidden;padding:6px 0 4px}
+  .lifes{display:flex;width:max-content;animation:lifescroll 22s linear infinite}
+  .lifes:hover{animation-play-state:paused}
+  @keyframes lifescroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .life{flex:0 0 auto;width:200px;margin-right:12px;border:1px solid var(--line);border-radius:20px;background:var(--surface);padding:24px 18px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:11px}
+  .life-ic{width:58px;height:58px;border-radius:17px;background:var(--sky2);color:var(--brand-text);display:flex;align-items:center;justify-content:center}
+  .life-stage{font-size:var(--fs-xl);font-weight:900;letter-spacing:-.02em}
+  .life-title{font-size:var(--fs-cap);color:var(--muted);line-height:1.55}
+  @media(prefers-reduced-motion:reduce){.lifes{animation:none}.lifes-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}}
+
+  /* 구몬식 학습법 5가지 */
+  .method-intro{font-size:var(--fs-cap);line-height:1.8;color:var(--muted);margin:18px 2px 20px}
+  .method-list{display:flex;flex-direction:column;gap:10px}
+  .mcard{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 18px}
+  .mcard .mno{flex-shrink:0;font-size:var(--fs-2xl);font-weight:900;color:var(--brand-text);font-variant-numeric:tabular-nums;letter-spacing:-.02em;min-width:32px;line-height:1.1}
+  .mcard h3{font-size:var(--fs-lg);font-weight:800;margin-bottom:5px;letter-spacing:-.02em}
+  .mcard p{font-size:var(--fs-cap);line-height:1.65;color:var(--muted)}
+
+  /* 섹션 이미지 (가로폭=박스폭, 원본 비율 유지) */
+  .secimg{width:100%;height:auto;display:block;border-radius:16px}
+
+  /* CTA */
+  .cta{position:fixed;bottom:0;left:0;right:0;z-index:60}
+  .cta-in{max-width:600px;margin:0 auto;padding:14px 20px calc(14px + env(safe-area-inset-bottom));background:rgba(14,16,19,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+  .cta-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--brand);color:#fff;border:none;border-radius:14px;padding:17px;font-size:var(--fs-md);font-weight:800;font-family:inherit;cursor:pointer;transition:transform .15s,background .15s}
+  .cta-btn:active{transform:scale(.98);background:var(--brand-deep)}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="hdr">
+    <a class="back" href="index.html" aria-label="뒤로 가기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
+    <div class="title">구몬학습 미리보기</div>
+  </header>
+
+  <!-- 히어로 -->
+  <section class="hero reveal">
+    <div class="eyebrow">AI 시대를 살아가는 힘</div>
+    <h1>함께 성장해 온 36년,<br>세대를 이어 선택받은 믿을 수 있는 배움,<br><em>구몬학습</em></h1>
+  </section>
+
+  <!-- 세대 스토리 + 헤리티지 영상 -->
+  <section class="story reveal">
+    <div class="eyebrow">Since 1990</div>
+    <p class="story-lead">1990년, 한 장의 학습지에서 시작된 배움.<br>오랜 시간 한결같이 선택받으며<br>한 세대를 넘어선 학습이 되었습니다.</p>
+    <p class="story-strong">오래되어서가 아니라,<br><em>시대를 넘어 검증되었기 때문입니다.</em></p>
+    <div class="stats">
+      <div class="stat reveal"><div class="label">누적<br>학습자</div>
+        <div class="num"><span class="count" data-target="890" data-dec="0">0</span><span class="unit">만명+</span></div>
+        <div class="note">※ 1990.3 ~ 2025.5<br>구몬학습 전체 회원 데이터 기준</div></div>
+      <div class="stat reveal"><div class="label">누적<br>학습 과목</div>
+        <div class="num"><span class="count" data-target="2730" data-dec="0">0</span><span class="unit">만+</span></div>
+        <div class="note">※ 1990.3 ~ 2025.5<br>구몬학습 전체 회원 데이터 기준</div></div>
+      <div class="stat reveal"><div class="label">월 평균<br>학습 진도</div>
+        <div class="num"><span class="count" data-target="144.3" data-dec="1">0</span><span class="unit">장</span></div>
+        <div class="note">※ 2025.4 구몬학습 스마트구몬N<br>평균 학습 제출 장수 기준</div></div>
+    </div>
+    <video class="vid" autoplay muted loop playsinline preload="auto">
+      <source src="video/kumon_brand.mp4" type="video/mp4">
+      이 브라우저에서는 영상을 재생할 수 없습니다.
+    </video>
+  </section>
+
+  <!-- 전 생애 학습 파트너 -->
+  <section class="band tint">
+    <div class="sec-head reveal">
+      <div class="eyebrow">KUMON HERITAGE · 1990–NOW</div>
+      <h2>한 세대를 잇는 배움의 기록</h2>
+      <div class="subkicker">전 생애 학습 파트너</div>
+      <p class="sec-sub">나이에 상관없이, 구몬은 성장하는 아이뿐 아니라<br>삶을 더 단단히 살아가고 싶은 모든 이들을 위한 학습입니다.</p>
+      <p class="sec-sub" style="margin-top:10px">단계와 연령에 따라 필요한 역량을 짚고<br>개별 맞춤형 학습으로 자기 성장을 이끌어냅니다.</p>
+    </div>
+    <div class="lifes-wrap">
+      <div class="lifes">
+        <div class="life"><div class="life-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.6"/><rect x="13" y="3" width="8" height="8" rx="1.6"/><rect x="3" y="13" width="8" height="8" rx="1.6"/><rect x="13" y="13" width="8" height="8" rx="1.6"/></svg></div><div class="life-stage">유아</div><div class="life-title">놀이처럼 시작하는<br>첫 배움</div></div>
+        <div class="life"><div class="life-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.4-5-2-8-2v13c3 0 6 .6 8 2 2-1.4 5-2 8-2V4c-3 0-6 .6-8 2z"/><path d="M12 6v13"/></svg></div><div class="life-stage">초등</div><div class="life-title">자기주도 학습<br>습관 완성</div></div>
+        <div class="life"><div class="life-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9 12 5 2 9l10 4 10-4z"/><path d="M6 11v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg></div><div class="life-stage">중·고등</div><div class="life-title">내신과 실력의<br>기초 체력</div></div>
+        <div class="life"><div class="life-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M2.5 12.5h19"/></svg></div><div class="life-stage">성인</div><div class="life-title">외국어·자기계발<br>학습 루틴</div></div>
+        <div class="life"><div class="life-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.3-9C1.2 9 2.8 5.6 6 5.6c2 0 3.2 1.3 4 2.4.8-1.1 2-2.4 4-2.4 3.2 0 4.8 3.4 3.3 6.4C19 16.5 12 21 12 21z"/></svg></div><div class="life-stage">시니어</div><div class="life-title">두뇌 건강과<br>인지력 관리</div></div>
+        <div class="life" aria-hidden="true"><div class="life-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.6"/><rect x="13" y="3" width="8" height="8" rx="1.6"/><rect x="3" y="13" width="8" height="8" rx="1.6"/><rect x="13" y="13" width="8" height="8" rx="1.6"/></svg></div><div class="life-stage">유아</div><div class="life-title">놀이처럼 시작하는<br>첫 배움</div></div>
+        <div class="life" aria-hidden="true"><div class="life-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.4-5-2-8-2v13c3 0 6 .6 8 2 2-1.4 5-2 8-2V4c-3 0-6 .6-8 2z"/><path d="M12 6v13"/></svg></div><div class="life-stage">초등</div><div class="life-title">자기주도 학습<br>습관 완성</div></div>
+        <div class="life" aria-hidden="true"><div class="life-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9 12 5 2 9l10 4 10-4z"/><path d="M6 11v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg></div><div class="life-stage">중·고등</div><div class="life-title">내신과 실력의<br>기초 체력</div></div>
+        <div class="life" aria-hidden="true"><div class="life-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M2.5 12.5h19"/></svg></div><div class="life-stage">성인</div><div class="life-title">외국어·자기계발<br>학습 루틴</div></div>
+        <div class="life" aria-hidden="true"><div class="life-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.3-9C1.2 9 2.8 5.6 6 5.6c2 0 3.2 1.3 4 2.4.8-1.1 2-2.4 4-2.4 3.2 0 4.8 3.4 3.3 6.4C19 16.5 12 21 12 21z"/></svg></div><div class="life-stage">시니어</div><div class="life-title">두뇌 건강과<br>인지력 관리</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 구몬식 학습법 5가지 -->
+  <section class="band">
+    <div class="sec-head reveal" style="margin-bottom:18px">
+      <div class="eyebrow">구몬식 학습법</div>
+      <h2>혼자서도 해내게 만드는<br>구몬식 학습법</h2>
+    </div>
+    <img class="secimg reveal" src="img/img_story_sec06.png" alt="구몬식 학습법 교재 이미지" loading="lazy">
+    <p class="method-intro reveal">모든 학습자는 학습 속도도, 이해 방식도 다릅니다.<br>그래서 구몬은 누가 가르쳐 주지 않아도 스스로 공부를 이어갈 수 있도록<br>한 명, 한 명의 능력에 꼭 맞춘 학습을 제공합니다.</p>
+    <div class="method-list">
+      <div class="mcard reveal"><span class="mno">01</span><div><h3>개인별·능력별 학습</h3><p>학년이 아닌 ‘현재 실력’에서 출발해,<br>무리 없이 매일 자신감을 쌓아요.</p></div></div>
+      <div class="mcard reveal"><span class="mno">02</span><div><h3>100% 주관식 풀이</h3><p>정답을 찾기보다는 ‘생각해내는 과정’<br>서술형으로 스스로 풀며 사고력을 길러요.</p></div></div>
+      <div class="mcard reveal"><span class="mno">03</span><div><h3>표준 완성 시간</h3><p>정확함과 속도를 함께, 검증된 표준 완성 시간.<br>목표 시간 안에 풀어내는 힘을 키워요.</p></div></div>
+      <div class="mcard reveal"><span class="mno">04</span><div><h3>스몰스텝 교재</h3><p>난이도 차이를 거의 느끼지 못할 만큼 단계를 세분화해,<br>자연스럽게 새로운 개념을 도전해요.</p></div></div>
+      <div class="mcard reveal"><span class="mno">05</span><div><h3>완전 학습</h3><p>필요한 만큼만 반복을 통해 ‘안다’를 넘어 ‘술술 해낸다’까지.<br>기초 개념을 확실히 잡아주고, 구멍 없이 완성해요.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 확실한 학습효과 -->
+  <section class="band tint">
+    <div class="sec-head reveal">
+      <div class="eyebrow">확실한 학습효과</div>
+      <h2>많은 선택과 성장이 말해주는<br>한 가지 진실</h2>
+      <p class="sec-sub" style="margin-top:14px">믿고 맡긴 만큼, 결과로 돌려주는 구몬학습입니다.</p>
+    </div>
+    <img class="secimg reveal" src="img/kumon_check.png" alt="구몬학습의 확실한 학습효과" loading="lazy">
+  </section>
+  <p style="font-size:var(--fs-2xs);color:#AEB2B8;text-align:center;line-height:1.6;padding:8px 24px 22px;margin:0">원활한 학습 안내를 위해 제작한 임시 안내 페이지입니다.</p>
+</div>
+
+<div class="cta"><div class="cta-in">
+  <button class="cta-btn" onclick="location.href='Step01-02.html'">상품구성 알아보기<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+</div></div>
+
+<script>
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // 숫자 카운트업
+  const fmt=(n,dec)=>dec>0?n.toFixed(dec):Math.round(n).toLocaleString('ko-KR');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const co=new IntersectionObserver((es)=>es.forEach(e=>{
+    if(!e.isIntersecting)return; co.unobserve(e.target);
+    const el=e.target,target=parseFloat(el.dataset.target),dec=parseInt(el.dataset.dec);
+    if(reduce){el.textContent=fmt(target,dec);return;}
+    const dur=1100,t0=performance.now();
+    const tick=(t)=>{let p=Math.min((t-t0)/dur,1);p=1-Math.pow(1-p,3);el.textContent=fmt(target*p,dec);if(p<1)requestAnimationFrame(tick);};
+    requestAnimationFrame(tick);
+  }),{threshold:.5});
+  document.querySelectorAll('.count').forEach(el=>co.observe(el));
+</script>
+</body></html>

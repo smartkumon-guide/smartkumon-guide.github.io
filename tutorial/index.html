@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Galmuri11', monospace; -webkit-font-smoothing: none; }
+  img { image-rendering: pixelated; }
+  @keyframes sgn-wob { 0%,100% { transform: translateX(-5px); } 50% { transform: translateX(5px); } }
+  @keyframes sgn-rotV { 0%,100% { transform: rotate(90deg) translateX(-5px); } 50% { transform: rotate(90deg) translateX(5px); } }
+  @keyframes sgn-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  @keyframes sgn-boxpulse { 0%,100% { background:rgba(255,45,38,.10); box-shadow:0 0 0 2px rgba(255,45,38,0) inset; } 50% { background:rgba(255,45,38,.42); box-shadow:0 0 0 2px rgba(255,255,255,.6) inset; } }
+  @keyframes sgn-blink { 0%,60% { opacity:1; } 61%,100% { opacity:.25; } }
+  @keyframes sgn-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @keyframes sgn-fadein { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</helmet>
+<div style="width:100%; min-height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; padding:0; background:#e9edf3;">
+
+  <div style="{{ wrapStyle }}">
+
+    <sc-if value="{{ closed }}" hint-placeholder-val="{{ false }}">
+      <div style="width:100%; aspect-ratio:1619/2600; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; background:#dfe4ec; border:5px solid #3a2e5c; box-shadow:8px 8px 0 rgba(58,46,92,.3); padding:24px;">
+        <div style="font-family:'Galmuri11',monospace; font-size:15px; color:#5a5470; letter-spacing:-.5px;">튜토리얼을 닫았습니다.</div>
+        <div onClick="{{ onReopen }}" style="cursor:pointer; font-family:'Galmuri11',monospace; font-weight:700; font-size:15px; color:#fff; background:#6b70cf; padding:11px 20px; box-shadow:4px 4px 0 #3a2e5c;">다시 열기</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ notClosed }}" hint-placeholder-val="{{ true }}">
+    <div style="{{ stageStyle }}">
+
+      <div style="{{ innerStyle }}">
+
+      <div style="{{ bgLayerStyle }}"></div>
+      <div style="{{ prevBgStyle }}"></div>
+
+      <div style="{{ fxStyle }}" onClick="{{ onTap }}">
+
+        <!-- (background lives in its own persistent layer above) -->
+
+        <!-- S펜 overlay (STEP 6) -->
+        <sc-if value="{{ hasPen }}" hint-placeholder-val="{{ false }}">
+          <div style="{{ penStyle }}; position:absolute; image-rendering:auto; pointer-events:none; filter:drop-shadow(3px 6px 5px rgba(58,46,92,.35));"></div>
+        </sc-if>
+
+        <!-- inset images (STEP 8d popovers, STEP 17 dialog) — each fades in, staggered -->
+        <sc-for list="{{ insetsR }}" as="ins" hint-placeholder-count="1">
+          <div style="{{ ins.style }}; pointer-events:none;"></div>
+        </sc-for>
+
+        <!-- title screen -->
+        <sc-if value="{{ isTitle }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute; inset:0; background:linear-gradient(180deg,#d5ecfb 0%,#bfe0fa 55%,#a9cef2 100%); overflow:hidden;">
+            <div style="position:absolute; top:8%; left:12%; width:16px; height:16px; background:#fff; opacity:.7;"></div>
+            <div style="position:absolute; top:14%; left:78%; width:22px; height:22px; background:#fff; opacity:.6;"></div>
+            <div style="position:absolute; top:22%; left:22%; width:12px; height:12px; background:#fff; opacity:.5;"></div>
+            <div style="position:absolute; top:30%; left:66%; width:14px; height:14px; background:#fff; opacity:.5;"></div>
+            <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8% 8% 12%;">
+              <div style="font-family:'Galmuri11',monospace; font-weight:700; font-size:clamp(13px,4.9cqw,20px); color:#fff; background:#6b70cf; padding:6px 14px; letter-spacing:-.5px; box-shadow:4px 4px 0 #3a2e5c; margin-bottom:6%;">스마트구몬N</div>
+              <div style="font-family:'Galmuri14',monospace; font-weight:700; font-size:clamp(26px,10.7cqw,44px); line-height:1.25; color:#3a2e5c; text-align:center; letter-spacing:-1px; text-shadow:3px 3px 0 rgba(255,255,255,.85);">자학자습<br>튜토리얼</div>
+              <div style="position:relative; width:88%; max-width:320px; margin-top:6%;">
+                <div style="background:#3a2e5c; padding:4px; box-shadow:5px 5px 0 rgba(58,46,92,.25); clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
+                  <div style="background:#fff; padding:12px 14px; clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
+                    <div style="font-family:'Galmuri11',monospace; font-size:clamp(12px,3.9cqw,16px); line-height:1.55; color:#3a2e5c; letter-spacing:-.5px; text-align:center; word-break:keep-all;">혼자서 스마트하게 학습하는 방법,<br>같이 알아볼까요?</div>
+                  </div>
+                </div>
+                <div style="position:absolute; bottom:-10px; left:50%; margin-left:-8px; width:15px; height:15px; background:#fff; border-right:4px solid #3a2e5c; border-bottom:4px solid #3a2e5c; transform:rotate(45deg);"></div>
+              </div>
+              <div style="{{ charFullStyle }}; width:40%; max-width:175px; margin-top:5%; aspect-ratio:572/796; background-size:contain; background-repeat:no-repeat; background-position:center; image-rendering:pixelated; animation:sgn-float 2.4s ease-in-out infinite; filter:drop-shadow(0 8px 0 rgba(58,46,92,.12));"></div>
+              <div style="margin-top:5%; font-family:'Galmuri11',monospace; font-weight:700; font-size:clamp(13px,4.4cqw,18px); color:#fff; background:#ef4b45; padding:8px 18px; letter-spacing:-.5px; box-shadow:4px 4px 0 #a8271f; animation:sgn-blink 1.2s steps(1) infinite;">화면을 터치하세요</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- pen-choice screen -->
+        <sc-if value="{{ isPen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute; inset:0; background:linear-gradient(180deg,#d5ecfb 0%,#bfe0fa 60%,#a9cef2 100%); display:flex; flex-direction:column; align-items:center; padding:11% 7% 10%;">
+            <div style="font-family:'Galmuri11',monospace; font-weight:700; font-size:clamp(15px,5.4cqw,22px); color:#fff; background:#6b70cf; padding:9px 18px; letter-spacing:-.5px; box-shadow:5px 5px 0 #3a2e5c;">사용하는 펜을 골라주세요.</div>
+            <div style="margin-top:9px; font-family:'Galmuri11',monospace; font-size:clamp(10px,3.2cqw,13px); color:#4a4560; letter-spacing:-.5px;">※ 페이퍼플러스는 해당 X</div>
+            <div style="flex:1; width:100%; display:flex; flex-direction:column; gap:5%; margin-top:7%;">
+              <div onClick="{{ onAndroid }}" style="{{ penAStyle }}; flex:1; cursor:pointer; background:#3a2e5c; padding:5px; box-shadow:6px 6px 0 rgba(58,46,92,.3);">
+                <div style="width:100%; height:100%; background:#dff3e4; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; border:4px solid #2f8f56;">
+                  <div style="font-family:'Galmuri14',monospace; font-weight:700; font-size:clamp(24px,9.8cqw,40px); color:#237a45; letter-spacing:-1px;">S펜</div>
+                  <div style="font-family:'Galmuri11',monospace; font-size:clamp(12px,3.9cqw,16px); color:#3a2e5c; letter-spacing:-.5px;">안드로이드</div>
+                </div>
+              </div>
+              <div onClick="{{ onApple }}" style="{{ penIStyle }}; flex:1; cursor:pointer; background:#3a2e5c; padding:5px; box-shadow:6px 6px 0 rgba(58,46,92,.3);">
+                <div style="width:100%; height:100%; background:#e6ecfb; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; border:4px solid #5866c4;">
+                  <div style="font-family:'Galmuri14',monospace; font-weight:700; font-size:clamp(24px,9.8cqw,40px); color:#3d4aa8; letter-spacing:-1px;">애플펜슬</div>
+                  <div style="font-family:'Galmuri11',monospace; font-size:clamp(12px,3.9cqw,16px); color:#3a2e5c; letter-spacing:-.5px;">iOS</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- end screen -->
+        <sc-if value="{{ isEnd }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute; inset:0; background:linear-gradient(180deg,#d5ecfb 0%,#bfe0fa 55%,#a9cef2 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:9%; overflow:hidden;">
+            <div style="position:absolute; top:12%; left:16%; width:16px; height:16px; background:#fff; opacity:.6;"></div>
+            <div style="position:absolute; top:20%; left:74%; width:20px; height:20px; background:#fff; opacity:.55;"></div>
+            <div style="font-family:'Galmuri14',monospace; font-weight:700; font-size:clamp(24px,9.8cqw,40px); color:#3a2e5c; text-align:center; letter-spacing:-1px; text-shadow:3px 3px 0 rgba(255,255,255,.85);">튜토리얼 완료!</div>
+            <div style="position:relative; width:80%; max-width:300px; margin-top:6%;">
+              <div style="background:#3a2e5c; padding:4px; box-shadow:5px 5px 0 rgba(58,46,92,.25); clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
+                <div style="background:#fff; padding:12px 14px; clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
+                  <div style="font-family:'Galmuri11',monospace; font-weight:700; font-size:clamp(14px,4.4cqw,18px); line-height:1.5; color:#3a2e5c; letter-spacing:-.5px; text-align:center; word-break:keep-all;">이제 학습준비 완료!</div>
+                </div>
+              </div>
+              <div style="position:absolute; bottom:-10px; left:50%; margin-left:-8px; width:15px; height:15px; background:#fff; border-right:4px solid #3a2e5c; border-bottom:4px solid #3a2e5c; transform:rotate(45deg);"></div>
+            </div>
+            <div style="{{ charFullStyle }}; width:42%; max-width:185px; margin:5% 0 6%; aspect-ratio:572/796; background-size:contain; background-repeat:no-repeat; background-position:center; image-rendering:pixelated; animation:sgn-float 2.4s ease-in-out infinite; filter:drop-shadow(0 8px 0 rgba(58,46,92,.12));"></div>
+            <div style="display:flex; flex-direction:column; gap:12px; width:82%; max-width:280px;">
+              <div onClick="{{ onRestart }}" style="cursor:pointer; text-align:center; font-family:'Galmuri11',monospace; font-weight:700; font-size:clamp(14px,4.15cqw,17px); color:#fff; background:#6b70cf; padding:13px; letter-spacing:-.5px; box-shadow:4px 4px 0 #3a2e5c;">처음으로 돌아가기</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- red guide boxes -->
+        <sc-for list="{{ boxesR }}" as="b" hint-placeholder-count="1">
+          <div style="{{ b.style }}; position:absolute; border:3px solid #ff3b30; animation:sgn-boxpulse 1.1s ease-in-out infinite; pointer-events:none;"></div>
+        </sc-for>
+
+        <!-- record dot (STEP 8): white → red -->
+        <sc-if value="{{ hasRecord }}" hint-placeholder-val="{{ false }}">
+          <div style="{{ recordDotStyle }}; position:absolute; border-radius:50%; pointer-events:none; transition:background .12s ease;"></div>
+        </sc-if>
+
+        <!-- hand cursors (auto centered on each box; wrapper scales on press, inner wobbles) -->
+        <sc-for list="{{ fingers }}" as="f" hint-placeholder-count="1">
+          <div style="{{ f.wrapStyle }}; position:absolute; pointer-events:none;">
+            <div style="{{ f.innerStyle }}"></div>
+          </div>
+        </sc-for>
+
+      </div>
+
+      </div><!-- /inner -->
+
+      <!-- character + speech bubble layer (NOT scaled on press; fades out with finger) -->
+      <sc-if value="{{ showChar }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ charLayerStyle }}">
+          <div style="{{ bubbleWrapStyle }}; position:absolute; display:flex; align-items:flex-start; gap:1.5cqw; pointer-events:none; animation:sgn-bob 2.6s ease-in-out infinite;">
+            <div style="{{ charHeadStyle }}; width:23%; max-width:100px; flex:none; margin-top:8px; aspect-ratio:711/535; background-size:contain; background-repeat:no-repeat; background-position:center; image-rendering:pixelated; filter:drop-shadow(0 3px 0 rgba(58,46,92,.18));"></div>
+            <div style="{{ bubbleBoxStyle }}">
+              <div style="background:#3a2e5c; padding:1cqw; box-shadow:5px 5px 0 rgba(58,46,92,.3); clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
+                <div style="background:#fef6da; padding:2.9cqw 3.4cqw; clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
+                  <div style="font-family:'Galmuri11',monospace; font-size:3.9cqw; line-height:1.55; color:#3a2e5c; letter-spacing:-.6px; word-break:keep-all; white-space:pre-line;"><sc-for list="{{ bubbleRuns }}" as="rn" hint-placeholder-count="1"><span style="{{ rn.style }}">{{ rn.text }}</span></sc-for></div>
+                </div>
+              </div>
+              <div style="position:absolute; left:-9px; top:16px; width:15px; height:15px; background:#fef6da; border-left:4px solid #3a2e5c; border-bottom:4px solid #3a2e5c; transform:rotate(45deg);"></div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- back button -->
+      <sc-if value="{{ showBack }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ onBack }}" style="position:absolute; top:12px; left:12px; z-index:5; width:38px; height:38px; display:flex; align-items:center; justify-content:center; background:#fef6da; border:3px solid #3a2e5c; box-shadow:3px 3px 0 rgba(58,46,92,.4); cursor:pointer; font-family:'Galmuri11',monospace; font-weight:700; font-size:18px; color:#3a2e5c;">←</div>
+      </sc-if>
+
+      <!-- progress bar -->
+      <sc-if value="{{ showProgress }}" hint-placeholder-val="{{ true }}">
+        <div style="position:absolute; bottom:3cqw; left:50%; transform:translateX(-50%); z-index:5; display:flex; gap:1cqw; padding:2cqw; background:rgba(58,46,92,.55);">
+          <sc-for list="{{ dots }}" as="d" hint-placeholder-count="19">
+            <div onClick="{{ d.onClick }}" style="{{ d.style }}; width:2.2cqw; height:2.2cqw;"></div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <!-- black fade overlay (restart) -->
+      <div style="{{ fadeBlackStyle }}"></div>
+
+    </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:460,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  state = { idx: 0, history: [], pressing: false, out: false, busy: false, pen: null, pressPen: null, recordOn: false, closed: false, loaded: {}, phase: 0, prevBg: null, prevShown: false, fadeBlack: false };
+
+  BASE = 'assets/';
+
+  get STEPS() {
+    return [
+      { id: 'title', type: 'title', aw: 1619, ah: 2600, next: 'step2' },
+      { id: 'step2', type: 'screen', bg: 'screen-home.jpg', aw: 1619, ah: 2600, dot: 1, pos: 'top',
+        bubble: '[r]과목카드[/r]를 클릭하면,\n해당 과목의 교재 풀이로 넘어갑니다.',
+        boxes: [{ l: 5.2, t: 61.4, w: 43, h: 37.5, r: '10px' }], next: 'step3' },
+      { id: 'step3', type: 'screen', bg: 'screen-home.jpg', aw: 1619, ah: 2600, dot: 2, pos: 'top',
+        bubble: '과목카드 위에 [r]체크표시(v)[/r]는 \n[b]오답 교재 장수![/b] 클릭하면\n오답교재만 모아서 볼 수 있어요.',
+        boxes: [{ l: 38.2, t: 60.2, w: 12.9, h: 4.7, r: '999px' }], next: 'step4' },
+      { id: 'step4', type: 'screen', bg: 'screen-textbook-list.jpg', aw: 900, ah: 1500, dot: 3, pos: 'top',
+        bubble: '원하는 교재 페이지를 선택하면,\n해당 교재 풀이로 들어갈 수 있습니다.',
+        boxes: [{ l: 2.3, t: 42, w: 21.5, h: 18.9, r: '10px' }], next: 'step5' },
+      { id: 'step5', type: 'screen', bg: 'screen-solving-start.jpg', aw: 900, ah: 1500, dot: 4, pos: 'bottom',
+        bubble: '[r]시작 버튼[/r]을 눌러야지만\n[b]교재 풀이가 가능[/b]합니다.',
+        boxes: [{ l: 12.6, t: 1.2, w: 17, h: 4.2, r: '999px' }], next: 'step5b' },
+      { id: 'step5b', type: 'screen', bg: 'screen-solving_stop.jpg', aw: 900, ah: 1500, dot: 5, pos: 'top', softFrom: true,
+        bubble: '시작을 누른 다음에는,\n교재풀이를 진행합니다.',
+        boxes: [{ l: 49.7, t: 24.9, w: 12.7, h: 69.4, r: '10px' }], next: 'step5d' },
+      { id: 'step5c', type: 'screen', bg: 'screen-solving_stop.jpg', aw: 900, ah: 1500, dot: 6, pos: 'bottom',
+        bubble: '제출은 [b]한 면 단위로 가능[/b]합니다.\n[g](예: a면을 풀고 제출 클릭, b면을 풀고 제출)[/g]',
+        boxes: [{ l: 72.1, t: 1.2, w: 15.8, h: 4.2, r: '999px' }], next: 'penchoice' },
+      { id: 'step5d', type: 'screen', bg: 'screen-solving_stop.jpg', aw: 900, ah: 1500, dot: 7, pos: 'bottom',
+        bubble: '풀이 시작 후에는 [b]한장 단위로만[/b]\n[b]이동 가능[/b]합니다. 다음 장으로\n이동하려면, 이동 전에 교재를\n[r]제출[/r]하거나 [r]삭제[/r]해야 합니다.\n\n[g]예시① \'1a → 1b\': 일시정지 후 가능[/g]\n[g]예시② \'1b → 2a\': 이동 전 제출 or 삭제[/g]',
+        boxes: [{ l: 12.6, t: 1.3, w: 19.7, h: 4, r: '999px' }], next: 'step5c' },
+      { id: 'penchoice', type: 'penchoice', aw: 1619, ah: 2600, dot: 5 },
+      { id: 'step6', type: 'screen', bg: 'screen-solving-pen.jpg', aw: 1693, ah: 2600, dot: 6, pos: 'bottom',
+        bubble: 'S펜은 [r]펜 옆의 버튼을 누른 상태[/r]가\n지우개 모드에요. 지우개 모드로\n[b]문장[/b]이나 [b]지시문[/b]을 터치하면,\n음원이 자동으로 [b]다운로드[/b]가 돼요.\n다시 터치하면 음원이 [b]재생[/b]됩니다.',
+        pen: { l: 45, t: 30, w: 52 },
+        boxes: [{ l: 61.8, t: 42.7, w: 6, h: 3.9, r: '50%' }], next: 'step8' },
+      { id: 'step7', type: 'screen', bg: 'screen-solving-pen.jpg', aw: 1693, ah: 2600, dot: 6, pos: 'bottom',
+        bubble: '애플펜슬은 상단의 [r]펜/지우개 전환[/r]\n버튼을 사용해요. 지우개 모드로\n[b]문장[/b]이나 [b]지시문[/b]을 터치하면,\n음원이 자동으로 [b]다운로드[/b]가 돼요.\n다시 터치하면 음원이 [b]재생[/b]됩니다.',
+        boxes: [{ l: 81.8, t: 2.5, w: 8.3, h: 5.4, r: '50%' }], next: 'step8' },
+      { id: 'step8', type: 'screen', bg: 'screen-solving-pen.jpg', aw: 1693, ah: 2600, dot: 7, pos: 'bottom',
+        bubble: '외국어 과목은 [r]읽을 때 녹음[/r]하고,\n내 발음을 다시 들어볼 수 있어요.',
+        boxes: [{ l: 72.6, t: 2.6, w: 7.3, h: 4.8, r: '50%' }], next: 'step8b' },
+      { id: 'step8b', type: 'screen', bg: 'screen-solving-on.jpg', aw: 1693, ah: 2600, dot: 8, pos: 'bottom', softFrom: true, noFinger: true,
+        bubble: '녹음버튼을 누르면 [r]빨간색[/r]으로\n시작되고, 다시 누르면 종료돼요.',
+        boxes: [{ l: 72.6, t: 2.6, w: 7.3, h: 4.8, r: '50%' }], next: 'step8c' },
+      { id: 'step8c', type: 'screen', bg: 'screen-solving-on.jpg', aw: 1693, ah: 2600, dot: 9, pos: 'bottom',
+        bubble: '[r]＋버튼[/r]을 눌러, 내가 녹음한 음성도\n들어볼 수 있어요.',
+        boxes: [{ l: 90.3, t: 2.6, w: 7.3, h: 4.8, r: '50%' }], next: 'step8d' },
+      { id: 'step8d', type: 'screen', bg: 'screen-solving-on.jpg', aw: 1693, ah: 2600, dot: 10, pos: 'bottom',
+        bubble: '[r]＋버튼[/r]을 누르면 [b]녹음 목록[/b]이 뜨고,\n내가 녹음했던 목소리를 손쉽게 들어볼 수 있습니다.',
+        insets: [
+          { l: 70.2, t: 10.6, w: 26.3, h: 6.1, src: 'screen-solving_manu.png' },
+          { l: 36.5, t: 19.7, w: 48.1, h: 41, src: 'screen-solving_manu2.png' },
+        ],
+        boxes: [], next: 'step11' },
+      { id: 'step16', type: 'screen', bg: 'screen-question-room-crop.jpg', aw: 1615, ah: 2600, dot: 8, pos: 'bottom', softFrom: true,
+        bubble: '틀린 문제 중 모르는 문제는\n[r]오답질문방 선생님[/r]에게 물어 보세요.\n오답질문방은 [b]평일 오후 3시~10시[/b],\n[b]주 5회[/b] 이용할 수 있어요.',
+        boxes: [{ l: 60.7, t: 6.1, w: 37.6, h: 5.2, r: '999px' }], next: 'step17' },
+      { id: 'step17', type: 'screen', bg: 'screen-question-room-crop.jpg', aw: 1615, ah: 2600, dot: 9, pos: 'bottom',
+        bubble: '오답질문방을 클릭하면\n[b]3초 후[/b] 오답질문방으로 입장해요.\n선생님과 연결되어 있는 동안에는 [r]교재풀이가 불가[/r]해요.\n[g](터치로 간단한 쓰기는 가능)[/g]',
+        insets: [{ l: 29.3, t: 32.6, w: 38.4, h: 31.8, src: 'screen-question-enter.jpg', framed: true }],
+        boxes: [], next: 'step18' },
+      { id: 'step11', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 10, pos: 'bottom',
+        bubble: '학습현황에서는 [r]지난 주, 이번 주,\n다음 주 교재[/r]를 확인할 수 있어요.\n[g](2주 전은 오답이 남은 교재가 있을 때만!)[/g]',
+        boxes: [{ l: 2.3, t: 6.2, w: 95.6, h: 5.1, r: '10px' }], next: 'step12' },
+      { id: 'step12', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 11, pos: 'top',
+        bubble: '[b]1장을 풀이하고 잘 제출[/b]되었어요.\n교재는 오늘 채점센터로 넘어가고,\n[r]다음날 오후 3시 이후[/r]에 채점이 돼서 돌아와요.',
+        boxes: [{ l: 2.3, t: 50.1, w: 22.2, h: 16.9, r: '10px' }], next: 'step13' },
+      { id: 'step13', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 12, pos: 'top',
+        bubble: '1장이 아닌 a, b면만 제출한 경우\n[r]a면 제출, b면 제출[/r]이라고 뜹니다.\n채점센터로 넘어가지 않으니,\n[b]1장을 모두 제출[/b]해주세요.',
+        boxes: [{ l: 76, t: 50.1, w: 21.7, h: 16.7, r: '10px' }, { l: 2.7, t: 71.3, w: 21, h: 16.8, r: '10px' }], next: 'step14' },
+      { id: 'step14', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 13, pos: 'top',
+        bubble: '[r]다음날[/r]이면 [r]채점[/r] 결과가 돌아와요.\n100점은 [b]만점을 받은 교재[/b]에요.',
+        boxes: [{ l: 51.3, t: 50.1, w: 22.7, h: 16.9, r: '10px' }], next: 'step14b' },
+      { id: 'step14b', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 14, pos: 'top',
+        bubble: '채점결과 [r]오답이 있었던 경우[/r]\n오답체크라고 뜹니다.\n[b]다시 풀어서 제출[/b]해주세요.',
+        boxes: [{ l: 26.9, t: 49.7, w: 22.2, h: 17.6, r: '10px' }], next: 'step15' },
+      { id: 'step15', type: 'screen', bg: 'screen-review-marks.jpg', aw: 1598, ah: 2600, dot: 14, pos: 'bottom',
+        bubble: '틀린 문제는 [r]V[/r]로 표시돼요.',
+        boxes: [{ l: 3.5, t: 25, w: 11.9, h: 13.6, r: '10px' }], next: 'step15b' },
+      { id: 'step15b', type: 'screen', bg: 'screen-review-marks.jpg', aw: 1598, ah: 2600, dot: 15, pos: 'bottom',
+        bubble: '틀린 문제를 다시 고치면,\n[b]파란색[/b]으로 글씨가 써져요.',
+        boxes: [{ l: 57.5, t: 23.6, w: 15.3, h: 16.4, r: '10px' }], next: 'step16' },
+      { id: 'step18', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 16, pos: 'top',
+        bubble: '다시 제출하면, [b]오답 제출로\n변경[/b]됩니다. 이번엔 담당 선생님이\n[b]고친 문제를 확인[/b]해줄 거예요.\n\n꼼꼼하게 개념을 완성해주는\n[r]구몬만의 완전학습[/r] 시스템,\n실력이 늘 수 밖에 없겠죠?',
+        boxes: [{ l: 76.2, t: 71.3, w: 22, h: 17.3, r: '10px' }], fingerAnim: 'sgn-rotV', fingerAt: { l: 86.65, t: 79.25 }, fingerMargin: '7px 0 0 -24px', next: 'end' },
+      { id: 'end', type: 'end', aw: 1619, ah: 2600 },
+    ];
+  }
+
+  cur() { return this.STEPS[this.state.idx]; }
+
+  componentDidMount() {
+    this.ensureInit();
+  }
+
+  ensureInit() {
+    if (this._init) return;
+    this._init = true;
+    const seen = {};
+    const need = [];
+    this.STEPS.forEach((s) => {
+      const list = [s.bg, s.pen ? 'Spen.png' : null, s.imgInset && s.imgInset.src];
+      if (s.insets) s.insets.forEach((it) => list.push(it.src));
+      list.forEach((f) => {
+        if (f && !seen[f]) { seen[f] = 1; need.push(f); }
+      });
+    });
+    ['char-full.png', 'char-head.png', 'cursor-hand.png'].forEach((f) => { if (!seen[f]) { seen[f] = 1; need.push(f); } });
+    need.forEach((f) => {
+      const im = new Image();
+      const mark = () => this.setState((st) => ({ loaded: Object.assign({}, st.loaded, { [f]: true }) }));
+      im.onload = im.onerror = mark;
+      im.src = this.BASE + f;
+    });
+  }
+
+  stepReady(c) {
+    const L = this.state.loaded || {};
+    if (c.type !== 'screen') return true;
+    if (c.bg && !L[c.bg]) return false;
+    if (c.pen && !L['Spen.png']) return false;
+    if (c.imgInset && !L[c.imgInset.src]) return false;
+    if (c.insets && c.insets.some((it) => !L[it.src])) return false;
+    return true;
+  }
+
+  // Staged reveal (0.3s steps): bg -> inset -> box -> finger -> character -> bubble. Each fades in.
+  startReveal(idx) {
+    const c = this.STEPS[idx];
+    if (!c || c.type !== 'screen') return;
+    if (this._revealIdx === idx) return;
+    this._revealIdx = idx;
+    this.clearTimers();
+    [1, 2, 3, 4, 5].forEach((p) => { this._timers.push(setTimeout(() => this.setState({ phase: p }), 300 * p)); });
+  }
+
+  clearTimers() { if (this._timers) this._timers.forEach(clearTimeout); this._timers = []; }
+
+  armReveal(idx) {
+    const c = this.STEPS[idx];
+    if (!c || c.type !== 'screen') return;
+    const bg = c.bg;
+    const tryStart = () => {
+      if (this.state.idx !== idx) return;
+      if (!bg || (this.state.loaded && this.state.loaded[bg])) { this.startReveal(idx); }
+      else { this._armT = setTimeout(tryStart, 80); }
+    };
+    tryStart();
+  }
+
+  resetReveal() { this.clearTimers(); clearTimeout(this._armT); this._revealIdx = null; }
+  indexOf(id) { return this.STEPS.findIndex(s => s.id === id); }
+
+  pathIds() {
+    const pen = this.state.pen;
+    return ['title', 'step2', 'step3', 'step4', 'step5', 'step5b', 'step5d', 'step5c', 'penchoice', pen === 'ios' ? 'step7' : 'step6', 'step8', 'step8b', 'step8c', 'step8d', 'step11', 'step12', 'step13', 'step14', 'step14b', 'step15', 'step15b', 'step16', 'step17', 'step18', 'end'];
+  }
+  pathIdxList() { return this.pathIds().map((id) => this.indexOf(id)); }
+
+  navigate(toId, isBack) {
+    if (this.state.busy || !toId) return;
+    const ti = this.indexOf(toId);
+    if (ti < 0) return;
+    this.resetReveal();
+    const curBg = this.cur().bg, nextBg = this.STEPS[ti].bg;
+    const sameBg = !!(curBg && nextBg && curBg === nextBg);
+    const soft = !!(this.STEPS[ti].softFrom && curBg && nextBg && curBg !== nextBg);
+    if (soft) this.setState({ busy: true, out: true, bgOut: false, prevBg: curBg, prevShown: true });
+    else this.setState({ busy: true, out: true, bgOut: !sameBg, prevBg: null, prevShown: false });
+    setTimeout(() => {
+      this.setState((s) => {
+        const hist = s.history.slice();
+        if (isBack) hist.pop(); else hist.push(s.idx);
+        return { idx: ti, history: hist, out: false, recordOn: false, phase: 0, bgOut: false };
+      });
+      if (soft) { setTimeout(() => this.setState({ prevShown: false }), 30); setTimeout(() => this.setState({ prevBg: null }), 420); }
+      this.armReveal(ti);
+      setTimeout(() => this.setState({ busy: false }), 200);
+    }, 200);
+  }
+
+  tap = (e) => {
+    if (this.state.busy) return;
+    const c = this.cur();
+    if (c.type !== 'screen' && c.type !== 'title') return;
+    if (c.type === 'screen' && this.state.phase < 5) return;
+    if (c.record && !this.state.recordOn) {
+      this.setState({ recordOn: true, pressing: true });
+      setTimeout(() => { this.setState({ pressing: false }); this.navigate(c.next, false); }, 480);
+      return;
+    }
+    if (!c.next) return;
+    this.setState({ pressing: true });
+    setTimeout(() => { this.setState({ pressing: false }); this.navigate(c.next, false); }, 150);
+  };
+
+  back = (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (this.state.busy) return;
+    const h = this.state.history;
+    if (!h.length) return;
+    this.navigate(this.STEPS[h[h.length - 1]].id, true);
+  };
+
+  choosePen = (pen) => {
+    if (this.state.busy) return;
+    this.setState({ pen, pressPen: pen });
+    setTimeout(() => {
+      this.setState({ pressPen: null });
+      this.navigate(pen === 'android' ? 'step6' : 'step7', false);
+    }, 150);
+  };
+  onAndroid = (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.choosePen('android'); };
+  onApple = (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.choosePen('ios'); };
+
+  dotToIdx(dot) { const id = this.pathIds()[dot]; const i = this.indexOf(id); return i < 0 ? this.state.idx : i; }
+  buildHistory(targetIdx) { const list = this.pathIdxList(); const p = list.indexOf(targetIdx); return p <= 0 ? [] : list.slice(0, p); }
+  jump(targetIdx) {
+    if (this.state.busy || targetIdx === this.state.idx) return;
+    this.resetReveal();
+    const curBg = this.cur().bg, nextBg = this.STEPS[targetIdx].bg;
+    const sameBg = !!(curBg && nextBg && curBg === nextBg);
+    const soft = !!(this.STEPS[targetIdx].softFrom && curBg && nextBg && curBg !== nextBg);
+    if (soft) this.setState({ busy: true, out: true, bgOut: false, prevBg: curBg, prevShown: true });
+    else this.setState({ busy: true, out: true, bgOut: !sameBg, prevBg: null, prevShown: false });
+    setTimeout(() => {
+      this.setState({ idx: targetIdx, history: this.buildHistory(targetIdx), out: false, recordOn: false, phase: 0, bgOut: false });
+      if (soft) { setTimeout(() => this.setState({ prevShown: false }), 30); setTimeout(() => this.setState({ prevBg: null }), 420); }
+      this.armReveal(targetIdx);
+      setTimeout(() => this.setState({ busy: false }), 200);
+    }, 200);
+  }
+  onDot = (dot, e) => { if (e && e.stopPropagation) e.stopPropagation(); if (this.state.busy) return; this.jump(this.dotToIdx(dot)); };
+
+  onRestart = (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (this.state.busy) return;
+    this.resetReveal();
+    // fade to black, reset while covered, then fade black back out to reveal the title
+    this.setState({ busy: true, fadeBlack: true });
+    setTimeout(() => {
+      this.setState({ idx: 0, history: [], pen: null, recordOn: false, out: false, closed: false, phase: 0, prevBg: null, prevShown: false, bgOut: false });
+      setTimeout(() => this.setState({ fadeBlack: false }), 180);
+      setTimeout(() => this.setState({ busy: false }), 620);
+    }, 430);
+  };
+  onClose = (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ closed: true }); };
+  onReopen = (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.onRestart(e); };
+
+  // bubble markup: [r]..[/r] red+bold, [b]..[/b] blue+bold, [g]..[/g] gray (smaller, not bold)
+  parseBubble(str) {
+    const runs = [];
+    if (!str) return runs;
+    const re = /\[(r|b|g)\]([\s\S]*?)\[\/\1\]/g;
+    let last = 0, m;
+    while ((m = re.exec(str))) {
+      if (m.index > last) runs.push({ t: str.slice(last, m.index), k: '' });
+      runs.push({ t: m[2], k: m[1] });
+      last = re.lastIndex;
+    }
+    if (last < str.length) runs.push({ t: str.slice(last), k: '' });
+    return runs;
+  }
+  bubbleRunStyle(k) {
+    if (k === 'r') return 'color:#E00020; font-weight:700;';
+    if (k === 'b') return 'color:#1D1DFF; font-weight:700;';
+    if (k === 'g') return 'color:#8a8f98; font-size:.86em;';
+    return '';
+  }
+
+  renderVals() {
+    this.ensureInit();
+    const c = this.cur();
+    const s = this.state;
+    const F = 1615 / 2600;
+    // Every screen fills the whole tablet frame (no letterbox/pillarbox) so the
+    // rendered content size stays identical from step to step — no size jumps.
+    const mL = 0, mT = 0, mW = 100, mH = 100;
+    const path = this.pathIds();
+    const total = path.length - 2;
+    const curDot = (c.type === 'end') ? 0 : path.indexOf(c.id);
+    const dots = [];
+    for (let i = 1; i <= total; i++) {
+      const on = i <= curDot;
+      const clickable = i !== curDot;
+      dots.push({
+        style: `background:${on ? '#ffd34d' : 'rgba(255,255,255,.28)'}; cursor:${clickable ? 'pointer' : 'default'}`,
+        onClick: clickable ? (e) => this.onDot(i, e) : (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+      });
+    }
+
+    const p = this.state.phase;
+    const mountReveal = c.type === 'screen' && p >= 1;
+    const showChar = mountReveal;
+    const showPen = mountReveal;
+    // inset images (STEP 8d popovers, STEP 17 dialog): mount on reveal, each fades
+    // in (sgn-fadein) with a staggered delay so multiple images appear in sequence.
+    const insetsR = mountReveal
+      ? (c.insets || []).map((it, i) => ({
+          style: `position:absolute; left:${it.l}%; top:${it.t}%; width:${it.w}%; height:${it.h}%; background-image:url("${this.BASE}${it.src}"); background-position:center; background-repeat:no-repeat; image-rendering:pixelated; `
+            + (it.framed
+                ? `background-size:cover; background-color:#fff; border:4px solid #3a2e5c; box-shadow:5px 5px 0 rgba(58,46,92,.3);`
+                : `background-size:contain; filter:drop-shadow(3px 5px 5px rgba(58,46,92,.4));`)
+            + ` animation:sgn-fadein .5s ease both; animation-delay:${(i * 0.4).toFixed(2)}s;`
+        }))
+      : [];
+    const pressTf = `transform:scale(${s.pressing ? 0.86 : 1}); transform-origin:center center; transition:transform .13s ease, opacity .3s ease;`;
+    const boxes = c.boxes || [];
+    const boxesR = mountReveal ? boxes.map((b) => ({ style: `left:${b.l}%;top:${b.t}%;width:${b.w}%;height:${b.h}%;border-radius:${b.r || '0'};opacity:${p >= 2 ? 1 : 0};${pressTf}` })) : [];
+    const anim = c.fingerAnim || 'sgn-wob';
+    const fMargin = c.fingerMargin || '-15px 0 0 -4px';
+    const fOpac = p >= 3 ? 1 : 0;
+    const fWrap = `${pressTf}`;
+    const fInner = `width:48px; aspect-ratio:765/536; margin:${fMargin}; opacity:${fOpac}; transition:opacity .3s ease; background-image:url("${this.BASE}cursor-hand.png"); background-size:contain; background-repeat:no-repeat; background-position:left center; image-rendering:pixelated; filter:drop-shadow(2px 3px 0 rgba(58,46,92,.28)); animation:${anim} .8s ease-in-out infinite;`;
+    const fingers = (mountReveal && !c.noFinger)
+      ? (c.fingerAt
+          ? [{ wrapStyle: `left:${c.fingerAt.l}%; top:${c.fingerAt.t}%; ${fWrap}`, innerStyle: fInner }]
+          : boxes.map((b) => ({ wrapStyle: `left:${b.l + b.w / 2}%; top:${b.t + b.h / 2}%; ${fWrap}`, innerStyle: fInner })))
+      : [];
+
+    const bottomBubble = c.pos === 'bottom';
+    const bubbleRuns = this.parseBubble(c.bubble || '').map((run) => ({ text: run.t, style: this.bubbleRunStyle(run.k) }));
+
+    return {
+      isTitle: c.type === 'title',
+      showChar,
+      insetsR,
+      isPen: c.type === 'penchoice',
+      isEnd: c.type === 'end',
+      closed: s.closed,
+      notClosed: !s.closed,
+      bubbleRuns,
+      boxesR,
+      fingers,
+      hasRecord: c.type === 'screen' && !!c.record && p >= 2,
+      recordDotStyle: c.record ? `left:${c.record.cx}%; top:${c.record.cy}%; transform:translate(-50%,-50%); width:${c.record.d}%; aspect-ratio:1; background:${s.recordOn ? '#e53935' : '#ffffff'}; box-shadow:0 0 0 1px rgba(0,0,0,.15);` : 'display:none',
+      hasPen: c.type === 'screen' && !!c.pen && showPen,
+      penStyle: c.pen ? `left:${c.pen.l}%; top:${c.pen.t}%; width:${c.pen.w}%; aspect-ratio:1536/1024; background-image:url("${this.BASE}Spen.png"); background-size:contain; background-repeat:no-repeat; background-position:center; animation:sgn-fadein .8s ease both;` : 'display:none',
+      bubbleWrapStyle: (bottomBubble ? 'bottom:9%;' : 'top:3%;') + ' left:4%; right:4%;',
+      charHeadStyle: `background-image:url("${this.BASE}char-head.png"); opacity:${p >= 4 ? 1 : 0}; transition:opacity .3s ease`,
+      bubbleBoxStyle: `position:relative; flex:1; opacity:${p >= 5 ? 1 : 0}; transition:opacity .3s ease`,
+      charFullStyle: `background-image:url("${this.BASE}char-full.png")`,
+      penAStyle: `transform:scale(${s.pressPen === 'android' ? 0.96 : 1}); transition:transform .12s ease;`,
+      penIStyle: `transform:scale(${s.pressPen === 'ios' ? 0.96 : 1}); transition:transform .12s ease;`,
+      showBack: !s.closed && s.history.length > 0 && c.type !== 'end',
+      fadeBlackStyle: `position:absolute; inset:0; z-index:40; background:#000; opacity:${s.fadeBlack ? 1 : 0}; transition:opacity .4s ease; pointer-events:${s.fadeBlack ? 'auto' : 'none'};`,
+      showProgress: !s.closed && curDot > 0,
+      dots,
+      wrapStyle: `width:100%; max-width:100%;`,
+      stageStyle: `position:relative; width:100%; aspect-ratio:1615/2600; overflow:hidden; background:#0d0f1a; cursor:${c.type === 'screen' ? 'none' : 'default'}; user-select:none; container-type:inline-size;`,
+      innerStyle: `position:absolute; left:${mL.toFixed(2)}%; top:${mT.toFixed(2)}%; width:${mW.toFixed(2)}%; height:${mH.toFixed(2)}%;`,
+      bgLayerStyle: `position:absolute; inset:0; ${(c.type === 'screen' && c.bg) ? `background-image:url("${this.BASE}${c.bg}"); background-size:100% 100%; background-repeat:no-repeat; image-rendering:pixelated;` : ''} opacity:${(c.type === 'screen' && c.bg && s.loaded && s.loaded[c.bg] && !s.bgOut) ? 1 : 0}; transition:opacity .32s ease; pointer-events:none;`,
+      prevBgStyle: `position:absolute; inset:0; ${s.prevBg ? `background-image:url("${this.BASE}${s.prevBg}"); background-size:100% 100%; background-repeat:no-repeat; image-rendering:pixelated;` : 'display:none;'} opacity:${s.prevShown ? 1 : 0}; transition:opacity .32s ease; pointer-events:none;`,
+      fxStyle: `position:absolute; inset:0; opacity:${s.out ? 0 : 1}; transition:opacity .32s ease;`,
+      charLayerStyle: `position:absolute; left:${mL.toFixed(2)}%; top:${mT.toFixed(2)}%; width:${mW.toFixed(2)}%; height:${mH.toFixed(2)}%; opacity:${s.out ? 0 : 1}; transition:opacity .3s ease; pointer-events:none;`,
+      onTap: this.tap, onBack: this.back,
+      onAndroid: this.onAndroid, onApple: this.onApple,
+      onRestart: this.onRestart, onClose: this.onClose, onReopen: this.onReopen,
+    };
+  }
+}
+</script>
+</body>
+</html>
