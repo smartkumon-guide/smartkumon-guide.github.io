@@ -38,7 +38,8 @@
   .sec-d{font-size:var(--fs-cap);color:var(--muted);margin-bottom:20px;line-height:1.6}
   /* 학습 방식 2가지 (사진 + 스크롤 도착 시 오버레이 등장) */
   .ways{display:flex;gap:10px;align-items:flex-start}
-  .way{flex:1 1 0;min-width:0;display:flex;flex-direction:column}
+  /* 카드 폭에 비례해 버튼·캡션 글자를 줄여 지정된 줄바꿈을 유지(계수=문장 실측 폭÷글자크기) */
+  .way{flex:1 1 0;min-width:0;display:flex;flex-direction:column;container-type:inline-size}
   .way-hd{font-size:var(--fs-md);font-weight:900;color:#fff;text-align:center;padding:11px;border-radius:13px 13px 0 0;letter-spacing:-.01em}
   .way-hd.online{background:var(--brand)}
   .way-hd.self{background:#3A3D42}
@@ -46,13 +47,13 @@
   /* 폰트 확대 후 320px에서 오버레이 내용이 사진 박스(aspect .6)를 넘어 잘리던 문제 → 여백 축소로 흡수 */
   .way-ov{position:absolute;inset:0;background:rgba(14,16,20,.84);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:10px;text-align:center;opacity:0;transition:opacity .6s ease}
   .way.in .way-ov{opacity:1}
-  .way-q{font-size:var(--fs-sm);font-weight:700;line-height:1.45;margin-bottom:2px;word-break:keep-all}
+  .way-q{font-size:var(--fs-2xs);font-size:clamp(10px,calc((100cqw - 20px) / 12.4),var(--fs-sm));font-weight:700;line-height:1.45;margin-bottom:2px;word-break:keep-all}   /* 12.4 = 최장 줄 '스스로 학습하기를 원한다면?' 12.115 + 여유 */
   .way.online .way-q{color:var(--brand-text)}
   .way.self .way-q{color:#E6E9EE}
-  .way-btn{display:block;width:100%;background:var(--brand);color:#fff;text-decoration:none;font-weight:800;font-size:var(--fs-cap);padding:13px 8px;border-radius:10px;line-height:1.2}
+  .way-btn{display:block;width:100%;background:var(--brand);color:#fff;text-decoration:none;font-weight:800;font-size:var(--fs-sm);font-size:clamp(10px,calc((100cqw - 36px) / 9.55),var(--fs-cap));padding:13px 8px;border-radius:10px;line-height:1.2;word-break:keep-all}
   .way-btn.adult{background:#C93A36}
   .way-btn.myl{background:#3A3D42}
-  .way-cap{font-size:var(--fs-xs);color:var(--muted);line-height:1.6;text-align:center;margin-top:12px;padding:0 4px}
+  .way-cap{font-size:var(--fs-2xs);font-size:clamp(9.5px,calc((100cqw - 8px) / 12.4),var(--fs-xs));color:var(--muted);line-height:1.6;text-align:center;margin-top:12px;padding:0 4px;word-break:keep-all}
   /* 데일리 학습 케어 */
   .dc-note{font-size:var(--fs-sm);color:var(--brand-text);font-weight:600;text-align:center;line-height:1.6;margin:26px 0 12px}
   .dc-note b{font-weight:800}

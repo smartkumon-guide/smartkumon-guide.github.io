@@ -41,7 +41,7 @@
   .p-intro{font-size:var(--fs-body);line-height:1.7;color:var(--muted);margin:0 4px 18px}
   .p-intro b{color:var(--ink);font-weight:800}
   /* step card */
-  .pstep{border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;background:var(--surface)}
+  .pstep{border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;background:var(--surface);container-type:inline-size}
   .sh{display:flex;align-items:center;gap:10px;margin-bottom:14px}
   .sn{flex-shrink:0;width:28px;height:28px;border-radius:8px;background:var(--brand);color:#fff;font-weight:900;font-size:var(--fs-cap);display:flex;align-items:center;justify-content:center}
   .st{font-size:var(--fs-lg);font-weight:800;letter-spacing:-.02em}
@@ -62,9 +62,12 @@
   .alert{display:flex;gap:10px;align-items:flex-start;background:#2A1319;border:1px solid #5A2029;border-left:4px solid var(--brand);border-radius:12px;padding:14px;margin-top:12px}
   .alert svg{flex-shrink:0;margin-top:1px}
   .alert .at{font-size:var(--fs-cap);font-weight:800;color:var(--brand-text);line-height:1.55}
-  .csnote{font-size:var(--fs-cap);color:var(--muted);line-height:1.6;margin-top:10px;background:var(--sky);border-radius:10px;padding:12px}
+  /* ===== 지정된 줄바꿈이 유지되도록 '남는 폭 ÷ 문장 실측 폭계수'로 글자를 자동 축소 =====
+     계수 = (그 문장의 렌더 폭 ÷ 글자크기)에 안전여유 2%를 더한 값. 문구를 고치면 다시 측정할 것. */
+  .alert .at.oneline{flex:1;font-size:var(--fs-sm);font-size:clamp(10px,calc((100cqw - 61px) / 18.75),var(--fs-cap))}
+  .csnote{font-size:var(--fs-cap);font-size:clamp(11px,calc((100cqw - 24px) / 18.1),var(--fs-cap));color:var(--muted);line-height:1.6;margin-top:10px;background:var(--sky);border-radius:10px;padding:12px}
   .csnote b{color:var(--ink);font-weight:800}
-  .infonote{font-size:var(--fs-cap);color:var(--muted);line-height:1.7}
+  .infonote{container-type:inline-size;font-size:var(--fs-cap);font-size:clamp(11px,calc(100cqw / 19),var(--fs-cap));color:var(--muted);line-height:1.7}
   .infonote b{color:var(--ink);font-weight:800}
   /* === 앱 설치 (이미지+QR+컬러 헤더) === */
   .abh{font-size:var(--fs-body);font-weight:800;color:#fff;text-align:center;padding:10px}
@@ -153,7 +156,7 @@
       <div class="sh"><span class="sn">2</span><span class="st">앱 설치</span></div>
       <p class="sdesc">사용하는 기기를 선택하고, 앱 이미지를 누르거나 QR 코드를 스캔해 설치해 주세요.</p>
       <div class="appinstall os-aos">
-        <div class="ostoggle"><button class="ob on" data-os="aos">Play 스토어 (안드로이드)</button><button class="ob" data-os="ios">앱 스토어 (iOS)</button></div>
+        <div class="ostoggle"><button class="ob on" data-os="aos">Play 스토어<br>(안드로이드)</button><button class="ob" data-os="ios">앱 스토어<br>(iOS)</button></div>
         <div class="appgrid2">
           <div class="appcard">
             <div class="abh color">구몬 화상학습</div>
@@ -175,9 +178,9 @@
     <div class="pstep">
       <div class="sh"><span class="sn">3</span><span class="st">회원인증</span></div>
       <img class="vimg" src="img/membership_verify.png" alt="회원인증 — 첫 로그인 화면" loading="lazy">
-      <p class="infonote">첫 로그인 시 나타나는 화면에서 <b>알림톡 속 회원번호</b>를 입력해 인증해 주세요.</p>
-      <div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E00020" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><div class="at">※ 회원 인증 단계부터는 내일부터 가능합니다.</div></div>
-      <div class="csnote">회원가입이 안 될 경우 고객센터 <b>1588-5566</b>으로 연락해 주세요.<br>(연결 후 <b>0번</b> 입력 시 상담사와 연결됩니다.)</div>
+      <p class="infonote">첫 로그인 시 나타나는 화면에서<br><b>알림톡 속 회원번호</b>를 입력해 인증해 주세요.</p>
+      <div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E00020" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><div class="at oneline">회원 인증 단계부터는 내일부터 가능합니다.</div></div>
+      <div class="csnote">회원가입이 안될 경우<br>고객센터(<b>1588-5566</b>)으로 연락해주세요.<br>(연결 후 <b>0번</b> 입력 시 상담사와 연결됩니다.)</div>
     </div>
 
     <div class="pstep">

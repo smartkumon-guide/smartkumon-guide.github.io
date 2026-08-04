@@ -41,7 +41,9 @@
   .p-intro{font-size:var(--fs-body);line-height:1.7;color:var(--muted);margin:0 4px 18px}
   .p-intro b{color:var(--ink);font-weight:800}
   /* step card */
-  .pstep{border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;background:var(--surface)}
+  /* ⚠️ cqw는 '자기 자신'이 아니라 '가장 가까운 조상 컨테이너' 기준으로 계산됨.
+     그래서 카드(.pstep)를 컨테이너로 두고, 각 요소의 여백을 calc에서 직접 빼준다. */
+  .pstep{border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;background:var(--surface);container-type:inline-size}
   .sh{display:flex;align-items:center;gap:10px;margin-bottom:14px}
   .sn{flex-shrink:0;width:28px;height:28px;border-radius:8px;background:var(--brand);color:#fff;font-weight:900;font-size:var(--fs-cap);display:flex;align-items:center;justify-content:center}
   .st{font-size:var(--fs-lg);font-weight:800;letter-spacing:-.02em}
@@ -62,38 +64,45 @@
   .alert{display:flex;gap:10px;align-items:flex-start;background:#2A1319;border:1px solid #5A2029;border-left:4px solid var(--brand);border-radius:12px;padding:14px;margin-top:12px}
   .alert svg{flex-shrink:0;margin-top:1px}
   .alert .at{font-size:var(--fs-cap);font-weight:800;color:var(--brand-text);line-height:1.55}
-  .csnote{font-size:var(--fs-cap);color:var(--muted);line-height:1.6;margin-top:10px;background:var(--sky);border-radius:10px;padding:12px}
+  /* ===== 지정된 줄바꿈이 유지되도록 '남는 폭 ÷ 문장 실측 폭계수'로 글자를 자동 축소 =====
+     계수 = (그 문장의 렌더 폭 ÷ 글자크기)에 안전여유 2%를 더한 값. 문구를 고치면 다시 측정할 것.
+     각 요소를 자기 자신의 컨테이너로 삼음(폭이 글자크기와 무관한 블록이라 순환 없음).
+     앞 줄은 컨테이너 쿼리 미지원 브라우저용 폴백. */
+  .alert .at.oneline{flex:1;font-size:var(--fs-sm);font-size:clamp(10px,calc((100cqw - 61px) / 18.75),var(--fs-cap))}   /* 56 = alert 좌우 패딩 28 + 아이콘 18 + 간격 10 */
+  .csnote{font-size:var(--fs-cap);font-size:clamp(11px,calc((100cqw - 24px) / 18.1),var(--fs-cap));color:var(--muted);line-height:1.6;margin-top:10px;background:var(--sky);border-radius:10px;padding:12px}
   .csnote b{color:var(--ink);font-weight:800}
-  .infonote{font-size:var(--fs-cap);color:var(--muted);line-height:1.7}
+  .infonote{container-type:inline-size;font-size:var(--fs-cap);font-size:clamp(11px,calc(100cqw / 19),var(--fs-cap));color:var(--muted);line-height:1.7}
   .infonote b{color:var(--ink);font-weight:800}
   .infonote b.r{color:var(--brand-text)}                                  /* 빨간 강조 */
   /* '·' 목록: 줄이 넘어가도 글머리표 아래가 아니라 글자에 맞춰 들여쓰기 */
-  .infonote .li{display:block;padding-left:11px;text-indent:-11px}
+  .infonote .li{display:block;padding-left:11px;text-indent:-11px;font-size:var(--fs-sm);font-size:clamp(11px,calc(100cqw / 25.2),var(--fs-cap))}   /* 24.8 = 최장 줄 23.19 + 글머리표 '· ' + 여유 */
   .infonote .li::before{content:"· "}
   .infonote .li+.li{margin-top:7px}
   /* === 앱 설치 (이미지+QR+컬러 헤더) === */
   .appbox{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:10px}
   .abh{font-size:var(--fs-body);font-weight:800;color:#fff;text-align:center;padding:10px}
   .abh.main{background:#7E5BD1}.abh.uni{background:#8DC044;color:#16240A}.abh.lib{background:#F178AC;color:#2E0A1A}.abh.gyo{background:#9A7AE0;color:#18102A}
-  .abbody{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:16px}
+  /* 아이콘+QR을 한 행에 가운데, 설명은 그 아래 전체폭 가운데 정렬 */
+  .abbody{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;padding:16px}
   .abimg{display:block;line-height:0}
   .abimg img{width:84px;height:84px;border-radius:20px;display:block}
   .abqr{width:84px;height:84px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:5px}
-  .abdesc{flex:1;min-width:150px;font-size:var(--fs-body);color:var(--muted);line-height:1.55}
+  .abdesc{flex:1 0 100%;min-width:0;text-align:center;container-type:inline-size;font-size:var(--fs-body);font-size:clamp(11px,calc(100cqw / 13.6),var(--fs-body));color:var(--muted);line-height:1.55}
   .abdesc b{color:var(--ink);font-weight:800}
   /* 보조앱 카드: 3개를 항상 한 행에(3열 고정). 카드가 좁으므로 글씨는 한 단계 작게 */
   .appgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .appcard{border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:12px}
+  .appcard{border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:12px;container-type:inline-size}
   /* 헤더가 1줄/2줄이어도 카드끼리 높이가 어긋나지 않도록 2줄분 높이를 항상 확보 */
   .appcard .abh{width:100%;font-size:var(--fs-xs);padding:6px 4px;display:flex;align-items:center;justify-content:center;min-height:calc(var(--fs-xs) * 2.5 + 12px);line-height:1.25;word-break:keep-all}
   .appcard .abimg.sm img{width:66px;height:66px;border-radius:15px;margin:12px auto 8px}
-  .abdesc.sm{font-size:var(--fs-xs);line-height:1.45;padding:0 5px;flex:1;min-width:0;width:100%;color:var(--muted);word-break:normal}
+  /* 3열 보조앱: 지정 줄바꿈(2줄)이 유지되도록 카드 폭에 비례해 축소 */
+  .abdesc.sm{font-size:var(--fs-2xs);font-size:clamp(9px,calc((100cqw - 6px) / 8.1),var(--fs-xs));line-height:1.45;padding:0 3px;flex:1;min-width:0;width:100%;color:var(--muted);word-break:normal}
   .abqr.sm{width:66px;height:66px;margin-top:8px;border-radius:11px;padding:4px}
   /* 320px대는 카드가 88px로 더 좁아 한 단계 더 축소(3열은 유지) */
   @media(max-width:359px){
     .appcard .abh{font-size:var(--fs-2xs);min-height:calc(var(--fs-2xs) * 2.5 + 12px)}
     .appcard .abimg.sm img{width:56px;height:56px;border-radius:13px;margin:10px auto 7px}
-    .abdesc.sm{font-size:var(--fs-2xs);line-height:1.4;padding:0 3px}
+    .abdesc.sm{line-height:1.4}   /* font-size는 위 clamp가 카드 폭에 맞춰 이미 처리 */
     .abqr.sm{width:58px;height:58px;border-radius:10px}
   }
   /* === 섹션 머리(A/B/C)·입장 안내·아코디언 (구 학습방법 페이지) === */
@@ -159,8 +168,8 @@
   <div class="tabs">
     <div class="tabrow">
       <button class="tab on" data-t="prep">학습 준비</button>
-      <button class="tab" data-t="enter">화상수업<br>방법 안내</button>
       <button class="tab" data-t="self">자학자습<br>방법 안내</button>
+      <button class="tab" data-t="enter">화상수업<br>방법 안내</button>
     </div>
   </div>
 
@@ -179,13 +188,13 @@
       <div class="sh"><span class="sn">2</span><span class="st">앱 설치</span></div>
       <p class="sdesc">사용하는 기기를 선택하고, 앱 이미지를 누르거나 QR 코드를 스캔해 설치해 주세요.</p>
       <div class="appinstall os-aos">
-        <div class="ostoggle"><button class="ob on" data-os="aos">Play 스토어 (안드로이드)</button><button class="ob" data-os="ios">앱 스토어 (iOS)</button></div>
+        <div class="ostoggle"><button class="ob on" data-os="aos">Play 스토어<br>(안드로이드)</button><button class="ob" data-os="ios">앱 스토어<br>(iOS)</button></div>
         <div class="appbox">
           <div class="abh main">스마트구몬N 학습</div>
           <div class="abbody">
             <a class="abimg" data-app="smartkumonn" href="#" target="_blank" rel="noopener"><img src="img/smartkumonn.png" alt="스마트구몬N 학습앱" loading="lazy"></a>
             <div class="abqr"><img class="qrimg" alt="앱 설치 QR 코드" loading="lazy"></div>
-            <p class="abdesc">화상수업과 교재풀이 등 <b>학습은 모두 이 앱</b>에서 진행돼요.</p>
+            <p class="abdesc">화상수업과 교재풀이 등<br><b>학습은 모두 이 앱</b>으로 진행해요.</p>
           </div>
         </div>
         <div class="appgrid">
@@ -214,9 +223,9 @@
     <div class="pstep">
       <div class="sh"><span class="sn">3</span><span class="st">회원인증</span></div>
       <img class="vimg" src="img/membership_verify.png" alt="회원인증 — 첫 로그인 화면" loading="lazy">
-      <p class="infonote">첫 로그인 시 나타나는 화면에서 <b>안내받은 회원번호</b>를 입력해 인증해 주세요.</p>
-      <div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E00020" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><div class="at">※ 회원 인증 단계부터는 내일부터 가능합니다.</div></div>
-      <div class="csnote">회원가입이 안 될 경우 고객센터 <b>1588-5566</b>으로 연락해 주세요.<br>(연결 후 <b>0번</b> 입력 시 상담사와 연결됩니다.)</div>
+      <p class="infonote">첫 로그인 시 나타나는 화면에서<br><b>안내받은 회원번호</b>를 입력해 인증해 주세요.</p>
+      <div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E00020" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><div class="at oneline">회원 인증 단계부터는 내일부터 가능합니다.</div></div>
+      <div class="csnote">회원가입이 안될 경우<br>고객센터(<b>1588-5566</b>)으로 연락해주세요.<br>(연결 후 <b>0번</b> 입력 시 상담사와 연결됩니다.)</div>
     </div>
 
     <div class="pstep">
@@ -259,16 +268,20 @@
 
 <script>
   // 실제 보이는 화면 높이를 --vh에 기록(구형 브라우저의 100vh는 주소창을 포함해 튜토리얼이 잘림)
+  // ⚠️ 높이 변화(주소창 노출/숨김)에는 절대 반응하면 안 됨 — 스크롤할 때마다 --vh가 바뀌어
+  //    튜토리얼 크기가 출렁이는 버그가 있었음. 가로폭이 바뀐 경우(회전)에만 다시 잰다.
   (function(){
-    var vv=window.visualViewport;
-    function setVH(){
+    var vv=window.visualViewport, lastW=-1;
+    function setVH(force){
+      var w=window.innerWidth;
+      if(!force && w===lastW) return;   // 세로 높이만 달라진 경우는 무시
+      lastW=w;
       var h=(vv&&vv.height)?vv.height:window.innerHeight;
       document.documentElement.style.setProperty('--vh',Math.round(h)+'px');
     }
-    setVH();
-    window.addEventListener('resize',setVH);
-    window.addEventListener('orientationchange',function(){setTimeout(setVH,300)});
-    if(vv)vv.addEventListener('resize',setVH);
+    setVH(true);
+    window.addEventListener('resize',function(){setVH(false)});
+    window.addEventListener('orientationchange',function(){setTimeout(function(){setVH(true)},300)});
   })();
   // 섹션 탭(학습 준비/입장/자학자습) 전환
   const tabs=document.querySelectorAll('.tab'),panels=document.querySelectorAll('.panel');
