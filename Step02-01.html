@@ -21,7 +21,10 @@
   --fs-5xl:30px;   /* index·Step01-01 히어로 h1 */
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Noto Sans KR',sans-serif;background:#08090B;color:var(--ink);-webkit-font-smoothing:antialiased}
+  /* 한글 줄바꿈 품질(2026-08-04): ①어절 중간에서 끊지 않음(keep-all — '데이/터', '단/계를' 방지)
+     ②마지막 줄에 한두 글자만 남는 '고아 줄' 방지(text-wrap:pretty — '…길러/요.' 방지)
+     ③단어가 칸보다 길 때만 예외적으로 끊음(overflow-wrap) — keep-all만 쓰면 좁은 칸에서 넘침 */
+  body{font-family:'Noto Sans KR',sans-serif;background:#08090B;color:var(--ink);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;text-wrap:pretty}
   svg{display:block}
   .shell{max-width:600px;margin:0 auto;background:var(--paper);min-height:100vh;position:relative;box-shadow:0 0 60px rgba(35,38,44,.06)}
   .hdr{position:sticky;top:0;z-index:50;height:56px;display:grid;grid-template-columns:44px 1fr 44px;align-items:center;padding:0 12px;background:rgba(14,16,19,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
