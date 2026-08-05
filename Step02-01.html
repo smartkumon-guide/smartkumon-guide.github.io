@@ -144,7 +144,7 @@
   .infonote .li::before{content:"· "}
   .infonote .li+.li{margin-top:7px}
   /* === 앱 설치 (이미지+QR+컬러 헤더) === */
-  .appbox{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:10px}
+  .appbox{background:#333944;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:10px}
   .abh{font-size:var(--fs-body);font-weight:800;color:#fff;text-align:center;padding:10px}
   .abh.main{background:#7E5BD1}.abh.uni{background:#8DC044;color:#16240A}.abh.lib{background:#F178AC;color:#2E0A1A}.abh.gyo{background:#9A7AE0;color:#18102A}
   /* 아이콘+QR을 한 행에 가운데, 설명은 그 아래 전체폭 가운데 정렬 */
@@ -156,7 +156,7 @@
   .abdesc b{color:var(--ink);font-weight:800}
   /* 보조앱 카드: 3개를 항상 한 행에(3열 고정). 카드가 좁으므로 글씨는 한 단계 작게 */
   .appgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .appcard{border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:12px;container-type:inline-size}
+  .appcard{background:#333944;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:12px;container-type:inline-size}
   /* 헤더가 1줄/2줄이어도 카드끼리 높이가 어긋나지 않도록 2줄분 높이를 항상 확보 */
   .appcard .abh{width:100%;font-size:var(--fs-xs);padding:6px 4px;display:flex;align-items:center;justify-content:center;min-height:calc(var(--fs-xs) * 2.5 + 12px);line-height:1.25;word-break:keep-all}
   .appcard .abimg.sm img{width:66px;height:66px;border-radius:15px;margin:12px auto 8px}

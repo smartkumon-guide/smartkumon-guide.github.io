@@ -110,7 +110,12 @@
   .way-q{font-size:var(--fs-2xs);font-size:clamp(10px,calc((100cqw - 20px) / 12.4),var(--fs-sm));font-weight:700;line-height:1.45;margin-bottom:2px;word-break:keep-all}   /* 12.4 = 최장 줄 '스스로 학습하기를 원한다면?' 12.115 + 여유 */
   .way.online .way-q{color:var(--brand-text)}
   .way.self .way-q{color:#E6E9EE}
-  .way-btn{display:block;width:100%;background:var(--brand);color:#fff;text-decoration:none;font-weight:800;font-size:var(--fs-sm);font-size:clamp(10px,calc((100cqw - 36px) / 9.55),var(--fs-cap));padding:13px 8px;border-radius:10px;line-height:1.2;word-break:keep-all}
+  /* 질문은 글자 단위 <i>로 쪼개 두고 opacity만 켠다 — 타이핑 중 줄바꿈이 밀리지 않음 */
+  .way-q i{font-style:normal;opacity:0;transition:opacity .08s linear}
+  .way-q i.on{opacity:1}
+  .way-btn{display:block;width:100%;background:var(--brand);color:#fff;text-decoration:none;font-weight:800;font-size:var(--fs-sm);font-size:clamp(10px,calc((100cqw - 36px) / 9.55),var(--fs-cap));padding:13px 8px;border-radius:10px;line-height:1.2;word-break:keep-all;
+           opacity:0;transform:translateY(7px);transition:opacity .38s ease,transform .38s ease}
+  .way-btn.show{opacity:1;transform:none}
   .way-btn.adult{background:#C93A36}
   .way-btn.myl{background:#3A3D42}
   .way-cap{font-size:var(--fs-2xs);font-size:clamp(9.5px,calc((100cqw - 8px) / 12.4),var(--fs-xs));color:var(--muted);line-height:1.6;text-align:center;margin-top:12px;padding:0 4px;word-break:keep-all}
@@ -131,7 +136,7 @@
   .anydev-btn{position:absolute;left:48%;top:77.5%;width:50%;height:17%;cursor:pointer}
   /* 320px대에선 사진 박스(.6)가 오버레이 내용보다 짧아 2px 잘림 → 세로를 조금 더 확보(배경은 cover라 크롭만 달라짐) */
   @media(max-width:359px){.way-photo{aspect-ratio:.56}}
-  @media(prefers-reduced-motion:reduce){.way-ov{opacity:1;transition:none}}
+  @media(prefers-reduced-motion:reduce){.way-ov{opacity:1;transition:none}.way-q i,.way-btn{opacity:1;transform:none;transition:none}}
   .hint{display:flex;align-items:center;gap:6px;font-size:var(--fs-xs);color:var(--muted);margin-bottom:10px}
   .tablewrap{overflow:hidden;border:1px solid var(--line);border-radius:16px}
   table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:var(--fs-xs)}
@@ -352,9 +357,56 @@
   }
   const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){revealWhenReady(e.target);io.unobserve(e.target)}}),{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-  // 학습 방식 카드: 스크롤 도착 시 흰 오버레이+버튼 등장
-  const wo=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');wo.unobserve(e.target)}}),{threshold:.35});
-  document.querySelectorAll('.way').forEach(el=>wo.observe(el));
+  // 학습 방식 카드: 살짝만 스크롤해도 시작되는 순차 연출.
+  //   ① 사진 위로 어두운 오버레이가 덮이고 ② 질문이 한 글자씩 타이핑되듯 나타난 뒤
+  //   ③ 버튼이 하나씩 등장 → 화상학습 열이 끝나면 ④ 셀프학습 열이 이어서 같은 순서로 진행.
+  // 글자는 '미리 배치해두고 opacity만 켜는' 방식 — 타이핑 중 줄바꿈이 밀리지 않는다.
+  (function(){
+    const ways=document.querySelector('.ways'); if(!ways) return;
+    const cols=[...ways.querySelectorAll('.way')];
+    const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+    // 질문 문구를 글자 단위 <i>로 쪼갠다(<br>은 그대로 유지)
+    cols.forEach(col=>{
+      const q=col.querySelector('.way-q'); if(!q) return;
+      q.innerHTML=q.innerHTML.split(/<br\s*\/?>/i)
+        .map(line=>[...line].map(ch=>'<i>'+(ch===' '?'&nbsp;':ch)+'</i>').join(''))
+        .join('<br>');
+    });
+
+    function playCol(col, done){
+      col.classList.add('in');                       // 오버레이 페이드 인
+      const chars=[...col.querySelectorAll('.way-q i')];
+      const btns=[...col.querySelectorAll('.way-btn')];
+      const showBtns=()=>{
+        btns.forEach((b,i)=>setTimeout(()=>b.classList.add('show'), i*280));
+        setTimeout(done, btns.length*280+180);
+      };
+      setTimeout(()=>{                               // 오버레이가 어두워진 뒤 타이핑 시작
+        let i=0;
+        const t=setInterval(()=>{
+          chars[i] && chars[i].classList.add('on');
+          if(++i>=chars.length){ clearInterval(t); setTimeout(showBtns,220); }
+        },38);
+      },380);
+    }
+
+    function showAll(){
+      cols.forEach(col=>{
+        col.classList.add('in');
+        col.querySelectorAll('.way-q i').forEach(c=>c.classList.add('on'));
+        col.querySelectorAll('.way-btn').forEach(b=>b.classList.add('show'));
+      });
+    }
+
+    if(reduce){ showAll(); return; }
+    const wo=new IntersectionObserver((es)=>es.forEach(e=>{
+      if(!e.isIntersecting) return;
+      wo.disconnect();
+      playCol(cols[0], ()=>{ if(cols[1]) playCol(cols[1], ()=>{}) });
+    }),{threshold:.15});
+    wo.observe(ways);
+  })();
   // 데일리 학습 케어 카드뉴스 캐러셀 도트(카드 수에 맞춰 자동 생성 — 이미지 교체 시도 그대로 동작)
   const dcc=document.getElementById('dcCards'),dcd=document.getElementById('dcDots');
   if(dcc&&dcd&&dcc.children.length){
