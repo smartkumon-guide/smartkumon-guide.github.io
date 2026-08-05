@@ -35,7 +35,7 @@
   .eyebrow{font-size:var(--fs-xs);font-weight:800;color:var(--brand-text);letter-spacing:.14em;margin-bottom:12px}
   .hero h1{font-size:var(--fs-4xl);line-height:1.36;font-weight:900;letter-spacing:-.03em}
   .hero .sub{margin-top:12px;font-size:var(--fs-body);line-height:1.7;color:var(--muted)}
-  .sec{padding:30px 24px}
+  .sec{padding:30px 24px;container-type:inline-size}
   .sec.tint{background:var(--sky)}
   .sec-h{font-size:var(--fs-xl);font-weight:900;letter-spacing:-.02em;margin-bottom:6px}
   .sec-d{font-size:var(--fs-cap);color:var(--muted);margin-bottom:20px;line-height:1.6}
@@ -60,7 +60,8 @@
   /* 데일리 학습 케어 */
   .dc-note{font-size:var(--fs-sm);color:var(--brand-text);font-weight:600;text-align:center;line-height:1.6;margin:26px 0 12px}
   .dc-note b{font-weight:800}
-  .dc-bar{display:block;width:100%;background:var(--brand);color:#fff;text-align:center;font-weight:800;font-size:var(--fs-body);padding:15px;border-radius:12px;letter-spacing:-.01em}
+  /* 19.75 = 문장 실측 폭계수 19.36 + 여유. 30 = 좌우 패딩 */
+  .dc-bar{display:block;width:100%;background:var(--brand);color:#fff;text-align:center;font-weight:800;font-size:var(--fs-sm);font-size:clamp(11px,calc((100cqw - 30px) / 19.75),var(--fs-body));padding:15px;border-radius:12px;letter-spacing:-.01em}
   .dc-cards{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:14px 2px 4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .dc-cards::-webkit-scrollbar{display:none}
   .dc-card{flex:0 0 100%;scroll-snap-align:center;aspect-ratio:1/1;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
@@ -93,17 +94,19 @@
   .tnote{font-size:var(--fs-xs);color:var(--muted);line-height:1.55;margin-top:10px}
   .pcards{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 24px 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .pcards::-webkit-scrollbar{display:none}
-  .pcard{flex:0 0 100%;scroll-snap-align:center;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface);display:flex;flex-direction:column}
+  .pcard{flex:0 0 100%;scroll-snap-align:center;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface);display:flex;flex-direction:column;container-type:inline-size}
   .pcard.best{border-color:var(--brand-text);box-shadow:0 10px 28px rgba(224,0,32,.10)}
   .pc-top{padding:18px 18px 14px}
   .pc-name{display:flex;align-items:center;gap:8px;font-size:var(--fs-lg);font-weight:900;letter-spacing:-.02em;margin-bottom:6px}
   .pc-name .best-b{font-size:var(--fs-2xs);font-weight:800;color:#fff;background:var(--brand);border-radius:999px;padding:3px 8px;letter-spacing:.04em}
   .pc-tag{font-size:var(--fs-sm);color:var(--muted);line-height:1.5}
   .pc-feats{padding:4px 18px 16px;display:flex;flex-direction:column;gap:9px}
-  .pc-feat{display:flex;gap:9px;align-items:flex-start;font-size:var(--fs-cap);line-height:1.45}
+  /* 106 = pc-feats 좌우패딩 36 + 체크아이콘 18 + 간격 9 + 여유 / 17.2 = 최장 항목 실측 폭계수 */
+  .pc-feat{display:flex;gap:9px;align-items:flex-start;font-size:var(--fs-sm);font-size:clamp(11px,calc((100cqw - 106px) / 17.2),var(--fs-cap));line-height:1.45}
   .pc-feat .ck{flex-shrink:0;width:18px;height:18px;border-radius:50%;background:var(--sky2);color:var(--brand-text);display:flex;align-items:center;justify-content:center;margin-top:1px}
   .pc-feat b{font-weight:700}
-  .pc-foot{margin-top:auto;padding:14px 18px;font-size:var(--fs-sm);font-weight:700;line-height:1.5;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand-deep))}
+  /* 38 = 좌우 패딩 36 + 여유 / 19.85 = 가장 긴 WINGS 문구 실측 폭계수 19.44 + 여유 → 한 줄 유지 */
+  .pc-foot{margin-top:auto;padding:14px 18px;font-size:var(--fs-xs);font-size:clamp(10px,calc((100cqw - 38px) / 19.85),var(--fs-sm));font-weight:700;line-height:1.5;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand-deep))}
   .dots{display:flex;justify-content:center;gap:7px;padding:6px 0 2px}
   .dot{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .2s,width .2s}
   .dot.on{background:var(--brand);width:18px;border-radius:999px}
@@ -125,16 +128,16 @@
   <section class="hero reveal">
     <div class="eyebrow">STEP 02</div>
     <h1>나에게 맞는<br>학습 방식은?</h1>
-    <p class="sub">구몬 화상학습의 3가지 상품을 비교해 보고, 내 상황에 맞는 방식을 찾아보세요.</p>
+    <p class="sub">구몬 화상학습의 3가지 상품을 비교해보고,<br>나에게 가장 잘 맞는 방식을 찾아보세요.</p>
   </section>
 
   <section class="sec tint">
     <h2 class="sec-h reveal">학습 방식 2가지</h2>
-    <p class="sec-d reveal">화상학습과 셀프학습 중 나에게 꼭 맞는 학습방식을 선택할 수 있어요.</p>
+    <p class="sec-d reveal">화상 vs 셀프, 나에게 꼭 맞는 학습방식은?</p>
     <div class="ways">
       <div class="way online">
         <div class="way-hd online">화상학습</div>
-        <div class="way-photo" style="background-image:url('img/step2_online.png')">
+        <div class="way-photo" style="background-image:url('img/step2_online.jpg')">
           <div class="way-ov">
             <p class="way-q">주 1회 화상관리를 통해<br>빠른 실력 향상을 원한다면?</p>
             <span class="way-btn">스마트구몬 WINGS</span>
@@ -145,7 +148,7 @@
       </div>
       <div class="way self">
         <div class="way-hd self">셀프학습</div>
-        <div class="way-photo" style="background-image:url('img/step2_self.png')">
+        <div class="way-photo" style="background-image:url('img/step2_self.jpg')">
           <div class="way-ov">
             <p class="way-q">나만의 페이스대로<br>스스로 학습하기를 원한다면?</p>
             <span class="way-btn myl">스마트구몬 마이러닝</span>
@@ -234,39 +237,39 @@
       <div class="pcard best">
         <div class="pc-top"><div class="pc-name">스마트구몬 WINGS <span class="best-b">BEST</span></div><div class="pc-tag">화상학습과 데이터 관리의 완성형</div></div>
         <div class="pc-feats">
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>데일리 학습 케어</b> · 매일 학습 습관 관리</div></div>
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>주 1회 화상관리</b> · 맞춤 피드백</div></div>
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>풀이과정 분석</b> · 데이터 기반 진단</div></div>
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>AI 맞춤 진도 관리</b> · 약점 보완 · 진도 설계</div></div>
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>인토링: 원어민 발음 연습</b> · AI 분석 리포트 제공</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>데일리 학습 케어</b>: 매일 학습 습관 관리</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>주 1회 화상관리</b>: 맞춤 피드백</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>풀이과정 분석</b>: 데이터 기반 진단</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>AI 맞춤 진도 관리</b>: 약점 보완 · 진도 설계</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>인토링: 원어민 발음 연습</b>, AI 분석</div></div>
           <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div>페이지별 음원 재생</div></div>
         </div>
-        <div class="pc-foot">데이터 기반 전문 관리로 더 빠르고 확실한 성장을 경험하세요</div>
+        <div class="pc-foot">데이터 기반 전문 관리로 더 빠르고 확실한 성장</div>
       </div>
 
       <div class="pcard">
         <div class="pc-top"><div class="pc-name">스마일(성인) 화상학습</div><div class="pc-tag">1:1 화상수업으로 외국어를 집중 학습</div></div>
         <div class="pc-feats">
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>주 1회 화상관리</b> · 1:1 맞춤 지도</div></div>
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>전용 APP 학습</b> · 디지털 교재 풀이</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>주 1회 화상관리</b>: 1:1 맞춤 지도</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>전용 APP 학습</b>: 디지털 교재 풀이</div></div>
           <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div>성인 맞춤 외국어 전문 학습</div></div>
           <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div>수업 동영상 복습 가능</div></div>
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>단계별 음원 mp3 제공</b> · 듣기 실력 향상</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>단계별 음원 mp3 제공</b>: 듣기 실력 향상</div></div>
         </div>
-        <div class="pc-foot">부담 없이 시작해 꾸준히 실력을 키우는 갓성비 외국어 학습</div>
+        <div class="pc-foot">부담 없이 시작할 수 있는 갓성비 외국어 학습</div>
       </div>
 
       <div class="pcard">
         <div class="pc-top"><div class="pc-name">스마트구몬 마이러닝</div><div class="pc-tag">스스로 학습하되, 매일 관리받는 자기주도 학습</div></div>
         <div class="pc-feats">
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>데일리 학습 케어</b> · 매일 학습 습관 관리</div></div>
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>월 1회 유선관리</b> · 학습 방향 점검·피드백</div></div>
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>학습 리포트 제공</b> · 현황 한눈에</div></div>
-          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>인토링: 원어민 발음 연습</b> · AI 분석 리포트 제공</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>데일리 학습 케어</b>: 매일 학습 습관 관리</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>월 1회 유선관리</b>: 학습 방향 점검·피드백</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>학습 리포트 제공</b>: 현황 한눈에</div></div>
+          <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div><b>인토링: 원어민 발음 연습</b>, AI 분석</div></div>
           <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div>페이지별 음원 재생</div></div>
           <div class="pc-feat"><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div>WINGS 대비 합리적인 가격</div></div>
         </div>
-        <div class="pc-foot">스스로 계획하고 실천하는 자기주도 학습자에게 딱 맞는 선택</div>
+        <div class="pc-foot">데이터 기반 진도 관리 + 최적화된 셀프학습</div>
       </div>
     </div>
     <div class="dots" id="dots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
@@ -279,7 +282,18 @@
 </div></div>
 
 <script>
-  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  // 이미지가 먼저 다 뜬 뒤에 글자 애니메이션이 시작되도록, 그 블록 안 이미지 로딩을 기다렸다가 'in' 부여.
+  // (안 기다리면 글자가 먼저 뜨고 이미지가 나중에 채워지며 화면이 덜컹거림) 최대 1.5초 안전장치.
+  function revealWhenReady(el){
+    const imgs=[...el.querySelectorAll('img')].filter(i=>!(i.complete&&i.naturalWidth>0));
+    if(!imgs.length){el.classList.add('in');return;}
+    let left=imgs.length,done=false;
+    const show=()=>{if(!done){done=true;el.classList.add('in')}};
+    const one=()=>{if(--left<=0)show()};
+    imgs.forEach(i=>{i.addEventListener('load',one,{once:true});i.addEventListener('error',one,{once:true})});
+    setTimeout(show,1500);
+  }
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){revealWhenReady(e.target);io.unobserve(e.target)}}),{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   // 학습 방식 카드: 스크롤 도착 시 흰 오버레이+버튼 등장
   const wo=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');wo.unobserve(e.target)}}),{threshold:.35});

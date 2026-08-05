@@ -81,10 +81,13 @@
   /* 구몬식 학습법 5가지 */
   .method-intro{font-size:var(--fs-cap);line-height:1.8;color:var(--muted);margin:18px 2px 20px}
   .method-list{display:flex;flex-direction:column;gap:10px}
-  .mcard{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 18px}
-  .mcard .mno{flex-shrink:0;font-size:var(--fs-2xl);font-weight:900;color:var(--brand-text);font-variant-numeric:tabular-nums;letter-spacing:-.02em;min-width:32px;line-height:1.1}
-  .mcard h3{font-size:var(--fs-lg);font-weight:800;margin-bottom:5px;letter-spacing:-.02em}
-  .mcard p{font-size:var(--fs-cap);line-height:1.65;color:var(--muted)}
+  /* 번호를 제목 앞으로 옮겨(구 좌측 별도 칸) 본문 <p>가 카드 전체 폭을 쓰게 함 —
+     좌측 칸 방식이면 본문 폭이 222px뿐이라 지정한 2줄 줄바꿈이 불가능했음 */
+  .mcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 18px;container-type:inline-size}
+  .mcard .mno{font-size:var(--fs-xl);font-weight:900;color:var(--brand-text);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-right:10px}
+  .mcard h3{font-size:var(--fs-lg);font-weight:800;margin-bottom:6px;letter-spacing:-.02em}
+  /* 22.9 = 가장 긴 04번 첫 줄('난이도 차이를…세분화해,') 실측 폭계수 22.479 + 여유 */
+  .mcard p{font-size:var(--fs-sm);font-size:clamp(11px,calc(100cqw / 22.9),var(--fs-cap));line-height:1.65;color:var(--muted)}
 
   /* 섹션 이미지 (가로폭=박스폭, 원본 비율 유지) */
   .secimg{width:100%;height:auto;display:block;border-radius:16px}
@@ -117,7 +120,7 @@
   <section class="story reveal">
     <div class="eyebrow">Since 1990</div>
     <p class="story-lead">1990년, 한 장의 학습지에서 시작된 배움.<br>오랜 시간 한결같이 선택받으며<br>한 세대를 넘어선 학습이 되었습니다.</p>
-    <p class="story-strong">오래되어서가 아니라,<br><em>시대를 넘어 검증되었기 때문입니다.</em></p>
+    <p class="story-strong">오래되어서가 아니라,<br><em>시대를 넘어<br>검증되었기 때문입니다.</em></p>
     <div class="stats">
       <div class="stat reveal"><div class="label">누적<br>학습자</div>
         <div class="num"><span class="count" data-target="890" data-dec="0">0</span><span class="unit">만명+</span></div>
@@ -127,7 +130,7 @@
         <div class="note">※ 1990.3 ~ 2025.5<br>구몬학습 전체 회원 데이터 기준</div></div>
       <div class="stat reveal"><div class="label">월 평균<br>학습 진도</div>
         <div class="num"><span class="count" data-target="144.3" data-dec="1">0</span><span class="unit">장</span></div>
-        <div class="note">※ 2025.4 구몬학습 스마트구몬N<br>평균 학습 제출 장수 기준</div></div>
+        <div class="note">※ 2025.4 구몬학습<br>스마트구몬N 평균 학습<br>제출 장수 기준</div></div>
     </div>
     <video class="vid" autoplay muted loop playsinline preload="auto">
       <source src="video/kumon_brand.mp4" type="video/mp4">
@@ -169,11 +172,11 @@
     <img class="secimg reveal" src="img/img_story_sec06.png" alt="구몬식 학습법 교재 이미지" loading="lazy">
     <p class="method-intro reveal">모든 학습자는 학습 속도도, 이해 방식도 다릅니다.<br>그래서 구몬은 누가 가르쳐 주지 않아도 스스로 공부를 이어갈 수 있도록<br>한 명, 한 명의 능력에 꼭 맞춘 학습을 제공합니다.</p>
     <div class="method-list">
-      <div class="mcard reveal"><span class="mno">01</span><div><h3>개인별·능력별 학습</h3><p>학년이 아닌 ‘현재 실력’에서 출발해,<br>무리 없이 매일 자신감을 쌓아요.</p></div></div>
-      <div class="mcard reveal"><span class="mno">02</span><div><h3>100% 주관식 풀이</h3><p>정답을 찾기보다는 ‘생각해내는 과정’<br>서술형으로 스스로 풀며 사고력을 길러요.</p></div></div>
-      <div class="mcard reveal"><span class="mno">03</span><div><h3>표준 완성 시간</h3><p>정확함과 속도를 함께, 검증된 표준 완성 시간.<br>목표 시간 안에 풀어내는 힘을 키워요.</p></div></div>
-      <div class="mcard reveal"><span class="mno">04</span><div><h3>스몰스텝 교재</h3><p>난이도 차이를 거의 느끼지 못할 만큼 단계를 세분화해,<br>자연스럽게 새로운 개념을 도전해요.</p></div></div>
-      <div class="mcard reveal"><span class="mno">05</span><div><h3>완전 학습</h3><p>필요한 만큼만 반복을 통해 ‘안다’를 넘어 ‘술술 해낸다’까지.<br>기초 개념을 확실히 잡아주고, 구멍 없이 완성해요.</p></div></div>
+      <div class="mcard reveal"><div><h3><span class="mno">01</span>개인별·능력별 학습</h3><p>학년이 아닌 ‘현재 실력’에서 출발해,<br>무리 없이 매일 자신감을 쌓아요.</p></div></div>
+      <div class="mcard reveal"><div><h3><span class="mno">02</span>100% 주관식 풀이</h3><p>정답을 찾기보다는 ‘생각해내는 과정’<br>스스로 풀며 사고력을 길러요.</p></div></div>
+      <div class="mcard reveal"><div><h3><span class="mno">03</span>표준 완성 시간</h3><p>정확함+속도, 검증된 표준완성 시간<br>목표 시간 안에 풀어내는 힘을 키워요.</p></div></div>
+      <div class="mcard reveal"><div><h3><span class="mno">04</span>스몰스텝 교재</h3><p>난이도 차이를 거의 느끼지 못할 만큼 단계를 세분화해,<br>자연스럽게 새로운 개념을 도전해요.</p></div></div>
+      <div class="mcard reveal"><div><h3><span class="mno">05</span>완전 학습</h3><p>필요한 만큼만 반복을 통해 술술 해내도록,<br>기초 개념을 공백없이 확실하게 잡아줘요.</p></div></div>
     </div>
   </section>
 

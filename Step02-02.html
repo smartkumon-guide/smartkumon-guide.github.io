@@ -205,9 +205,9 @@
 
     <div class="pstep">
       <div class="sh"><span class="sn">3</span><span class="st">회원인증</span></div>
+      <div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E00020" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><div class="at oneline">회원 인증 단계부터는 내일부터 가능합니다.</div></div>
       <img class="vimg" src="img/membership_verify.png" alt="회원인증 — 첫 로그인 화면" loading="lazy">
       <p class="infonote">첫 로그인 시 나타나는 화면에서<br><b>안내받은 회원번호</b>를 입력해 인증해 주세요.</p>
-      <div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E00020" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><div class="at oneline">회원 인증 단계부터는 내일부터 가능합니다.</div></div>
       <div class="csnote">회원가입이 안될 경우<br>고객센터(<b>1588-5566</b>)으로 연락해주세요.<br>(연결 후 <b>0번</b> 입력 시 상담사와 연결됩니다.)</div>
     </div>
 
@@ -257,7 +257,19 @@
   tabs.forEach(t=>t.addEventListener('click',()=>{
     tabs.forEach(x=>x.classList.remove('on'));t.classList.add('on');
     panels.forEach(p=>p.classList.toggle('on',p.dataset.p===t.dataset.t));
-    window.scrollTo({top:0,behavior:'smooth'});
+    // 튜토리얼 탭이면 맨 위가 아니라 '튜토리얼이 탭 바로 아래' 오도록 스크롤 —
+    // 아래로 스크롤된 상태가 되어 모바일 주소창이 접히고, 튜토리얼이 한 화면에 다 보임.
+    const emb=document.querySelector('.panel.on .tutorial-embed');
+    if(emb){
+      requestAnimationFrame(()=>{
+        const tabsEl=document.querySelector('.tabs');
+        const off=56+(tabsEl?tabsEl.getBoundingClientRect().height:0)+8;
+        const y=emb.getBoundingClientRect().top+window.pageYOffset-off;
+        window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+      });
+    } else {
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
   }));
   // 앱 스토어 링크 (OS별) · QR 파일 규칙: img/qr-<app>-<os>.svg
   const LINKS={
