@@ -3,6 +3,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>구몬학습 미리보기 · STEP 01</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<!-- ===== Google Analytics 4 (GA4) ==========================================
+     ① 측정 ID는 아래 GA_ID 한 줄만 실제 ID(G-…)로 바꾸면 됩니다. 8개 HTML 동일.
+        자리표시자(G-XXXXXXXXXX)인 동안에는 gtag 원격 스크립트를 불러오지 않고
+        dataLayer에만 쌓으므로, ID 없이도 이벤트 발화를 로컬에서 확인할 수 있습니다.
+     ② 이 블록은 8개 페이지에 100% 동일합니다(페이지 이름은 URL에서 자동 판별).
+     ③ 튜토리얼은 iframe이라 자식→부모 postMessage로 이벤트를 넘겨받습니다.
+     설계·이벤트 표·UTM 목록은 docs/ANALYTICS.md 참고.                      -->
+<script>
+(function(){
+  var GA_ID = 'G-XXXXXXXXXX';                       /* ← 실제 측정 ID로 교체 */
+  var PAGE  = (location.pathname.split('/').pop() || 'index').replace(/\.html$/,'') || 'index';
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function(){ dataLayer.push(arguments) };
+  gtag('js', new Date());
+  gtag('config', GA_ID, { page_step: PAGE });
+  if (!/^G-X+$/.test(GA_ID)) {                      /* 자리표시자면 원격 로드 생략 */
+    var s = document.createElement('script');
+    s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+  }
+
+  function ev(name, params){ params = params || {}; params.page_step = PAGE; gtag('event', name, params) }
+  function txt(el){ return el ? el.textContent.replace(/\s+/g,' ').trim() : '' }
+  window.kumonGA = ev;                              /* 콘솔 디버그·수동 발화용 */
+
+  /* 클릭 계열 — document 위임이라 DOM 준비 전에 걸어도 동작한다 */
+  document.addEventListener('click', function(e){
+    var t = e.target; if (!t || !t.closest) return;
+    var a = t.closest('a.abimg[data-app]');                        /* 앱 스토어 링크 */
+    if (a) { var box = a.closest('.appinstall');
+             return ev('app_link_click', { app: a.getAttribute('data-app'),
+                                           os: (box && box.classList.contains('os-ios')) ? 'ios' : 'aos' }); }
+    var ob = t.closest('.ob[data-os]');                            /* AOS/iOS 토글 */
+    if (ob) return ev('os_toggle', { os: ob.getAttribute('data-os') });
+    var sj = t.closest('a.subj');                                  /* 과목 카드(Step01-03) */
+    if (sj) return ev('subject_click', { subject: txt(sj.querySelector('.subj-nm')),
+                                         linked: !!sj.getAttribute('href') });
+    var tb = t.closest('.tab[data-t]');                            /* 섹션·상품 탭 */
+    if (tb) return ev('section_tab', { section: tb.getAttribute('data-t') });
+  }, true);
+
+  /* 아코디언(음원·인토링·FAQ) 열림 — toggle은 버블링되지 않아 캡처 단계로 받는다 */
+  document.addEventListener('toggle', function(e){
+    var d = e.target;
+    if (!d || d.tagName !== 'DETAILS' || !d.classList.contains('acc') || !d.open) return;
+    ev('guide_open', { title: txt(d.querySelector('.at2')) || txt(d.querySelector('summary')).slice(0,90) });
+  }, true);
+
+  /* 튜토리얼(iframe) 중계 — tutorial_start / tutorial_step / tutorial_complete */
+  window.addEventListener('message', function(e){
+    if (e.origin !== location.origin) return;       /* 같은 출처(자체 튜토리얼)만 허용 */
+    var d = e.data; if (!d || d.__kumonGA !== 1 || !d.name) return;
+    ev(d.name, d.params || {});
+  });
+})();
+</script>
 <style>
   :root{--ink:#F2F4F7;--brand:#E00020;--brand-deep:#AA0018;--brand-text:#FF6675;--sky:#1A1D23;--sky2:#3A222A;--paper:#0E1013;--surface:#262B34;--line:#3A404B;--muted:#A7AEB9;--amber:#E0A94A;
   /* ===== 폰트 스케일 토큰 (8개 페이지 공통 — 한 곳 수정 시 전 페이지 동기화) ===== */
@@ -189,7 +246,7 @@
     </div>
     <img class="secimg reveal" src="img/kumon_check.jpg" alt="구몬학습의 확실한 학습효과" loading="lazy">
   </section>
-  <p style="font-size:var(--fs-2xs);color:#AEB2B8;text-align:center;line-height:1.6;padding:8px 24px 22px;margin:0">원활한 학습 안내를 위해 제작한 임시 안내 페이지입니다.</p>
+  <p style="font-size:var(--fs-3xs);font-weight:300;color:#7A7F87;text-align:center;line-height:1.6;padding:8px 24px 22px;margin:0">※ 원활한 학습 안내를 위해 제작한 임시 안내 페이지입니다.</p>
 </div>
 
 <div class="cta"><div class="cta-in">

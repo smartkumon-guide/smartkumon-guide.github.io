@@ -273,6 +273,34 @@ class Component extends DCLogic {
 
   cur() { return this.STEPS[this.state.idx]; }
 
+  // ── Google Analytics (이 튜토리얼은 iframe이라 부모 페이지로 postMessage 중계) ──
+  //   tutorial_start    : 타이틀에서 첫 화면으로 넘어갈 때 1회
+  //   tutorial_step     : 각 화면에 처음 도달할 때 1회 (step_id · step_no)
+  //   tutorial_complete : 종료 화면 도달 시 1회
+  //   ※ 뒤로가기·같은 화면 재방문은 중복 집계하지 않음. 부모의 GA 블록이 받아서 gtag로 보냄.
+  GA_NAME = 'self';
+  gaSend(name, params) {
+    try {
+      params = params || {}; params.tutorial = this.GA_NAME;
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ __kumonGA: 1, name: name, params: params }, '*');
+      } else if (window.gtag) { window.gtag('event', name, params); }
+    } catch (e) {}
+  }
+  gaTrack(toId, isBack) {
+    if (isBack || !toId) return;
+    this._gaSeen = this._gaSeen || {};
+    if (!this._gaStarted && toId !== 'title') { this._gaStarted = 1; this.gaSend('tutorial_start', {}); }
+    if (toId === 'end') {
+      if (!this._gaDone) { this._gaDone = 1; this.gaSend('tutorial_complete', {}); }
+      return;
+    }
+    if (toId === 'title' || this._gaSeen[toId]) return;
+    this._gaSeen[toId] = 1;
+    const i = this.indexOf(toId), s = i >= 0 ? this.STEPS[i] : null;
+    this.gaSend('tutorial_step', { step_id: toId, step_no: (s && s.dot) || 0 });
+  }
+
   componentDidMount() {
     this.ensureInit();
   }
@@ -345,6 +373,7 @@ class Component extends DCLogic {
     if (this.state.busy || !toId) return;
     const ti = this.indexOf(toId);
     if (ti < 0) return;
+    this.gaTrack(toId, isBack);
     this.resetReveal();
     const curBg = this.cur().bg, nextBg = this.STEPS[ti].bg;
     const sameBg = !!(curBg && nextBg && curBg === nextBg);
@@ -401,6 +430,7 @@ class Component extends DCLogic {
   buildHistory(targetIdx) { const list = this.pathIdxList(); const p = list.indexOf(targetIdx); return p <= 0 ? [] : list.slice(0, p); }
   jump(targetIdx) {
     if (this.state.busy || targetIdx === this.state.idx) return;
+    this.gaTrack(this.STEPS[targetIdx] && this.STEPS[targetIdx].id, false);
     this.resetReveal();
     const curBg = this.cur().bg, nextBg = this.STEPS[targetIdx].bg;
     const sameBg = !!(curBg && nextBg && curBg === nextBg);
