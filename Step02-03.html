@@ -108,7 +108,8 @@
   .sh{display:flex;align-items:center;gap:10px;margin-bottom:14px}
   .sn{flex-shrink:0;width:28px;height:28px;border-radius:8px;background:var(--brand);color:#fff;font-weight:900;font-size:var(--fs-cap);display:flex;align-items:center;justify-content:center}
   .st{font-size:var(--fs-lg);font-weight:800;letter-spacing:-.02em}
-  .sdesc{font-size:var(--fs-cap);color:var(--muted);line-height:1.6;margin-bottom:14px}
+  /* 7번: 박스가 없는 중간 설명은 가운데 정렬 (박스형 .csnote/.tip/.alert 는 좌측 유지) */
+  .sdesc{font-size:var(--fs-cap);color:var(--muted);line-height:1.6;margin-bottom:14px;text-align:center}
   /* link button + qr */
   .lbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--brand);color:#fff;text-decoration:none;border-radius:12px;padding:14px;font-size:var(--fs-body);font-weight:800;margin-bottom:14px}
   .qr{display:flex;flex-direction:column;align-items:center;gap:8px}
@@ -128,10 +129,10 @@
   .alert .at{font-size:var(--fs-cap);font-weight:800;color:var(--brand-text);line-height:1.55}
   /* ===== 지정된 줄바꿈이 유지되도록 '남는 폭 ÷ 문장 실측 폭계수'로 글자를 자동 축소 =====
      계수 = (그 문장의 렌더 폭 ÷ 글자크기)에 안전여유 2%를 더한 값. 문구를 고치면 다시 측정할 것. */
-  .alert .at.oneline{flex:1;font-size:var(--fs-sm);font-size:clamp(10px,calc((100cqw - 61px) / 18.75),var(--fs-cap))}
+  .alert .at.oneline{flex:1;font-size:var(--fs-sm);font-size:clamp(9.5px,calc((100cqw - 61px) / 19.3),var(--fs-cap))}
   .csnote{font-size:var(--fs-cap);font-size:clamp(11px,calc((100cqw - 24px) / 18.1),var(--fs-cap));color:var(--muted);line-height:1.6;margin-top:10px;background:var(--sky);border-radius:10px;padding:12px}
   .csnote b{color:var(--ink);font-weight:800}
-  .infonote{container-type:inline-size;font-size:var(--fs-cap);font-size:clamp(11px,calc(100cqw / 19),var(--fs-cap));color:var(--muted);line-height:1.7}
+  .infonote{container-type:inline-size;font-size:var(--fs-cap);font-size:clamp(11px,calc(100cqw / 19),var(--fs-cap));color:var(--muted);line-height:1.7;text-align:center}
   .infonote b{color:var(--ink);font-weight:800}
   /* === 앱 설치 (이미지+QR+컬러 헤더) === */
   .abh{font-size:var(--fs-body);font-weight:800;color:#fff;text-align:center;padding:10px}
@@ -172,12 +173,17 @@
   .tip .tl{flex-shrink:0;font-size:var(--fs-2xs);font-weight:900;color:#fff;background:var(--brand);border-radius:6px;padding:3px 7px}
   .tip p{font-size:var(--fs-cap);color:var(--muted);line-height:1.55}
   /* FAQ accordion */
-  .acc{border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden;background:var(--surface)}
+  .acc{border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden;background:var(--surface);container-type:inline-size}
   .acc[open]{border-color:var(--brand-text)}
   summary{list-style:none;display:flex;align-items:center;gap:11px;padding:15px 16px;cursor:pointer}
   summary::-webkit-details-marker{display:none}
   summary .an2{flex-shrink:0;width:26px;height:26px;border-radius:8px;background:var(--brand);color:#fff;font-weight:900;font-size:var(--fs-sm);display:flex;align-items:center;justify-content:center}
-  summary .at2{font-size:var(--fs-body);font-weight:800;flex:1;letter-spacing:-.02em;line-height:1.45}
+  /* 질문 박스 높이 통일: 1줄 질문도 2줄 높이(2×1.45em)를 확보해 목록이 들쭉날쭉하지 않게 */
+  summary .at2{font-size:var(--fs-cap);font-weight:800;flex:1;letter-spacing:-.02em;line-height:1.45;
+               min-height:2.9em;display:flex;align-items:center}
+  /* 좁은 화면에서도 모든 질문이 2줄을 넘기지 않도록 — 계수 15.7 = 최장 줄 실측 15.13 + 여유 3.5%,
+     98px = summary 좌우 패딩 32 + 번호칩 26 + 화살표 18 + gap 22 (컨테이너는 .acc) */
+  summary .at2{font-size:clamp(11px,calc((100cqw - 98px) / 15.7),var(--fs-cap))}
   summary .chev{flex-shrink:0;transition:transform .2s;color:var(--muted)}
   .acc[open] summary .chev{transform:rotate(180deg)}
   .acc-b{padding:2px 16px 16px}
@@ -241,7 +247,7 @@
 
     <div class="pstep">
       <div class="sh"><span class="sn">3</span><span class="st">회원인증</span></div>
-      <div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E00020" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><div class="at oneline">회원 인증 단계부터는 내일부터 가능합니다.</div></div>
+      <div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E00020" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><div class="at oneline">회원인증부터는 계약 다음날부터 가능합니다.</div></div>
       <img class="vimg" src="img/membership_verify.jpg" alt="회원인증 — 첫 로그인 화면" loading="lazy">
       <p class="infonote">첫 로그인 시 나타나는 화면에서<br><b>알림톡 속 회원번호</b>를 입력해 인증해 주세요.</p>
       <div class="csnote">회원가입이 안될 경우<br>고객센터(<b>1588-5566</b>)으로 연락해주세요.<br>(연결 후 <b>0번</b> 입력 시 상담사와 연결됩니다.)</div>
@@ -257,7 +263,7 @@
 
   <!-- ============ 수업 관련 FAQ ============ -->
   <section class="panel" data-p="faq">
-    <p class="p-intro">자주 묻는 질문을 모았어요. 궁금한 항목을 눌러 확인해 보세요.</p>
+    <p class="p-intro center">자주 묻는 질문을 모았어요.<br>궁금한 항목을 눌러 확인해보세요.</p>
 
     <details class="acc"><summary><span class="an2">1</span><span class="at2">교재 진도 설정은 어떻게 하나요?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
       <div class="acc-b">
@@ -286,7 +292,7 @@
         <p class="bd">· 기본 제공량: 월 100매<br>· 교사 상담 후 조정 가능: 50매 / 100매<br>· 단계 구성: 과목별 각 단계는 총 200매로 구성</p>
       </div></details>
 
-    <details class="acc"><summary><span class="an2">5</span><span class="at2">교재는 언제 받아볼 수 있나요? 첫 수업 전인데 교재가 아직 안왔어요.</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <details class="acc"><summary><span class="an2">5</span><span class="at2">교재는 언제 받아볼 수 있나요?<br>첫 수업 전인데 교재가 아직 안왔어요.</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
       <div class="acc-b">
         <p class="bd">화상학습 교재는 매월 20일 정도를 기준으로(월별 상이) 신청 시점에 따라 배송 일정이 달라집니다.<br>· 매월 중순 이전에 신청한 경우 → 신청한 당월 내에 교재가 발송됩니다.<br>· 매월 중순 이후 신청한 경우 → 익월 초 평일 기준 5일 이내 등록된 배송지로 도착합니다.</p>
         <p class="bd">교재는 매월 정기적으로 발송되며,<br>화상학습 진도에 맞춰 50매 또는 100매로 구성해 발송됩니다.</p>

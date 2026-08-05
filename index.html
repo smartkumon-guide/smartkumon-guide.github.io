@@ -111,7 +111,9 @@
   @media(hover:hover){.card:hover{border-color:var(--brand-text);box-shadow:0 8px 24px rgba(224,0,32,.10)}}
   .card .step{font-size:var(--fs-xs);font-weight:800;color:var(--muted);letter-spacing:.12em;display:block;margin-bottom:9px}
   .card .row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
-  .card h3{font-size:var(--fs-xl);font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:var(--brand-text)}
+  /* 제목: 앞 단어(대상)만 레드, 뒤 동사부는 흰색 */
+  .card h3{font-size:var(--fs-xl);font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:var(--ink)}
+  .card h3 em{font-style:normal;color:var(--brand-text)}
   /* 설명문은 한 줄 유지 — 카드 안쪽 폭에 비례해 글자만 줄인다(§7-2 기법).
      계수 21 = 가장 긴 문장의 실측 폭계수 20.30 + 여유 3.5% · 48px = 화살표 칩 34 + gap 14 */
   .card p{font-size:var(--fs-cap);line-height:1.6;color:var(--muted)}
@@ -143,17 +145,17 @@
     <div class="group-head reveal"><span class="group-no">Ⅰ</span><h2>구몬학습 안내</h2></div>
     <a class="card reveal" href="Step01-01.html">
       <span class="step">STEP 01</span>
-      <div class="row"><div><h3>구몬학습 미리보기</h3><p>'누적 학습자 890만명'이 증명한 구몬, 그 비밀은?</p></div>
+      <div class="row"><div><h3><em>구몬학습</em> 미리보기</h3><p>'누적 학습자 890만명'이 증명한 구몬, 그 비밀은?</p></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
     <a class="card reveal" href="Step01-02.html">
       <span class="step">STEP 02</span>
-      <div class="row"><div><h3>상품구성 알아보기</h3><p>화상학습 vs 셀프학습, 나에게 맞는 학습방식은?</p></div>
+      <div class="row"><div><h3><em>상품구성</em> 알아보기</h3><p>화상학습 vs 셀프학습, 나에게 맞는 학습방식은?</p></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
     <a class="card reveal" href="Step01-03.html">
       <span class="step">STEP 03</span>
-      <div class="row"><div><h3>과목구성 알아보기</h3><p>과목별 특장점, 교재 구성, 회비가 궁금하다면?</p></div>
+      <div class="row"><div><h3><em>과목구성</em> 알아보기</h3><p>과목별 특장점, 교재 구성, 회비가 궁금하다면?</p></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
     <!-- STEP 04 학습 체험하기(Step01-04.html): 콘텐츠 준비 중 — 완성 후 활성화 예정(숨김) -->
@@ -161,7 +163,7 @@
     <!--
     <a class="card reveal" href="Step01-04.html">
       <span class="step">STEP 04</span>
-      <div class="row"><div><h3>학습 체험하기</h3><p>실제 수업·풀이 화면·결과 분석까지, 받게 될 화면을 미리 경험.</p></div>
+      <div class="row"><div><h3><em>학습</em> 체험하기</h3><p>실제 수업·풀이 화면·결과 분석까지, 받게 될 화면을 미리 경험.</p></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
     -->
@@ -172,17 +174,17 @@
     <div class="group-head reveal"><span class="group-no">Ⅱ</span><h2>설치 · 학습 방법 안내</h2></div>
     <a class="card reveal" href="Step02-01.html">
       <span class="step">STEP 01</span>
-      <div class="row"><div><h3>스마트구몬 WINGS 학습 준비</h3></div>
+      <div class="row"><div><h3><em>스마트구몬 WINGS</em> 학습 준비</h3></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
     <a class="card reveal" href="Step02-02.html">
       <span class="step">STEP 02</span>
-      <div class="row"><div><h3>스마트구몬 마이러닝 학습 준비</h3></div>
+      <div class="row"><div><h3><em>스마트구몬 마이러닝</em> 학습 준비</h3></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
     <a class="card reveal" href="Step02-03.html">
       <span class="step">STEP 03</span>
-      <div class="row"><div><h3>스마일(성인)화상 학습 준비</h3></div>
+      <div class="row"><div><h3><em>스마일(성인)화상</em> 학습 준비</h3></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
   </div>
