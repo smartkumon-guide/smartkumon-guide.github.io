@@ -4,15 +4,15 @@
 <title>학습 체험하기 · STEP 04</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <!-- ===== Google Analytics 4 (GA4) ==========================================
-     ① 측정 ID는 아래 GA_ID 한 줄만 실제 ID(G-…)로 바꾸면 됩니다. 8개 HTML 동일.
-        자리표시자(G-XXXXXXXXXX)인 동안에는 gtag 원격 스크립트를 불러오지 않고
-        dataLayer에만 쌓으므로, ID 없이도 이벤트 발화를 로컬에서 확인할 수 있습니다.
+     ① 측정 ID는 아래 GA_ID 한 줄뿐입니다(8개 HTML 동일). 2026-08-05 실제 ID 반영 완료.
+        속성 = GA4 계정 'kumon-preconsult' 안의 '구몬 화상학습 고객여정 안내'.
+        (자리표시자 G-XXXX… 상태에서는 원격 gtag를 로드하지 않는 안전장치는 그대로 있음)
      ② 이 블록은 8개 페이지에 100% 동일합니다(페이지 이름은 URL에서 자동 판별).
      ③ 튜토리얼은 iframe이라 자식→부모 postMessage로 이벤트를 넘겨받습니다.
      설계·이벤트 표·UTM 목록은 docs/ANALYTICS.md 참고.                      -->
 <script>
 (function(){
-  var GA_ID = 'G-XXXXXXXXXX';                       /* ← 실제 측정 ID로 교체 */
+  var GA_ID = 'G-57L4Q7E6KL';                       /* GA4 측정 ID (수정 시 8개 파일 모두) */
   var PAGE  = (location.pathname.split('/').pop() || 'index').replace(/\.html$/,'') || 'index';
 
   window.dataLayer = window.dataLayer || [];
