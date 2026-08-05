@@ -337,14 +337,18 @@
     var vv=window.visualViewport, lastW=-1, minH=Infinity;
     // 세 값 중 가장 작은 것을 쓴다 — 카카오/네이버 인앱 브라우저는 innerHeight가
     // 하단 툴바에 가려지는 영역까지 포함해, 그대로 믿으면 튜토리얼 아래가 잘린다.
+    // ⚠️ 핀치 줌(확대) 시 visualViewport.height는 배율만큼 작아진다. 그대로 쓰면
+    //    '확대 → 튜토리얼이 작아지고, 축소해도 안 돌아오는' 버그가 난다(단조 감소라서).
+    //    → scale을 곱해 되돌려 확대/축소에 값이 흔들리지 않게 한다.
     function read(){
-      var c=[];
-      if(vv&&vv.height) c.push(vv.height);
+      var c=[], sc=(vv&&vv.scale)||1;
+      if(vv&&vv.height) c.push(vv.height*sc);
       if(window.innerHeight) c.push(window.innerHeight);
       if(document.documentElement.clientHeight) c.push(document.documentElement.clientHeight);
       return c.length?Math.round(Math.min.apply(null,c)):0;
     }
     function setVH(reset){
+      if(!reset && vv && vv.scale > 1.02) return;   // 확대 중에는 아예 건드리지 않는다
       var w=window.innerWidth;
       if(reset || w!==lastW){ lastW=w; minH=Infinity; }   // 가로폭이 바뀐 경우(회전)에만 다시 잰다
       var h=read();
