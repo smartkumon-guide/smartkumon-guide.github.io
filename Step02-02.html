@@ -130,8 +130,14 @@
      이제 트랙(--sky)보다 밝은 면 + 테두리로 버튼 두 개가 각각 떠 보이게 한다.
      background:transparent 로 되돌리지 말 것. */
   .ostoggle{display:flex;gap:8px;background:var(--sky);border-radius:12px;padding:5px;margin-bottom:14px}
-  .ob{flex:1;border:1px solid #828B9D;background:#626B7E;font-family:inherit;font-size:var(--fs-sm);font-weight:800;color:var(--ink);padding:10px 6px;min-height:44px;border-radius:9px;cursor:pointer;transition:all .15s;line-height:1.35;box-shadow:0 2px 5px rgba(0,0,0,.3)}
+  .ob{flex:1;border:1px solid #828B9D;background:#626B7E;font-family:inherit;font-size:var(--fs-sm);font-weight:800;color:var(--ink);padding:10px 6px;min-height:44px;border-radius:9px;cursor:pointer;transition:all .28s cubic-bezier(.22,.7,.3,1);line-height:1.35;box-shadow:0 2px 5px rgba(0,0,0,.3)}
   .ob:active{transform:translateY(1px);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+  /* 선택 결과는 '서서히' 나타나게(2026-08-06) — 즉시 튀어나오면 무엇이 바뀌었는지 알아채기 어렵다는 피드백.
+     JS 가 클릭할 때마다 .anim-in 을 뗐다 붙여 다시 재생시킨다(다른 쪽을 골랐을 때도 바뀐 걸 알 수 있게). */
+  @keyframes revealUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .anim-in{animation:revealUp .5s cubic-bezier(.22,.7,.3,1) both}
+  .anim-in.d1{animation-delay:.13s}
+  @media(prefers-reduced-motion:reduce){.anim-in{animation:none}}
   .ob.on{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 3px 10px rgba(224,0,32,.38)}
   /* ===== 선택 전에는 결과를 감춘다 (회원가입 연령 / 앱 설치 OS 공통) =====
      ⚠️ 어느 쪽도 기본 선택을 두지 않는다 — 연령은 잘못 가입하면 비용이 크고(중·고등 타깃),
@@ -397,6 +403,9 @@
       if(NAMES[app]){const h=card&&card.querySelector('.abh');if(h)h.textContent=NAMES[app][os];}
     });
   }
+  /* 클릭할 때마다 등장 애니메이션을 다시 재생 — 클래스를 뗀 뒤 강제 리플로우(offsetWidth)를 거쳐야 다시 걸린다 */
+  const replay=(el,delayed)=>{if(!el)return;el.classList.remove('anim-in','d1');void el.offsetWidth;
+    el.classList.add('anim-in');if(delayed)el.classList.add('d1');};
   document.querySelectorAll('.appinstall').forEach(box=>{
     /* 기본 선택 없음 — 눌러야 .picked 가 붙어 앱·QR이 나타난다(회원가입 연령 분기와 같은 규칙) */
     box.querySelectorAll('.ob').forEach(b=>b.addEventListener('click',()=>{
@@ -406,6 +415,9 @@
       box.classList.toggle('os-aos',os==='aos');
       applyOS(box,os);
       box.classList.add('picked');
+      replay(box.querySelector('.appbox'));
+      replay(box.querySelector('.appgrid'),!!box.querySelector('.appbox'));
+      replay(box.querySelector('.appgrid2'));
     }));
   });
   // 회원가입 연령 분기 — 성인/미성년자 가입 주소가 다르다. 기본 선택을 두지 않고,
@@ -421,6 +433,7 @@
       const a=box.querySelector('.lbtn');if(a)a.href=S.url;
       const q=box.querySelector('.qr .qrimg');if(q){q.src=S.qr;q.alt=S.label+' 회원가입 QR 코드';}
       box.classList.add('picked');
+      replay(a); replay(box.querySelector('.qr'),true);
     }));
   });
   // 자학자습 아코디언: 하나만 열리도록 + 연 항목으로 자동 스크롤(점프 방지 보정 포함)
