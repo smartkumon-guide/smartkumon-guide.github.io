@@ -117,8 +117,10 @@
   .sdesc.oneline{font-size:clamp(10px,calc(100cqw / 21.8),var(--fs-cap))}      /* 1줄 */
   .sdesc.twoline{font-size:clamp(10px,calc(100cqw / 23.9),var(--fs-cap))}         /* 2줄 */
   /* link button + qr */
-  /* 폭 상한 268px — 카드 폭을 꽉 채우면 버튼이 커 보인다는 피드백(2026-08-06). 좁은 화면에선 100%로 자연 축소 */
-  .lbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;max-width:268px;background:var(--brand);color:#fff;text-decoration:none;border-radius:12px;padding:14px;font-size:var(--fs-body);font-weight:800;margin:0 auto 14px}
+  /* 폭은 세그먼트 토글 '버튼 바깥선'에 맞춤 — 성인 박스 왼쪽 끝 ~ 미성년자 박스 오른쪽 끝.
+     10px = 토글 트랙(.ostoggle) 좌우 패딩 5px×2. 아래 앱 영역도 같은 폭이라 세 요소가 정확히 정렬된다.
+     ⚠️ 이보다 좁히면 "너무 작다"는 피드백을 받았음(2026-08-06). 고정 px 상한으로 되돌리지 말 것 */
+  .lbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 10px);background:var(--brand);color:#fff;text-decoration:none;border-radius:12px;padding:14px;font-size:var(--fs-body);font-weight:800;margin:0 auto 14px}
   .qr{display:flex;flex-direction:column;align-items:center;gap:8px}
   .qrbox{width:118px;height:118px;border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;background:#fff;padding:7px}
   .qrimg{width:100%;height:100%;display:block;object-fit:contain}
@@ -168,8 +170,7 @@
   .infonote .li::before{content:"· "}
   .infonote .li+.li{margin-top:7px}
   /* === 앱 설치 (이미지+QR+컬러 헤더) === */
-  /* 폭 상한 272px — 대표앱 박스가 커 보인다는 피드백(2026-08-06). 아래 보조앱 3열은 그대로 카드 폭을 씀 */
-  .appbox{background:#333944;border:1px solid var(--line);border-radius:14px;overflow:hidden;max-width:272px;margin:0 auto 10px}
+  .appbox{background:#333944;border:1px solid var(--line);border-radius:14px;overflow:hidden;width:calc(100% - 10px);margin:0 auto 10px}
   .abh{font-size:var(--fs-body);font-weight:800;color:#fff;text-align:center;padding:10px}
   .abh.main{background:#7E5BD1}.abh.uni{background:#8DC044;color:#16240A}.abh.lib{background:#F178AC;color:#2E0A1A}.abh.gyo{background:#F8D5FF;color:#4A1060}
   /* 아이콘+QR을 한 행에 가운데, 설명은 그 아래 전체폭 가운데 정렬 */
@@ -180,8 +181,7 @@
   .abdesc{flex:1 0 100%;min-width:0;text-align:center;container-type:inline-size;font-size:var(--fs-body);font-size:clamp(11px,calc(100cqw / 13.6),var(--fs-body));color:var(--muted);line-height:1.55}
   .abdesc b{color:var(--ink);font-weight:800}
   /* 보조앱 카드: 3개를 항상 한 행에(3열 고정). 카드가 좁으므로 글씨는 한 단계 작게 */
-  /* 대표앱 박스(272px)와 같은 폭으로 맞춰 앱 영역이 한 덩어리로 보이게 함(2026-08-06 폭 조정) */
-  .appgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:272px;margin:0 auto}
+  .appgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:calc(100% - 10px);margin:0 auto}
   .appcard{background:#333944;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:12px;container-type:inline-size}
   /* 헤더가 1줄/2줄이어도 카드끼리 높이가 어긋나지 않도록 2줄분 높이를 항상 확보 */
   .appcard .abh{width:100%;font-size:var(--fs-xs);padding:6px 4px;display:flex;align-items:center;justify-content:center;min-height:calc(var(--fs-xs) * 2.5 + 12px);line-height:1.25;word-break:keep-all}
@@ -257,7 +257,7 @@
         <div class="ostoggle"><button class="ob ab" data-age="adult">성인<br>(만 18세 이상)</button><button class="ob ab" data-age="minor">미성년자<br>(만 18세 미만)</button></div>
         <p class="pickmsg">선택하시면 가입 버튼과 QR 코드가 나옵니다.</p>
         <a class="lbtn" href="#" target="_blank" rel="noopener">회원가입 바로가기<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <div class="qr"><div class="qrbox"><img class="qrimg" src="img/qr-signup.svg" alt="회원가입 QR 코드" loading="lazy"></div><div class="qc">QR 코드로도 가입할 수 있어요</div></div>
+        <div class="qr"><div class="qrbox"><img class="qrimg" src="img/qr-signup.svg" alt="회원가입 QR 코드" loading="lazy"></div></div>
       </div>
     </div>
 
@@ -412,7 +412,7 @@
   // 선택해야 버튼(href)과 QR이 채워진다(.picked). 되돌려서 기본값을 두지 말 것.
   const SIGNUP={
     adult:{url:'https://membership.allng.com/openapi/membership/signup/terms.html?signType=new&certUIType=SELF&loginUserInfo=&userJoinPath=&serviceNo=kumon_talk',qr:'img/qr-signup.svg',label:'성인'},
-    minor:{url:'https://membership.allng.com/openapi/membership/childSignup/childTerms.html',qr:'img/qr-signup-minor.svg',label:'미성년자'}
+    minor:{url:'https://membership.allng.com/openapi/membership/childSignup/childTerms.html?signType=new&certUIType=SELF&loginUserInfo=&userJoinPath=&serviceNo=kumon_talk',qr:'img/qr-signup-minor.svg',label:'미성년자'}
   };
   document.querySelectorAll('.signup').forEach(box=>{
     box.querySelectorAll('.ab[data-age]').forEach(b=>b.addEventListener('click',()=>{
