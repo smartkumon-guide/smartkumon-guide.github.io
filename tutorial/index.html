@@ -110,7 +110,8 @@
             <div style="position:relative; width:80%; max-width:300px; margin-top:6%;">
               <div style="background:#3a2e5c; padding:4px; box-shadow:5px 5px 0 rgba(58,46,92,.25); clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
                 <div style="background:#fff; padding:12px 14px; clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
-                  <div style="font-family:'Galmuri11',monospace; font-weight:700; font-size:clamp(14px,4.8cqw,28px); line-height:1.5; color:#3a2e5c; letter-spacing:-.5px; text-align:center; word-break:keep-all;">이제 학습준비 완료!</div>
+                  <div style="font-family:'Galmuri11',monospace; font-weight:400; font-size:clamp(11px,3.6cqw,20px); line-height:1.6; color:#3a2e5c; letter-spacing:-.5px; text-align:center; word-break:keep-all;">꼼꼼하게 개념을 완성해주는<br>구몬만의 완전학습 시스템,<br>실력이 늘 수 밖에 없겠죠?</div>
+                  <div style="font-family:'Galmuri11',monospace; font-weight:700; font-size:clamp(15px,5.2cqw,27px); line-height:1.5; color:#3a2e5c; letter-spacing:-.5px; text-align:center; word-break:keep-all; margin-top:1em;">이제 학습 준비 완료!</div>
                 </div>
               </div>
               <div style="position:absolute; bottom:-10px; left:50%; margin-left:-8px; width:15px; height:15px; background:#fff; border-right:4px solid #3a2e5c; border-bottom:4px solid #3a2e5c; transform:rotate(45deg);"></div>
@@ -266,12 +267,7 @@ class Component extends DCLogic {
         boxes: [{ l: 57.5, t: 23.6, w: 15.3, h: 16.4, r: '10px' }], next: 'step16' },
       { id: 'step18', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 16, pos: 'top',
         bubble: '다시 제출하면, [b]오답 제출로 변경[/b]됩니다.\n선생님이 [b]고친 문제를 확인[/b]해줄 거에요.',
-        boxes: [{ l: 76.2, t: 71.3, w: 22, h: 17.3, r: '10px' }], fingerAnim: 'sgn-rotV', fingerAt: { l: 86.65, t: 79.25 }, fingerMargin: '7px 0 0 -24px', next: 'step18b' },
-      // 같은 화면에서 손가락·강조박스만 사라지고 마무리 멘트만 남는다(2026-08-06 · 한 말풍선이 너무 길어 분리).
-      // bubbleAt 은 step18 이 자동 계산으로 잡던 위치(bottom:30.7%)와 같은 값 — 말풍선이 제자리에 머물러야 자연스럽다.
-      { id: 'step18b', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 17, pos: 'top', noFinger: true, bubbleAt: 'bottom:30.7%',
-        bubble: '꼼꼼하게 개념을 완성해주는\n[r]구몬만의 완전학습[/r] 시스템,\n실력이 늘 수 밖에 없겠죠?',
-        boxes: [], next: 'end' },
+        boxes: [{ l: 76.2, t: 71.3, w: 22, h: 17.3, r: '10px' }], fingerAnim: 'sgn-rotV', fingerAt: { l: 86.65, t: 79.25 }, fingerMargin: '7px 0 0 -24px', next: 'end' },
       { id: 'end', type: 'end', aw: 1619, ah: 2600 },
     ];
   }
