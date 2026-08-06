@@ -38,6 +38,8 @@
                                            os: (box && box.classList.contains('os-ios')) ? 'ios' : 'aos' }); }
     var ob = t.closest('.ob[data-os]');                            /* AOS/iOS 토글 */
     if (ob) return ev('os_toggle', { os: ob.getAttribute('data-os') });
+    var ag = t.closest('.ab[data-age]');                           /* 회원가입 연령 토글 */
+    if (ag) return ev('signup_age', { age: ag.getAttribute('data-age') });
     var sj = t.closest('a.subj');                                  /* 과목 카드(Step01-03) */
     if (sj) return ev('subject_click', { subject: txt(sj.querySelector('.subj-nm')),
                                          linked: !!sj.getAttribute('href') });
@@ -106,19 +108,33 @@
   .group-head{display:flex;align-items:center;gap:10px;padding:22px 4px 16px}
   .group-no{font-size:var(--fs-sm);font-weight:900;color:#fff;background:var(--brand);width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center}
   .group-head h2{font-size:var(--fs-lg);font-weight:800;letter-spacing:-.02em}
-  .card{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:12px;transition:transform .15s,border-color .15s,box-shadow .15s;container-type:inline-size}
+  /* 카드 높이는 Ⅰ·Ⅱ 그룹 전부 동일(min-height 96px) — Ⅰ은 설명문이 한 줄 더 있어 자연 높이가
+     달랐음(390px 실측 Ⅰ124.8 / Ⅱ106). 여백·행간을 줄여 Ⅰ을 96에 맞추고, 낮은 Ⅱ는 min-height로 채운다.
+     결과: 구 Ⅱ 대비 약 8.5% 축소, 전 폭(320~430)에서 6장 모두 같은 높이. 되돌리지 말 것. */
+  .card{display:flex;flex-direction:column;justify-content:center;min-height:97px;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 16px;margin-bottom:12px;transition:transform .15s,border-color .15s,box-shadow .15s;container-type:inline-size}
   .card:active{transform:scale(.985)}
   @media(hover:hover){.card:hover{border-color:var(--brand-text);box-shadow:0 8px 24px rgba(224,0,32,.10)}}
-  .card .step{font-size:var(--fs-xs);font-weight:800;color:var(--muted);letter-spacing:.12em;display:block;margin-bottom:9px}
+  .card .step{font-size:var(--fs-xs);font-weight:800;color:var(--muted);letter-spacing:.12em;display:block;margin-bottom:4px;line-height:1.25}
   .card .row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
   /* 제목: 앞 단어(대상)만 레드, 뒤 동사부는 흰색 */
-  .card h3{font-size:var(--fs-xl);font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:var(--ink)}
+  /* 제목도 한 줄 고정 — 계수 12.85 = 가장 긴 '스마트구몬 마이러닝 학습 준비' 실측 12.48 + 여유 3%.
+     Ⅰ·Ⅱ 같은 계수를 써서 두 그룹의 제목 크기가 항상 같게 한다(문구를 고치면 다시 측정할 것). */
+  .card h3{font-size:var(--fs-xl);font-size:clamp(13px, calc((100cqw - 48px)/12.85), var(--fs-xl));font-weight:800;letter-spacing:-.02em;line-height:1.28;margin-bottom:4px;color:var(--ink)}
+  .card h3:last-child{margin-bottom:0}
   .card h3 em{font-style:normal;color:var(--brand-text)}
   /* 설명문은 한 줄 유지 — 카드 안쪽 폭에 비례해 글자만 줄인다(§7-2 기법).
-     계수 21 = 가장 긴 문장의 실측 폭계수 20.30 + 여유 3.5% · 48px = 화살표 칩 34 + gap 14 */
-  .card p{font-size:var(--fs-cap);line-height:1.6;color:var(--muted)}
-  .card p{font-size:clamp(10px, calc((100cqw - 48px)/21), var(--fs-cap))}
+     계수 21 = 가장 긴 문장의 실측 폭계수 20.30 + 여유 3.5% · 48px = 화살표 칩 34 + gap 14
+     하한 9px = 320px에서도 한 줄을 유지하기 위한 값(카드 높이 통일 조건). 10px로 올리면 320px에서 2줄이 됨 */
+  .card p{font-size:var(--fs-cap);line-height:1.4;color:var(--muted)}
+  .card p{font-size:clamp(9px, calc((100cqw - 48px)/21), var(--fs-cap))}
   .card .go{flex-shrink:0;width:34px;height:34px;border-radius:10px;background:#333944;color:var(--brand-text);display:flex;align-items:center;justify-content:center;margin-top:2px}
+  /* ===== Ⅰ(계약 전 정보) / Ⅱ(계약 후 실행) 영역 구분 =====
+     행동 영역이 다르다는 것을 ①구분선 ②카드 명도 차이(1.17배)로 보여준다.
+     ⚠️ Ⅱ 카드가 밝아지면 --brand-text(#FF6675)가 4.28:1로 AA 미달이라, 그룹 안에서만
+     한 단계 밝은 레드로 재정의한다(4.60:1). 카드 색을 또 바꾸면 이 값을 다시 계산할 것. */
+  .sep{height:1px;margin:22px 24px 2px;background:linear-gradient(90deg,transparent,var(--line) 15%,var(--line) 85%,transparent)}
+  .group.g2 .card{background:#2F3644;border-color:#454D5C;--brand-text:#FF7280}
+  .group.g2 .card .go{background:#3D4553}
   .ftr{margin-top:40px;padding:28px 24px 40px;background:var(--sky);border-top:1px solid var(--line)}
   .ftr .cs{font-size:var(--fs-cap);color:var(--muted);margin-bottom:14px}
   .ftr .cs b{font-size:var(--fs-2xl);font-weight:900;color:var(--brand-text);letter-spacing:-.02em}
@@ -170,7 +186,9 @@
 
   </div>
 
-  <div class="group">
+  <div class="sep" aria-hidden="true"></div>
+
+  <div class="group g2">
     <div class="group-head reveal"><span class="group-no">Ⅱ</span><h2>설치 · 학습 방법 안내</h2></div>
     <a class="card reveal" href="Step02-01.html">
       <span class="step">STEP 01</span>

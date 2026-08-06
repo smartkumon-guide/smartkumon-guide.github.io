@@ -38,6 +38,8 @@
                                            os: (box && box.classList.contains('os-ios')) ? 'ios' : 'aos' }); }
     var ob = t.closest('.ob[data-os]');                            /* AOS/iOS 토글 */
     if (ob) return ev('os_toggle', { os: ob.getAttribute('data-os') });
+    var ag = t.closest('.ab[data-age]');                           /* 회원가입 연령 토글 */
+    if (ag) return ev('signup_age', { age: ag.getAttribute('data-age') });
     var sj = t.closest('a.subj');                                  /* 과목 카드(Step01-03) */
     if (sj) return ev('subject_click', { subject: txt(sj.querySelector('.subj-nm')),
                                          linked: !!sj.getAttribute('href') });
@@ -112,16 +114,40 @@
   .st{font-size:var(--fs-lg);font-weight:800;letter-spacing:-.02em}
   /* 7번: 박스가 없는 중간 설명은 가운데 정렬 (박스형 .csnote/.tip/.alert 는 좌측 유지) */
   .sdesc{font-size:var(--fs-cap);color:var(--muted);line-height:1.6;margin-bottom:14px;text-align:center}
+  .sdesc b{color:var(--ink);font-weight:800}
+  /* 지정 줄 수 고정(§7-2) — 계수는 실측값. 문구를 고치면 다시 측정할 것. */
+  .sdesc.oneline{font-size:clamp(10px,calc(100cqw / 21.8),var(--fs-cap))}      /* 1줄 */
+  .sdesc.twoline{font-size:clamp(10px,calc(100cqw / 23.9),var(--fs-cap))}         /* 2줄 */
   /* link button + qr */
-  .lbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--brand);color:#fff;text-decoration:none;border-radius:12px;padding:14px;font-size:var(--fs-body);font-weight:800;margin-bottom:14px}
+  /* 폭 상한 268px — 카드 폭을 꽉 채우면 버튼이 커 보인다는 피드백(2026-08-06). 좁은 화면에선 100%로 자연 축소 */
+  .lbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;max-width:268px;background:var(--brand);color:#fff;text-decoration:none;border-radius:12px;padding:14px;font-size:var(--fs-body);font-weight:800;margin:0 auto 14px}
   .qr{display:flex;flex-direction:column;align-items:center;gap:8px}
   .qrbox{width:118px;height:118px;border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;background:#fff;padding:7px}
   .qrimg{width:100%;height:100%;display:block;object-fit:contain}
   .qr .qc{font-size:var(--fs-sm);color:var(--muted)}
-  /* os toggle */
-  .ostoggle{display:flex;gap:6px;background:var(--sky);border-radius:11px;padding:4px;margin-bottom:14px}
-  .ob{flex:1;border:none;background:transparent;font-family:inherit;font-size:var(--fs-sm);font-weight:800;color:var(--muted);padding:10px 6px;min-height:44px;border-radius:8px;cursor:pointer;transition:all .15s}
-  .ob.on{background:var(--brand);color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+  /* ===== 세그먼트 토글(연령·OS 공통) =====
+     ⚠️ 구버전은 버튼이 투명(배경=트랙)이라 '어두운 바 하나'로 보여 눌러야 할 것이 안 보였음(사용자 지적).
+     이제 트랙(--sky)보다 밝은 면 + 테두리로 버튼 두 개가 각각 떠 보이게 한다.
+     background:transparent 로 되돌리지 말 것. */
+  .ostoggle{display:flex;gap:8px;background:var(--sky);border-radius:12px;padding:5px;margin-bottom:14px}
+  .ob{flex:1;border:1px solid #828B9D;background:#626B7E;font-family:inherit;font-size:var(--fs-sm);font-weight:800;color:var(--ink);padding:10px 6px;min-height:44px;border-radius:9px;cursor:pointer;transition:all .15s;line-height:1.35;box-shadow:0 2px 5px rgba(0,0,0,.3)}
+  .ob:active{transform:translateY(1px);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+  .ob.on{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 3px 10px rgba(224,0,32,.38)}
+  /* ===== 선택 전에는 결과를 감춘다 (회원가입 연령 / 앱 설치 OS 공통) =====
+     ⚠️ 어느 쪽도 기본 선택을 두지 않는다 — 연령은 잘못 가입하면 비용이 크고(중·고등 타깃),
+     OS는 기본값이 있으면 '이미 내 기기에 맞다'고 오해한 채 다른 스토어로 감.
+     선택해야 .picked 가 붙어 결과가 나타난다. 기본 선택을 되살리지 말 것. */
+  .signup .lbtn,.signup .qr{display:none}
+  .signup.picked .lbtn{display:flex}
+  .signup.picked .qr{display:flex}
+  .appinstall .appbox,.appinstall .appgrid{display:none}
+  .appinstall.picked .appbox{display:block}
+  .appinstall.picked .appgrid{display:grid}
+  .picked .pickmsg{display:none}
+  .pickmsg{display:flex;align-items:center;justify-content:center;min-height:51px;margin:0 0 14px;padding:12px;border:1px dashed var(--line);border-radius:12px;background:var(--sky);color:var(--muted);line-height:1.5;text-align:center}
+  /* 1줄 고정 — 여백 26 = 좌우 패딩 24 + 테두리 2 */
+  .signup .pickmsg{font-size:clamp(9.5px,calc((100cqw - 26px) / 19.4),var(--fs-cap))}
+  .appinstall .pickmsg{font-size:clamp(8.5px,calc((100cqw - 26px) / 24.5),var(--fs-cap))}
   /* screen placeholder */
   .vimg{display:block;width:100%;max-width:260px;height:auto;margin:0 auto 14px;border-radius:14px;border:1px solid var(--line)}
   .alert + .vimg{margin-top:16px}   /* 경고 박스와 회원인증 캡처가 붙어 보이던 것 보정 */
@@ -144,9 +170,10 @@
   .infonote .li::before{content:"· "}
   .infonote .li+.li{margin-top:7px}
   /* === 앱 설치 (이미지+QR+컬러 헤더) === */
-  .appbox{background:#333944;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:10px}
+  /* 폭 상한 272px — 대표앱 박스가 커 보인다는 피드백(2026-08-06). 아래 보조앱 3열은 그대로 카드 폭을 씀 */
+  .appbox{background:#333944;border:1px solid var(--line);border-radius:14px;overflow:hidden;max-width:272px;margin:0 auto 10px}
   .abh{font-size:var(--fs-body);font-weight:800;color:#fff;text-align:center;padding:10px}
-  .abh.main{background:#7E5BD1}.abh.uni{background:#8DC044;color:#16240A}.abh.lib{background:#F178AC;color:#2E0A1A}.abh.gyo{background:#9A7AE0;color:#18102A}
+  .abh.main{background:#7E5BD1}.abh.uni{background:#8DC044;color:#16240A}.abh.lib{background:#F178AC;color:#2E0A1A}.abh.gyo{background:#F8D5FF;color:#4A1060}
   /* 아이콘+QR을 한 행에 가운데, 설명은 그 아래 전체폭 가운데 정렬 */
   .abbody{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;padding:16px}
   .abimg{display:block;line-height:0}
@@ -155,7 +182,8 @@
   .abdesc{flex:1 0 100%;min-width:0;text-align:center;container-type:inline-size;font-size:var(--fs-body);font-size:clamp(11px,calc(100cqw / 13.6),var(--fs-body));color:var(--muted);line-height:1.55}
   .abdesc b{color:var(--ink);font-weight:800}
   /* 보조앱 카드: 3개를 항상 한 행에(3열 고정). 카드가 좁으므로 글씨는 한 단계 작게 */
-  .appgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  /* 대표앱 박스(272px)와 같은 폭으로 맞춰 앱 영역이 한 덩어리로 보이게 함(2026-08-06 폭 조정) */
+  .appgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:272px;margin:0 auto}
   .appcard{background:#333944;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:12px;container-type:inline-size}
   /* 헤더가 1줄/2줄이어도 카드끼리 높이가 어긋나지 않도록 2줄분 높이를 항상 확보 */
   .appcard .abh{width:100%;font-size:var(--fs-xs);padding:6px 4px;display:flex;align-items:center;justify-content:center;min-height:calc(var(--fs-xs) * 2.5 + 12px);line-height:1.25;word-break:keep-all}
@@ -244,16 +272,21 @@
 
     <div class="pstep">
       <div class="sh"><span class="sn">1</span><span class="st">회원가입 안내</span></div>
-      <p class="sdesc">아래 버튼 또는 QR 코드로 회원가입을 진행해 주세요.</p>
-      <a class="lbtn" href="https://membership.allng.com/openapi/membership/signup/terms.html?signType=new&amp;certUIType=SELF&amp;loginUserInfo=&amp;userJoinPath=&amp;serviceNo=kumon_talk" target="_blank" rel="noopener">회원가입 바로가기<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <div class="qr"><div class="qrbox"><img class="qrimg" src="img/qr-signup.svg" alt="회원가입 QR 코드" loading="lazy"></div><div class="qc">QR 코드로도 가입할 수 있어요</div></div>
+      <p class="sdesc oneline">학습자 연령을 선택하고, 회원가입을 진행해주세요.</p>
+      <div class="signup">
+        <div class="ostoggle"><button class="ob ab" data-age="adult">성인<br>(만 18세 이상)</button><button class="ob ab" data-age="minor">미성년자<br>(만 18세 미만)</button></div>
+        <p class="pickmsg">선택하시면 가입 버튼과 QR 코드가 나옵니다.</p>
+        <a class="lbtn" href="#" target="_blank" rel="noopener">회원가입 바로가기<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <div class="qr"><div class="qrbox"><img class="qrimg" src="img/qr-signup.svg" alt="회원가입 QR 코드" loading="lazy"></div><div class="qc">QR 코드로도 가입할 수 있어요</div></div>
+      </div>
     </div>
 
     <div class="pstep">
       <div class="sh"><span class="sn">2</span><span class="st">앱 설치</span></div>
-      <p class="sdesc">사용하는 기기를 선택하고, 앱 이미지를 누르거나 QR 코드를 스캔해 설치해 주세요.</p>
-      <div class="appinstall os-aos">
-        <div class="ostoggle"><button class="ob on" data-os="aos">Play 스토어<br>(안드로이드)</button><button class="ob" data-os="ios">앱 스토어<br>(iOS)</button></div>
+      <p class="sdesc twoline">사용할 기기에 맞는 앱을 선택하고,<br><b>앱 이미지</b>를 누르거나 <b>QR 코드</b>를 스캔해 설치해 주세요.</p>
+      <div class="appinstall">
+        <div class="ostoggle"><button class="ob" data-os="aos">Play 스토어<br>(안드로이드)</button><button class="ob" data-os="ios">앱 스토어<br>(iOS)</button></div>
+        <p class="pickmsg">선택하시면 기기에 맞는 앱 이미지와 QR코드가 나옵니다.</p>
         <div class="appbox">
           <div class="abh main">스마트구몬N 학습</div>
           <div class="abbody">
@@ -398,13 +431,29 @@
     });
   }
   document.querySelectorAll('.appinstall').forEach(box=>{
-    applyOS(box,'aos');
+    /* 기본 선택 없음 — 눌러야 .picked 가 붙어 앱·QR이 나타난다(회원가입 연령 분기와 같은 규칙) */
     box.querySelectorAll('.ob').forEach(b=>b.addEventListener('click',()=>{
       box.querySelectorAll('.ob').forEach(x=>x.classList.remove('on'));b.classList.add('on');
       const os=b.dataset.os;
       box.classList.toggle('os-ios',os==='ios');
       box.classList.toggle('os-aos',os==='aos');
       applyOS(box,os);
+      box.classList.add('picked');
+    }));
+  });
+  // 회원가입 연령 분기 — 성인/미성년자 가입 주소가 다르다. 기본 선택을 두지 않고,
+  // 선택해야 버튼(href)과 QR이 채워진다(.picked). 되돌려서 기본값을 두지 말 것.
+  const SIGNUP={
+    adult:{url:'https://membership.allng.com/openapi/membership/signup/terms.html?signType=new&certUIType=SELF&loginUserInfo=&userJoinPath=&serviceNo=kumon_talk',qr:'img/qr-signup.svg',label:'성인'},
+    minor:{url:'https://membership.allng.com/openapi/membership/childSignup/childTerms.html',qr:'img/qr-signup-minor.svg',label:'미성년자'}
+  };
+  document.querySelectorAll('.signup').forEach(box=>{
+    box.querySelectorAll('.ab[data-age]').forEach(b=>b.addEventListener('click',()=>{
+      const S=SIGNUP[b.dataset.age];if(!S)return;
+      box.querySelectorAll('.ab').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+      const a=box.querySelector('.lbtn');if(a)a.href=S.url;
+      const q=box.querySelector('.qr .qrimg');if(q){q.src=S.qr;q.alt=S.label+' 회원가입 QR 코드';}
+      box.classList.add('picked');
     }));
   });
   // 자학자습 아코디언: 하나만 열리도록 + 연 항목으로 자동 스크롤(점프 방지 보정 포함)

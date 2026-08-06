@@ -38,6 +38,8 @@
                                            os: (box && box.classList.contains('os-ios')) ? 'ios' : 'aos' }); }
     var ob = t.closest('.ob[data-os]');                            /* AOS/iOS 토글 */
     if (ob) return ev('os_toggle', { os: ob.getAttribute('data-os') });
+    var ag = t.closest('.ab[data-age]');                           /* 회원가입 연령 토글 */
+    if (ag) return ev('signup_age', { age: ag.getAttribute('data-age') });
     var sj = t.closest('a.subj');                                  /* 과목 카드(Step01-03) */
     if (sj) return ev('subject_click', { subject: txt(sj.querySelector('.subj-nm')),
                                          linked: !!sj.getAttribute('href') });
@@ -110,16 +112,33 @@
   .st{font-size:var(--fs-lg);font-weight:800;letter-spacing:-.02em}
   /* 7번: 박스가 없는 중간 설명은 가운데 정렬 (박스형 .csnote/.tip/.alert 는 좌측 유지) */
   .sdesc{font-size:var(--fs-cap);color:var(--muted);line-height:1.6;margin-bottom:14px;text-align:center}
+  .sdesc b{color:var(--ink);font-weight:800}
+  /* 지정 줄 수 고정(§7-2) — 계수는 실측값. 문구를 고치면 다시 측정할 것. */
+  .sdesc.twoline{font-size:clamp(10px,calc(100cqw / 23.9),var(--fs-cap))}         /* 2줄 */
   /* link button + qr */
-  .lbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--brand);color:#fff;text-decoration:none;border-radius:12px;padding:14px;font-size:var(--fs-body);font-weight:800;margin-bottom:14px}
+  /* 폭 상한 268px — 카드 폭을 꽉 채우면 버튼이 커 보인다는 피드백(2026-08-06). 좁은 화면에선 100%로 자연 축소 */
+  .lbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;max-width:268px;background:var(--brand);color:#fff;text-decoration:none;border-radius:12px;padding:14px;font-size:var(--fs-body);font-weight:800;margin:0 auto 14px}
   .qr{display:flex;flex-direction:column;align-items:center;gap:8px}
   .qrbox{width:118px;height:118px;border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;background:#fff;padding:7px}
   .qrimg{width:100%;height:100%;display:block;object-fit:contain}
   .qr .qc{font-size:var(--fs-sm);color:var(--muted)}
   /* os toggle */
-  .ostoggle{display:flex;gap:6px;background:var(--sky);border-radius:11px;padding:4px;margin-bottom:14px}
-  .ob{flex:1;border:none;background:transparent;font-family:inherit;font-size:var(--fs-sm);font-weight:800;color:var(--muted);padding:10px 6px;min-height:44px;border-radius:8px;cursor:pointer;transition:all .15s}
-  .ob.on{background:var(--brand);color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+  /* ===== 세그먼트 토글 =====
+     ⚠️ 구버전은 버튼이 투명(배경=트랙)이라 '어두운 바 하나'로 보여 눌러야 할 것이 안 보였음(사용자 지적).
+     이제 트랙(--sky)보다 밝은 면 + 테두리로 버튼 두 개가 각각 떠 보이게 한다. 3페이지 동일.
+     background:transparent 로 되돌리지 말 것. */
+  .ostoggle{display:flex;gap:8px;background:var(--sky);border-radius:12px;padding:5px;margin-bottom:14px}
+  .ob{flex:1;border:1px solid #828B9D;background:#626B7E;font-family:inherit;font-size:var(--fs-sm);font-weight:800;color:var(--ink);padding:10px 6px;min-height:44px;border-radius:9px;cursor:pointer;transition:all .15s;line-height:1.35;box-shadow:0 2px 5px rgba(0,0,0,.3)}
+  .ob:active{transform:translateY(1px);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+  .ob.on{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 3px 10px rgba(224,0,32,.38)}
+  /* ===== 선택 전에는 결과를 감춘다 (Step02-01·02와 같은 규칙) =====
+     ⚠️ 기본 선택(os-aos)을 두면 '이미 내 기기에 맞다'고 오해한 채 다른 스토어로 감. 되살리지 말 것. */
+  .appinstall .appgrid2{display:none}
+  .appinstall.picked .appgrid2{display:grid}
+  .picked .pickmsg{display:none}
+  .pickmsg{display:flex;align-items:center;justify-content:center;min-height:51px;margin:0 0 14px;padding:12px;border:1px dashed var(--line);border-radius:12px;background:var(--sky);color:var(--muted);line-height:1.5;text-align:center}
+  /* 1줄 고정 — 여백 26 = 좌우 패딩 24 + 테두리 2 */
+  .appinstall .pickmsg{font-size:clamp(8.5px,calc((100cqw - 26px) / 24.5),var(--fs-cap))}
   /* screen placeholder */
   .vimg{display:block;width:100%;max-width:260px;height:auto;margin:0 auto 14px;border-radius:14px;border:1px solid var(--line)}
   .alert + .vimg{margin-top:16px}   /* 경고 박스와 회원인증 캡처가 붙어 보이던 것 보정 */
@@ -147,7 +166,8 @@
   .appcard .abh{width:100%;font-size:var(--fs-sm);padding:7px 5px;display:flex;align-items:center;justify-content:center;min-height:calc(var(--fs-sm) * 2.5 + 14px);line-height:1.25;word-break:keep-all}
   .abdesc.sm{font-size:var(--fs-sm);line-height:1.45;padding:0 8px;flex:1;min-width:0;width:100%;color:var(--muted);word-break:normal}
   .abqr.sm{width:72px;height:72px;margin-top:8px;border-radius:12px;padding:4px}
-  .appgrid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  /* 폭 상한 300px — 앱 영역이 커 보인다는 피드백(2026-08-06). 좁은 화면에선 100%로 자연 축소 */
+  .appgrid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:300px;margin:0 auto}
   .abh.color{background:#F4DE93;color:#3A2E12}
   .abh.client{background:#C2C6CA;color:#33373B}
   .appgrid2 .abimg.sm img{width:74px;height:74px;border-radius:16px;margin:14px auto 8px}
@@ -226,9 +246,10 @@
 
     <div class="pstep">
       <div class="sh"><span class="sn">2</span><span class="st">앱 설치</span></div>
-      <p class="sdesc">사용하는 기기를 선택하고, 앱 이미지를 누르거나 QR 코드를 스캔해 설치해 주세요.</p>
-      <div class="appinstall os-aos">
-        <div class="ostoggle"><button class="ob on" data-os="aos">Play 스토어<br>(안드로이드)</button><button class="ob" data-os="ios">앱 스토어<br>(iOS)</button></div>
+      <p class="sdesc twoline">사용할 기기에 맞는 앱을 선택하고,<br><b>앱 이미지</b>를 누르거나 <b>QR 코드</b>를 스캔해 설치해 주세요.</p>
+      <div class="appinstall">
+        <div class="ostoggle"><button class="ob" data-os="aos">Play 스토어<br>(안드로이드)</button><button class="ob" data-os="ios">앱 스토어<br>(iOS)</button></div>
+        <p class="pickmsg">선택하시면 기기에 맞는 앱 이미지와 QR코드가 나옵니다.</p>
         <div class="appgrid2">
           <div class="appcard">
             <div class="abh color">구몬 화상학습</div>
@@ -343,13 +364,14 @@
     });
   }
   document.querySelectorAll('.appinstall').forEach(box=>{
-    applyOS(box,'aos');
+    /* 기본 선택 없음 — 눌러야 .picked 가 붙어 앱·QR이 나타난다(Step02-01·02와 같은 규칙) */
     box.querySelectorAll('.ob').forEach(b=>b.addEventListener('click',()=>{
       box.querySelectorAll('.ob').forEach(x=>x.classList.remove('on'));b.classList.add('on');
       const os=b.dataset.os;
       box.classList.toggle('os-ios',os==='ios');
       box.classList.toggle('os-aos',os==='aos');
       applyOS(box,os);
+      box.classList.add('picked');
     }));
   });
   // FAQ 아코디언: 하나만 열리도록 + 연 항목으로 자동 스크롤(점프 방지 보정 포함)

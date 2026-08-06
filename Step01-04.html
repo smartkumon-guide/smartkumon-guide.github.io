@@ -38,6 +38,8 @@
                                            os: (box && box.classList.contains('os-ios')) ? 'ios' : 'aos' }); }
     var ob = t.closest('.ob[data-os]');                            /* AOS/iOS 토글 */
     if (ob) return ev('os_toggle', { os: ob.getAttribute('data-os') });
+    var ag = t.closest('.ab[data-age]');                           /* 회원가입 연령 토글 */
+    if (ag) return ev('signup_age', { age: ag.getAttribute('data-age') });
     var sj = t.closest('a.subj');                                  /* 과목 카드(Step01-03) */
     if (sj) return ev('subject_click', { subject: txt(sj.querySelector('.subj-nm')),
                                          linked: !!sj.getAttribute('href') });

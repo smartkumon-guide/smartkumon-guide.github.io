@@ -38,6 +38,8 @@
                                            os: (box && box.classList.contains('os-ios')) ? 'ios' : 'aos' }); }
     var ob = t.closest('.ob[data-os]');                            /* AOS/iOS 토글 */
     if (ob) return ev('os_toggle', { os: ob.getAttribute('data-os') });
+    var ag = t.closest('.ab[data-age]');                           /* 회원가입 연령 토글 */
+    if (ag) return ev('signup_age', { age: ag.getAttribute('data-age') });
     var sj = t.closest('a.subj');                                  /* 과목 카드(Step01-03) */
     if (sj) return ev('subject_click', { subject: txt(sj.querySelector('.subj-nm')),
                                          linked: !!sj.getAttribute('href') });
@@ -108,9 +110,12 @@
   .hero h1 em{font-style:normal;color:var(--brand-text)}
 
   /* 세대 스토리 + 영상 */
-  .story{padding:60px 26px;text-align:center;background:linear-gradient(180deg,var(--sky),var(--surface))}
-  .story .story-lead{font-size:var(--fs-lg);line-height:1.85;color:var(--ink);font-weight:600}
-  .story .story-strong{margin-top:24px;font-size:var(--fs-2xl);line-height:1.55;font-weight:900;letter-spacing:-.02em}
+  .story{padding:60px 26px;text-align:center;background:linear-gradient(180deg,var(--sky),var(--surface));container-type:inline-size}
+  /* 리드 문단은 얇게(300) — 아래 강조문(900)과 굵기 대비를 만들기 위함. 되돌려서 굵게 하지 말 것 */
+  .story .story-lead{font-size:var(--fs-lg);line-height:1.85;color:var(--ink);font-weight:300}
+  /* 강조문 2줄 고정("오래되어서가 아니라," / "시대를 넘어 검증되었기 때문입니다.")
+     계수 15.05 = 둘째 줄 실측 폭계수 + 여유 3% (§7-2). 문구를 고치면 다시 측정할 것 */
+  .story .story-strong{margin-top:24px;font-size:var(--fs-2xl);font-size:clamp(14px,calc(100cqw / 15.05),var(--fs-2xl));line-height:1.55;font-weight:900;letter-spacing:-.02em}
   .story .story-strong em{font-style:normal;color:var(--brand-text)}
   .vid{width:100%;display:block;border-radius:18px;background:#000;aspect-ratio:16/9}
   .story .stats{margin-top:32px}
@@ -119,8 +124,9 @@
   /* 통계 (빨간 테두리 원형 · 가로 3개) */
   .stats{display:flex;gap:9px;justify-content:center;align-items:stretch}
   .stat{flex:1 1 0;min-width:0;container-type:inline-size;aspect-ratio:1;border:2px solid var(--brand);border-radius:50%;background:radial-gradient(circle at 50% 38%,#24272E,#191B20);box-shadow:0 6px 16px rgba(35,38,44,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px}
-  .stat .label{font-size:var(--fs-cap);font-size:13cqw;font-weight:800;color:var(--ink);line-height:1.25;margin-bottom:3px}
-  .stat .num{font-size:var(--fs-2xl);font-size:22cqw;font-weight:900;letter-spacing:-.03em;color:var(--brand-text);line-height:1.05;font-variant-numeric:tabular-nums}
+  /* 라벨은 볼드 없이 작게, 수치는 크게 — 원 안에서 '숫자'가 주인공이 되게 함(2026-08-06) */
+  .stat .label{font-size:var(--fs-cap);font-size:11.5cqw;font-weight:500;color:var(--ink);line-height:1.25;margin-bottom:3px}
+  .stat .num{font-size:var(--fs-2xl);font-size:24.5cqw;font-weight:900;letter-spacing:-.03em;color:var(--brand-text);line-height:1.05;font-variant-numeric:tabular-nums}
   .stat .num .unit{font-size:.5em;font-weight:800;margin-left:1px}
   .stat .note{font-size:var(--fs-3xs);font-size:5.4cqw;color:var(--muted);margin-top:5px;line-height:1.3}
 
@@ -182,15 +188,15 @@
   <section class="story reveal">
     <div class="eyebrow">Since 1990</div>
     <p class="story-lead">1990년, 한 장의 학습지에서 시작된 배움.<br>오랜 시간 한결같이 선택받으며<br>한 세대를 넘어선 학습이 되었습니다.</p>
-    <p class="story-strong">오래되어서가 아니라,<br><em>시대를 넘어<br>검증되었기 때문입니다.</em></p>
+    <p class="story-strong">오래되어서가 아니라,<br><em>시대를 넘어 검증되었기 때문입니다.</em></p>
     <div class="stats">
-      <div class="stat reveal"><div class="label">누적<br>학습자</div>
+      <div class="stat reveal r-late"><div class="label">누적<br>학습자</div>
         <div class="num"><span class="count" data-target="890" data-dec="0">0</span><span class="unit">만명+</span></div>
         <div class="note">※ 1990.3 ~ 2025.5<br>구몬학습 전체 회원 데이터 기준</div></div>
-      <div class="stat reveal"><div class="label">누적<br>학습 과목</div>
+      <div class="stat reveal r-late"><div class="label">누적<br>학습 과목</div>
         <div class="num"><span class="count" data-target="2730" data-dec="0">0</span><span class="unit">만+</span></div>
         <div class="note">※ 1990.3 ~ 2025.5<br>구몬학습 전체 회원 데이터 기준</div></div>
-      <div class="stat reveal"><div class="label">월 평균<br>학습 진도</div>
+      <div class="stat reveal r-late"><div class="label">월 평균<br>학습 진도</div>
         <div class="num"><span class="count" data-target="144.3" data-dec="1">0</span><span class="unit">장</span></div>
         <div class="note">※ 2025.4 구몬학습<br>스마트구몬N 평균 학습<br>제출 장수 기준</div></div>
     </div>
@@ -271,19 +277,29 @@
   })();
 
   const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  /* .r-late(통계 원 3개)만 제외 — 아래 카운트업 관찰자가 '화면 중앙에 왔을 때' 등장까지 함께 맡는다 */
+  document.querySelectorAll('.reveal:not(.r-late)').forEach(el=>io.observe(el));
 
   // 숫자 카운트업
   const fmt=(n,dec)=>dec>0?n.toFixed(dec):Math.round(n).toLocaleString('ko-KR');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const co=new IntersectionObserver((es)=>es.forEach(e=>{
-    if(!e.isIntersecting)return; co.unobserve(e.target);
-    const el=e.target,target=parseFloat(el.dataset.target),dec=parseInt(el.dataset.dec);
+  const runCount=(el)=>{
+    const target=parseFloat(el.dataset.target),dec=parseInt(el.dataset.dec);
     if(reduce){el.textContent=fmt(target,dec);return;}
     const dur=1100,t0=performance.now();
     const tick=(t)=>{let p=Math.min((t-t0)/dur,1);p=1-Math.pow(1-p,3);el.textContent=fmt(target*p,dec);if(p<1)requestAnimationFrame(tick);};
     requestAnimationFrame(tick);
-  }),{threshold:.5});
-  document.querySelectorAll('.count').forEach(el=>co.observe(el));
+  };
+  /* ⚠️ 구버전은 각 숫자를 threshold .5 로 감시해 원이 화면 '아래끝'에 걸치자마자 카운트가 끝나 있었음
+     (고객이 스크롤해서 볼 때는 이미 완료). 이제 .stats 묶음이 화면 세로 중앙 24% 띠에 들어올 때
+     시작하고, 셋을 140ms 간격으로 순차 실행한다. rootMargin 을 0으로 되돌리지 말 것. */
+  const co=new IntersectionObserver((es)=>es.forEach(e=>{
+    if(!e.isIntersecting)return; co.unobserve(e.target);
+    e.target.querySelectorAll('.stat').forEach((st,i)=>setTimeout(()=>{
+      st.classList.add('in');                       /* 등장 페이드도 이때 함께 */
+      const c=st.querySelector('.count'); if(c)runCount(c);
+    },i*140));
+  }),{threshold:0,rootMargin:'-38% 0px -38% 0px'});
+  document.querySelectorAll('.stats').forEach(el=>co.observe(el));
 </script>
 </body></html>
