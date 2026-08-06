@@ -110,7 +110,7 @@
             <div style="position:relative; width:80%; max-width:300px; margin-top:6%;">
               <div style="background:#3a2e5c; padding:4px; box-shadow:5px 5px 0 rgba(58,46,92,.25); clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
                 <div style="background:#fff; padding:12px 14px; clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
-                  <div style="font-family:'Galmuri11',monospace; font-weight:400; font-size:clamp(11px,3.6cqw,20px); line-height:1.6; color:#3a2e5c; letter-spacing:-.5px; text-align:center; word-break:keep-all;">꼼꼼하게 개념을 완성해주는<br>구몬만의 완전학습 시스템,<br>실력이 늘 수 밖에 없겠죠?</div>
+                  <div style="font-family:'Galmuri11',monospace; font-weight:400; font-size:clamp(11px,3.6cqw,20px); line-height:1.6; color:#3a2e5c; letter-spacing:-.5px; text-align:center; word-break:keep-all;">꼼꼼하게 개념을 완성해주는<br><span style="color:#E00020">구몬만의 완전학습 시스템,</span><br>실력이 늘 수 밖에 없겠죠?</div>
                   <div style="font-family:'Galmuri11',monospace; font-weight:700; font-size:clamp(15px,5.2cqw,27px); line-height:1.5; color:#3a2e5c; letter-spacing:-.5px; text-align:center; word-break:keep-all; margin-top:1em;">이제 학습 준비 완료!</div>
                 </div>
               </div>
@@ -267,7 +267,7 @@ class Component extends DCLogic {
         boxes: [{ l: 57.5, t: 23.6, w: 15.3, h: 16.4, r: '10px' }], next: 'step16' },
       { id: 'step18', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 16, pos: 'top',
         bubble: '다시 제출하면, [b]오답 제출로 변경[/b]됩니다.\n선생님이 [b]고친 문제를 확인[/b]해줄 거에요.',
-        boxes: [{ l: 76.2, t: 71.3, w: 22, h: 17.3, r: '10px' }], fingerAnim: 'sgn-rotV', fingerAt: { l: 86.65, t: 79.25 }, fingerMargin: '7px 0 0 -24px', next: 'end' },
+        boxes: [{ l: 76.2, t: 71.3, w: 22, h: 17.3, r: '10px' }], fingerAnim: 'sgn-rotV', fingerAt: { l: 86.65, t: 79.25 }, fingerMargin: '7px 0 0 -24px', fadeNext: true, next: 'end' },
       { id: 'end', type: 'end', aw: 1619, ah: 2600 },
     ];
   }
@@ -376,6 +376,21 @@ class Component extends DCLogic {
     if (ti < 0) return;
     this.gaTrack(toId, isBack);
     this.resetReveal();
+    // 검은 페이드 화면전환 (현재 스텝에 fadeNext: true, 앞으로 갈 때만) — 화상수업 튜토리얼과 동일한 방식.
+    // 마지막 화면 → 종료 화면처럼 그림이 통째로 바뀌는 구간에서 전환이 어수선해 보이던 것을 덮는다.
+    if (!isBack && this.cur().fadeNext) {
+      this.setState({ busy: true, fadeBlack: true });
+      setTimeout(() => {
+        this.setState((st) => {
+          const hist = st.history.slice(); hist.push(st.idx);
+          return { idx: ti, history: hist, out: false, recordOn: false, phase: 0, bgOut: false, prevBg: null, prevShown: false };
+        });
+        this.armReveal(ti);
+        setTimeout(() => this.setState({ fadeBlack: false }), 200);
+        setTimeout(() => this.setState({ busy: false }), 450);
+      }, 430);
+      return;
+    }
     const curBg = this.cur().bg, nextBg = this.STEPS[ti].bg;
     const sameBg = !!(curBg && nextBg && curBg === nextBg);
     const soft = !!(this.STEPS[ti].softFrom && curBg && nextBg && curBg !== nextBg);

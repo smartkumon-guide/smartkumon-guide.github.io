@@ -231,6 +231,11 @@
   /* 3단 폴백: ①100vh(구형) ②100dvh(모던) ③--vh(JS 실측, 최우선) — 주소창 때문에 잘리는 것 방지 */
   .tutorial-embed{width:min(100%,calc((100vh - 196px)*.6212));width:min(100%,calc((100dvh - 196px)*.6212));width:min(100%,calc((var(--vh,100dvh) - 196px)*.6212));margin:0 auto 16px;aspect-ratio:1615/2600;overflow:hidden;background:#0E1013;border-radius:12px}
   .tutorial-embed iframe{width:100%;height:100%;border:0;display:block;overflow:hidden}
+  /* 탭을 처음 열 때 픽셀폰트가 바뀌며 '덜 그려진 화면'이 스치던 것을 가린다.
+     display:none → block 이라 transition 은 안 걸리므로 animation 을 쓴다(2026-08-06). */
+  @keyframes tutFade{from{opacity:0}to{opacity:1}}
+  .panel.on .tutorial-embed{animation:tutFade .45s ease both}
+  @media(prefers-reduced-motion:reduce){.panel.on .tutorial-embed{animation:none}}
 </style>
 </head>
 <body>
@@ -413,7 +418,19 @@
     document.querySelectorAll('.appinstall .abimg[data-app] img').forEach(i=>urls.push(i.getAttribute('src')));
     Object.keys(LINKS).forEach(app=>{urls.push('img/qr-'+app+'-aos.svg','img/qr-'+app+'-ios.svg')});
     if(typeof SIGNUP!=='undefined')Object.keys(SIGNUP).forEach(k=>urls.push(SIGNUP[k].qr));
-    urls.filter(Boolean).forEach(u=>{const im=new Image();im.decoding='async';im.src=u});};
+    urls.filter(Boolean).forEach(u=>{const im=new Image();im.decoding='async';im.src=u});
+    /* 튜토리얼 iframe 은 숨은 패널 안에 있어 픽셀폰트(Galmuri)를 받지 않는다(실측: fonts.check=false).
+       → 부모에서 같은 CDN 폰트를 미리 받아 캐시에 넣어 두면 탭을 열 때 곧바로 제 글꼴로 그려진다.
+       화면에 영향이 없도록 1px 짜리 화면 밖 프로브만 둔다. */
+    if(!document.getElementById('galmuri-warm')){
+      const l=document.createElement('link');l.id='galmuri-warm';l.rel='stylesheet';
+      l.href='https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css';
+      /* 화면 밖 프로브만으로는 다운로드가 안 걸리는 경우가 있어(실측) FontFace API 로 직접 받는다 */
+      l.onload=function(){ if(document.fonts&&document.fonts.load){
+        ['Galmuri11','Galmuri14'].forEach(function(fam){ try{ document.fonts.load('12px "'+fam+'"','가나다') }catch(e){} });
+      }};
+      document.head.appendChild(l);
+    }};
   if(document.readyState==='complete')setTimeout(warm,150);
   else addEventListener('load',()=>setTimeout(warm,150));
   document.querySelectorAll('.appinstall').forEach(box=>{
