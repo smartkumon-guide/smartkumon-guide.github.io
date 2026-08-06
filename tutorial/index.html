@@ -151,7 +151,7 @@
             <div style="{{ bubbleBoxStyle }}">
               <div style="background:#3a2e5c; padding:1cqw; box-shadow:5px 5px 0 rgba(58,46,92,.3); clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
                 <div style="background:#fef6da; padding:2.9cqw 3.4cqw; clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
-                  <div style="font-family:'Galmuri11',monospace; font-size:clamp(12px,4.3cqw,22px); line-height:1.62; color:#3a2e5c; letter-spacing:-.5px; word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;"><sc-for list="{{ bubbleRuns }}" as="rn" hint-placeholder-count="1"><span style="{{ rn.style }}">{{ rn.text }}</span></sc-for></div>
+                  <div style="font-family:'Galmuri11',monospace; font-size:clamp(12px,4.3cqw,22px); line-height:1.62; color:#3a2e5c; letter-spacing:-.5px; word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty; white-space:pre-line;"><sc-for list="{{ bubbleRuns }}" as="rn" hint-placeholder-count="1"><span style="{{ rn.style }}">{{ rn.text }}</span></sc-for></div>
                 </div>
               </div>
               <div style="position:absolute; left:-9px; top:16px; width:15px; height:15px; background:#fef6da; border-left:4px solid #3a2e5c; border-bottom:4px solid #3a2e5c; transform:rotate(45deg);"></div>
@@ -192,18 +192,18 @@ class Component extends DCLogic {
     return [
       { id: 'title', type: 'title', aw: 1619, ah: 2600, next: 'step2' },
       { id: 'step2', type: 'screen', bg: 'screen-home.jpg', aw: 1619, ah: 2600, dot: 1, pos: 'top',
-        bubble: '[r]과목카드[/r]를 클릭하면,\n해당 과목의 교재 풀이로 넘어갑니다.',
+        bubble: '[r]과목카드[/r]를 클릭하면,\n해당 과목의 교재풀이로 넘어갑니다.',
         boxes: [{ l: 5.2, t: 61.4, w: 43, h: 37.5, r: '10px' }], next: 'step3' },
       { id: 'step3', type: 'screen', bg: 'screen-home.jpg', aw: 1619, ah: 2600, dot: 2, pos: 'top',
         bubble: '과목카드 위에 [r]체크표시(v)[/r]는 \n[b]오답 교재 장수![/b] 클릭하면\n오답교재만 모아서 볼 수 있어요.',
         boxes: [{ l: 38.2, t: 60.2, w: 12.9, h: 4.7, r: '999px' }], next: 'step4' },
       { id: 'step4', type: 'screen', bg: 'screen-textbook-list.jpg', aw: 900, ah: 1500, dot: 3, pos: 'top',
-        bubble: '원하는 교재 페이지를 선택하면,\n해당 교재 풀이로 들어갈 수 있습니다.',
+        bubble: '원하는 교재 페이지를 선택하면,\n해당 교재부터 풀이를 시작할 수 있어요.',
         boxes: [{ l: 2.3, t: 42, w: 21.5, h: 18.9, r: '10px' }], next: 'step5' },
       { id: 'step5', type: 'screen', bg: 'screen-solving-start.jpg', aw: 900, ah: 1500, dot: 4, pos: 'bottom',
-        bubble: '[r]시작 버튼[/r]을 눌러야지만\n[b]교재 풀이가 가능[/b]합니다.',
+        bubble: '[r]시작 버튼[/r]을 눌러야지만\n[b]교재풀이가 가능[/b]합니다.',
         boxes: [{ l: 12.6, t: 1.2, w: 17, h: 4.2, r: '999px' }], next: 'step5b' },
-      { id: 'step5b', type: 'screen', bg: 'screen-solving_stop.jpg', aw: 900, ah: 1500, dot: 5, pos: 'top', softFrom: true,
+      { id: 'step5b', type: 'screen', bg: 'screen-solving_stop.jpg', aw: 900, ah: 1500, dot: 5, pos: 'top', softFrom: true, bubbleAt: 'top:12%',
         bubble: '시작을 누른 다음에는,\n교재풀이를 진행합니다.',
         boxes: [{ l: 49.7, t: 24.9, w: 12.7, h: 69.4, r: '10px' }], next: 'step5d' },
       { id: 'step5c', type: 'screen', bg: 'screen-solving_stop.jpg', aw: 900, ah: 1500, dot: 6, pos: 'bottom',
@@ -244,7 +244,7 @@ class Component extends DCLogic {
         insets: [{ l: 29.3, t: 32.6, w: 38.4, h: 31.8, src: 'screen-question-enter.jpg', framed: true }],
         boxes: [], next: 'step18' },
       { id: 'step11', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 10, pos: 'bottom',
-        bubble: '학습현황에서는 [r]지난 주, 이번 주,\n다음 주 교재[/r]를 확인할 수 있어요.\n[g](2주 전은 오답이 남은 교재가 있을 때만!)[/g]',
+        bubble: '학습현황에서는 [r]지난주, 이번 주, 다음 주 교재[/r]를 확인할 수 있어요.\n[g](2주 전은 오답이 남은 교재가 있을 때만!)[/g]',
         boxes: [{ l: 2.3, t: 6.2, w: 95.6, h: 5.1, r: '10px' }], next: 'step12' },
       { id: 'step12', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 11, pos: 'top',
         bubble: '[b]1장을 풀이하고 잘 제출[/b]되었어요.\n교재는 오늘 채점센터로 넘어가고,\n[r]다음날 오후 3시 이후[/r]에 채점이 돼서 돌아와요.',
@@ -265,8 +265,13 @@ class Component extends DCLogic {
         bubble: '틀린 문제를 다시 고치면,\n[b]파란색[/b]으로 글씨가 써져요.',
         boxes: [{ l: 57.5, t: 23.6, w: 15.3, h: 16.4, r: '10px' }], next: 'step16' },
       { id: 'step18', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 16, pos: 'top',
-        bubble: '다시 제출하면, [b]오답 제출로\n변경[/b]됩니다. 이번엔 담당 선생님이\n[b]고친 문제를 확인[/b]해줄 거예요.\n\n꼼꼼하게 개념을 완성해주는\n[r]구몬만의 완전학습[/r] 시스템,\n실력이 늘 수 밖에 없겠죠?',
-        boxes: [{ l: 76.2, t: 71.3, w: 22, h: 17.3, r: '10px' }], fingerAnim: 'sgn-rotV', fingerAt: { l: 86.65, t: 79.25 }, fingerMargin: '7px 0 0 -24px', next: 'end' },
+        bubble: '다시 제출하면, [b]오답 제출로 변경[/b]됩니다.\n선생님이 [b]고친 문제를 확인[/b]해줄 거에요.',
+        boxes: [{ l: 76.2, t: 71.3, w: 22, h: 17.3, r: '10px' }], fingerAnim: 'sgn-rotV', fingerAt: { l: 86.65, t: 79.25 }, fingerMargin: '7px 0 0 -24px', next: 'step18b' },
+      // 같은 화면에서 손가락·강조박스만 사라지고 마무리 멘트만 남는다(2026-08-06 · 한 말풍선이 너무 길어 분리).
+      // bubbleAt 은 step18 이 자동 계산으로 잡던 위치(bottom:30.7%)와 같은 값 — 말풍선이 제자리에 머물러야 자연스럽다.
+      { id: 'step18b', type: 'screen', bg: 'screen-learning-status.jpg', aw: 1615, ah: 2600, dot: 17, pos: 'top', noFinger: true, bubbleAt: 'bottom:30.7%',
+        bubble: '꼼꼼하게 개념을 완성해주는\n[r]구몬만의 완전학습[/r] 시스템,\n실력이 늘 수 밖에 없겠죠?',
+        boxes: [], next: 'end' },
       { id: 'end', type: 'end', aw: 1619, ah: 2600 },
     ];
   }
@@ -462,6 +467,22 @@ class Component extends DCLogic {
   onReopen = (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.onRestart(e); };
 
   // bubble markup: [r]..[/r] red+bold, [b]..[/b] blue+bold, [g]..[/g] gray (smaller, not bold)
+  // ── 한글 줄바꿈 공통 규칙 (2026-08-06) ────────────────────────────────────
+  // 두 튜토리얼 공통. 브라우저 기본 줄바꿈은 ①'이번 주'처럼 한 낱말을 쪼개고
+  // ②'三(삼선)' 같은 괄호·따옴표 앞뒤에서 끊어져 읽기가 나빴다. 아래 세 가지로 보정한다.
+  //   (a) 작가가 넣은 줄바꿈(\n)은 공백으로 접는다  → 좁은 화면에서도 자동 줄바꿈이 우선
+  //   (b) [br] 만 '진짜 줄바꿈'    → 꼭 여기서 끊어야 하는 곳에만 작가가 지정
+  //   (c) 의존명사(주·수·때·중…)와 괄호/따옴표는 앞뒤 낱말에 붙여 끊기지 않게 한다
+  //       - U+00A0(줄바꿈 없는 공백) : '이번 주' 를 한 덩어리로
+  //       - U+2060(word joiner)      : "'三(삼선)'" 를 한 덩어리로
+  koWrap(t) {
+    const BN = '주것수때등뿐점번개명분초년월일시중후전곳편장면회';
+    let s = String(t == null ? '' : t).replace(/\s+/g, ' ').replace(/\[br\]/g, '\n');
+    s = s.replace(new RegExp(' (?=[' + BN + '][^ \n]?(?:[ \n,.)!?]|$))', 'g'), '\u00A0');
+    s = s.replace(/([^\s\u2060])([([{'"\u2018\u201C\u300C])/g, '$1\u2060$2')
+         .replace(/([)\]}'"\u2019\u201D\u300D])([^\s\u2060])/g, '$1\u2060$2');
+    return s;
+  }
   parseBubble(str) {
     const runs = [];
     if (!str) return runs;
@@ -561,7 +582,9 @@ class Component extends DCLogic {
       if (bottomBubble && 100 - occB >= NEED) bubblePlace = `top:${(occB + 2).toFixed(1)}%;`;
       else if (!bottomBubble && occT >= NEED) bubblePlace = `bottom:${(100 - occT + 2).toFixed(1)}%;`;
     }
-    const bubbleRuns = this.parseBubble(c.bubble || '').map((run) => ({ text: run.t, style: this.bubbleRunStyle(run.k) }));
+    if (c.bubbleAt) bubblePlace = c.bubbleAt + ';';   // 스텝에 직접 지정한 위치가 있으면 그것을 우선
+
+    const bubbleRuns = this.parseBubble(c.bubble || '').map((run) => ({ text: this.koWrap(run.t), style: this.bubbleRunStyle(run.k) }));
 
     return {
       isTitle: c.type === 'title',

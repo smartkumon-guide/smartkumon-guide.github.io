@@ -364,7 +364,7 @@
     imgs.forEach(i=>{i.addEventListener('load',one,{once:true});i.addEventListener('error',one,{once:true})});
     setTimeout(show,1500);
   }
-  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){revealWhenReady(e.target);io.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -18% 0px'});   /* 화면 아래끝에 걸치자마자가 아니라, 18%쯤 올라온 뒤 등장 */
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){revealWhenReady(e.target);io.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -28% 0px'});   /* 블록 윗변이 화면 72% 위로 올라온 뒤 등장(2026-08-06 재조정) */
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   // 학습 방식 카드: 살짝만 스크롤해도 시작되는 순차 연출.
   //   ① 사진 위로 어두운 오버레이가 덮이고 ② 질문이 한 글자씩 타이핑되듯 나타난 뒤
@@ -414,7 +414,7 @@
       if(!e.isIntersecting) return;
       wo.disconnect();
       playCol(cols[0], ()=>{ if(cols[1]) playCol(cols[1], ()=>{}) });
-    }),{threshold:.15,rootMargin:'0px 0px -12% 0px'});   /* 살짝 걸치기만 해도 시작하던 것을 조금 늦춤 */
+    }),{threshold:0,rootMargin:'-22% 0px -22% 0px'});   /* 화면 세로 가운데 56% 띠에 들어와야 시작(2026-08-06) */
     wo.observe(ways);
   })();
   /* ===== 캐러셀 (카드뉴스 · 상품별 특장점 공용) =========================
@@ -514,7 +514,7 @@
           drag=-26; paint(true);
           hintT.push(setTimeout(()=>{ drag=0; paint(true); hintT.push(setTimeout(cycle,340)); },340));
         })();
-      }),{threshold:.65});
+      }),{threshold:.9});                            /* 캐러셀이 거의 다 보인 뒤에 힌트(2026-08-06) */
       hintT.push(setTimeout(()=>ho.observe(vp),260));
     }
   }

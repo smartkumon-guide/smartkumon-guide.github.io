@@ -152,7 +152,7 @@
             <div style="{{ bubbleBoxStyle }}">
               <div style="background:#3a2e5c; padding:1cqw; box-shadow:5px 5px 0 rgba(58,46,92,.3); clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
                 <div style="background:#fef6da; padding:2.9cqw 3.4cqw; clip-path:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px),0 4px,4px 4px);">
-                  <div style="font-family:'Galmuri11',monospace; font-size:clamp(12px,4.3cqw,22px); line-height:1.62; color:#3a2e5c; letter-spacing:-.5px; word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty;"><sc-for list="{{ bubbleRuns }}" as="rn" hint-placeholder-count="1"><span style="{{ rn.style }}">{{ rn.text }}</span></sc-for></div>
+                  <div style="font-family:'Galmuri11',monospace; font-size:clamp(12px,4.3cqw,22px); line-height:1.62; color:#3a2e5c; letter-spacing:-.5px; word-break:keep-all; overflow-wrap:break-word; text-wrap:pretty; white-space:pre-line;"><sc-for list="{{ bubbleRuns }}" as="rn" hint-placeholder-count="1"><span style="{{ rn.style }}">{{ rn.text }}</span></sc-for></div>
                 </div>
               </div>
               <div style="position:absolute; left:-9px; top:16px; width:15px; height:15px; background:#fef6da; border-left:4px solid #3a2e5c; border-bottom:4px solid #3a2e5c; transform:rotate(45deg);"></div>
@@ -193,9 +193,7 @@ class Component extends DCLogic {
     return [
       { id: 'title', type: 'title', aw: 1200, ah: 2000, next: 's1' },
       { id: 's1', type: 'screen', bg: 'class-01.jpg', aw: 1200, ah: 2000, dot: 1, pos: 'bottom',
-        bubble: `회원앱에서 로그인을 한 후에,
-메인화면에서 우측 상단의
-[r]'三(삼선)' 표시[/r]를 눌러주세요.`,
+        bubble: `회원앱에서 로그인을 한 후에,[br]메인화면에서 우측 상단의[br][r]'三(삼선)' 표시[/r]를 눌러주세요.`,
         boxes: [{ l: 91.5, t: 1.9, w: 6.5, h: 3.4, r: '12px' }], fingerAnim: 'sgn-wobV', fingerAt: { l: 92, t: 6.8 }, fingerMargin: '2px 0 0 -24px', next: 's2' },
       { id: 's2', type: 'screen', bg: 'class-02.jpg', aw: 1200, ah: 2000, dot: 2, pos: 'top',
         bubble: `목록에서 [r]스마트클래스[/r]를
@@ -222,10 +220,7 @@ class Component extends DCLogic {
         bubble: `입장 버튼을 누르면
 [r]입장 중으로 변경[/r]돼요.
 기다리고 있으면,
-[b]자동으로 수업에 입장[/b]됩니다.
-[g](※ 계속 입장 중으로 뜬다면
-선생님이 아직 들어오지 않은 상태이거나,
-Wifi가 원활하지 않아서일 수 있어요.)[/g]`,
+[b]자동으로 수업에 입장[/b]됩니다.[br][g](※ 계속 입장 중으로 뜬다면 선생님이 아직 들어오지 않은 상태이거나, Wifi가 원활하지 않아서일 수 있어요.)[/g]`,
         boxes: [{ l: 76, t: 49.3, w: 20, h: 4.6, r: '12px' }], fingerAnim: 'sgn-wobV', fingerAt: { l: 86, t: 55.4 }, fingerMargin: '2px 0 0 -24px', next: 's7' },
       { id: 's7', type: 'screen', bg: 'class-07.jpg', aw: 1200, ah: 2000, dot: 8, pos: 'top', softFrom: true, fadeNext: true,
         bubble: `수업연결이 잘 되었다면,
@@ -233,7 +228,7 @@ Wifi가 원활하지 않아서일 수 있어요.)[/g]`,
 잠시 기다리고 있으면,
 [r]선생님이 수업을 시작[/r]해주실 거에요.`,
         boxes: [{ l: 72.5, t: 48.8, w: 25.5, h: 4.8, r: '12px' }], fingerAnim: 'sgn-wobV', fingerAt: { l: 85.2, t: 55.2 }, fingerMargin: '2px 0 0 -24px', next: 's8' },
-      { id: 's8', type: 'screen', bg: 'class-08.jpg', aw: 1200, ah: 2000, dot: 9, pos: 'top', fadeNext: true, noFinger: true,
+      { id: 's8', type: 'screen', bg: 'class-08.jpg', aw: 1200, ah: 2000, dot: 9, pos: 'top', fadeNext: true, noFinger: true, bubbleAt: 'top:15%',
         bubble: `[b]수업이 잘 연결[/b]되었어요.
 선생님과 즐거운 수업 시작!`,
         boxes: [], next: 's9' },
@@ -451,6 +446,22 @@ Wifi가 원활하지 않아서일 수 있어요.)[/g]`,
   onReopen = (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.onRestart(e); };
 
   // bubble markup: [r]..[/r] red+bold, [b]..[/b] blue+bold, [g]..[/g] gray (smaller, not bold)
+  // ── 한글 줄바꿈 공통 규칙 (2026-08-06) ────────────────────────────────────
+  // 두 튜토리얼 공통. 브라우저 기본 줄바꿈은 ①'이번 주'처럼 한 낱말을 쪼개고
+  // ②'三(삼선)' 같은 괄호·따옴표 앞뒤에서 끊어져 읽기가 나빴다. 아래 세 가지로 보정한다.
+  //   (a) 작가가 넣은 줄바꿈(\n)은 공백으로 접는다  → 좁은 화면에서도 자동 줄바꿈이 우선
+  //   (b) [br] 만 '진짜 줄바꿈'    → 꼭 여기서 끊어야 하는 곳에만 작가가 지정
+  //   (c) 의존명사(주·수·때·중…)와 괄호/따옴표는 앞뒤 낱말에 붙여 끊기지 않게 한다
+  //       - U+00A0(줄바꿈 없는 공백) : '이번 주' 를 한 덩어리로
+  //       - U+2060(word joiner)      : "'三(삼선)'" 를 한 덩어리로
+  koWrap(t) {
+    const BN = '주것수때등뿐점번개명분초년월일시중후전곳편장면회';
+    let s = String(t == null ? '' : t).replace(/\s+/g, ' ').replace(/\[br\]/g, '\n');
+    s = s.replace(new RegExp(' (?=[' + BN + '][^ \n]?(?:[ \n,.)!?]|$))', 'g'), '\u00A0');
+    s = s.replace(/([^\s\u2060])([([{'"\u2018\u201C\u300C])/g, '$1\u2060$2')
+         .replace(/([)\]}'"\u2019\u201D\u300D])([^\s\u2060])/g, '$1\u2060$2');
+    return s;
+  }
   parseBubble(str) {
     const runs = [];
     if (!str) return runs;
@@ -550,7 +561,9 @@ Wifi가 원활하지 않아서일 수 있어요.)[/g]`,
       if (bottomBubble && 100 - occB >= NEED) bubblePlace = `top:${(occB + 2).toFixed(1)}%;`;
       else if (!bottomBubble && occT >= NEED) bubblePlace = `bottom:${(100 - occT + 2).toFixed(1)}%;`;
     }
-    const bubbleRuns = this.parseBubble(c.bubble || '').map((run) => ({ text: run.t, style: this.bubbleRunStyle(run.k) }));
+    if (c.bubbleAt) bubblePlace = c.bubbleAt + ';';   // 스텝에 직접 지정한 위치가 있으면 그것을 우선
+
+    const bubbleRuns = this.parseBubble(c.bubble || '').map((run) => ({ text: this.koWrap(run.t), style: this.bubbleRunStyle(run.k) }));
 
     return {
       isTitle: c.type === 'title',

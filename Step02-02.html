@@ -134,9 +134,9 @@
   .ob:active{transform:translateY(1px);box-shadow:0 1px 3px rgba(0,0,0,.3)}
   /* 선택 결과는 '서서히' 나타나게(2026-08-06) — 즉시 튀어나오면 무엇이 바뀌었는지 알아채기 어렵다는 피드백.
      JS 가 클릭할 때마다 .anim-in 을 뗐다 붙여 다시 재생시킨다(다른 쪽을 골랐을 때도 바뀐 걸 알 수 있게). */
-  @keyframes revealUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  .anim-in{animation:revealUp .5s cubic-bezier(.22,.7,.3,1) both}
-  .anim-in.d1{animation-delay:.13s}
+  @keyframes revealUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .anim-in{animation:revealUp .8s cubic-bezier(.22,.7,.3,1) both}
+  .anim-in.d1{animation-delay:.2s}
   @media(prefers-reduced-motion:reduce){.anim-in{animation:none}}
   .ob.on{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 3px 10px rgba(224,0,32,.38)}
   /* ===== 선택 전에는 결과를 감춘다 (회원가입 연령 / 앱 설치 OS 공통) =====
@@ -406,6 +406,16 @@
   /* 클릭할 때마다 등장 애니메이션을 다시 재생 — 클래스를 뗀 뒤 강제 리플로우(offsetWidth)를 거쳐야 다시 걸린다 */
   const replay=(el,delayed)=>{if(!el)return;el.classList.remove('anim-in','d1');void el.offsetWidth;
     el.classList.add('anim-in');if(delayed)el.classList.add('d1');};
+  /* 선택 전에는 앱 카드가 display:none 이라 lazy 이미지가 다운로드되지 않는다.
+     그래서 클릭 직후 이미지를 받느라 버벅였음 → 페이지 로드 후 조용히 미리 받아 캐시에 넣어 둔다.
+     (아이콘·양쪽 OS QR·회원가입 QR 전부. 지우면 첫 클릭 때 다시 버벅임) */
+  const warm=()=>{const urls=[];
+    document.querySelectorAll('.appinstall .abimg[data-app] img').forEach(i=>urls.push(i.getAttribute('src')));
+    Object.keys(LINKS).forEach(app=>{urls.push('img/qr-'+app+'-aos.svg','img/qr-'+app+'-ios.svg')});
+    if(typeof SIGNUP!=='undefined')Object.keys(SIGNUP).forEach(k=>urls.push(SIGNUP[k].qr));
+    urls.filter(Boolean).forEach(u=>{const im=new Image();im.decoding='async';im.src=u});};
+  if(document.readyState==='complete')setTimeout(warm,150);
+  else addEventListener('load',()=>setTimeout(warm,150));
   document.querySelectorAll('.appinstall').forEach(box=>{
     /* 기본 선택 없음 — 눌러야 .picked 가 붙어 앱·QR이 나타난다(회원가입 연령 분기와 같은 규칙) */
     box.querySelectorAll('.ob').forEach(b=>b.addEventListener('click',()=>{

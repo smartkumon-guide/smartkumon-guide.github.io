@@ -141,9 +141,9 @@
   .ftr .biz{font-size:var(--fs-xs);line-height:1.7;color:#8892A0}
   .ftr .links{display:flex;gap:14px;margin:14px 0}
   .ftr .links a{font-size:var(--fs-sm);color:var(--muted);text-decoration:none;font-weight:600;padding:12px 0}
-  .reveal{opacity:0;transform:translateY(14px);transition:opacity .8s cubic-bezier(.22,.7,.3,1),transform .8s cubic-bezier(.22,.7,.3,1)}
-  .reveal.in{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+  /* 목차(index)는 등장 애니메이션을 쓰지 않는다(2026-08-06 사용자 요청) —
+     카드가 하나씩 떠오르면 "아래에 뭐가 더 있나" 확인하는 데 시간이 더 걸린다는 피드백.
+     .reveal 클래스와 관찰자는 마크업·스크립트에서 완전히 제거됨. 되살리지 말 것. */
 </style>
 </head>
 <body>
@@ -151,25 +151,25 @@
   <header class="hdr">
     <span class="bi"><img src="img/kumon_bi.png" alt="구몬학습"></span>  </header>
 
-  <section class="hero reveal">
+  <section class="hero">
     <span class="eyebrow">구몬 화상학습 안내</span>
     <h1>스스로 해내는 힘,<br><span class="br">구몬 화상학습</span></h1>
     <p>처음 문의부터 첫 수업 준비까지 <br> 필요한 안내를 차례대로 확인해 보세요.</p>
   </section>
 
   <div class="group">
-    <div class="group-head reveal"><span class="group-no">Ⅰ</span><h2>구몬학습 안내</h2></div>
-    <a class="card reveal" href="Step01-01.html">
+    <div class="group-head"><span class="group-no">Ⅰ</span><h2>구몬학습 안내</h2></div>
+    <a class="card" href="Step01-01.html">
       <span class="step">STEP 01</span>
       <div class="row"><div><h3><em>구몬학습</em> 미리보기</h3><p>'누적 학습자 890만명'이 증명한 구몬, 그 비밀은?</p></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
-    <a class="card reveal" href="Step01-02.html">
+    <a class="card" href="Step01-02.html">
       <span class="step">STEP 02</span>
       <div class="row"><div><h3><em>상품구성</em> 알아보기</h3><p>화상학습 vs 셀프학습, 나에게 맞는 학습방식은?</p></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
-    <a class="card reveal" href="Step01-03.html">
+    <a class="card" href="Step01-03.html">
       <span class="step">STEP 03</span>
       <div class="row"><div><h3><em>과목구성</em> 알아보기</h3><p>과목별 특장점, 교재 구성, 회비가 궁금하다면?</p></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
@@ -177,7 +177,7 @@
     <!-- STEP 04 학습 체험하기(Step01-04.html): 콘텐츠 준비 중 — 완성 후 활성화 예정(숨김) -->
     <!-- 기존 step03(학습 체험)↔step04(과목구성) 순서 교체됨 -->
     <!--
-    <a class="card reveal" href="Step01-04.html">
+    <a class="card" href="Step01-04.html">
       <span class="step">STEP 04</span>
       <div class="row"><div><h3><em>학습</em> 체험하기</h3><p>실제 수업·풀이 화면·결과 분석까지, 받게 될 화면을 미리 경험.</p></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
@@ -189,25 +189,25 @@
   <div class="sep" aria-hidden="true"></div>
 
   <div class="group g2">
-    <div class="group-head reveal"><span class="group-no">Ⅱ</span><h2>설치 · 학습 방법 안내</h2></div>
-    <a class="card reveal" href="Step02-01.html">
+    <div class="group-head"><span class="group-no">Ⅱ</span><h2>설치 · 학습 방법 안내</h2></div>
+    <a class="card" href="Step02-01.html">
       <span class="step">STEP 01</span>
       <div class="row"><div><h3><em>스마트구몬 WINGS</em> 학습 준비</h3></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
-    <a class="card reveal" href="Step02-02.html">
+    <a class="card" href="Step02-02.html">
       <span class="step">STEP 02</span>
       <div class="row"><div><h3><em>스마트구몬 마이러닝</em> 학습 준비</h3></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
-    <a class="card reveal" href="Step02-03.html">
+    <a class="card" href="Step02-03.html">
       <span class="step">STEP 03</span>
       <div class="row"><div><h3><em>스마일(성인)화상</em> 학습 준비</h3></div>
       <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
   </div>
 
-  <footer class="ftr reveal">
+  <footer class="ftr">
     <p class="cs">고객센터 <b>1588-5566</b><br>평일 09:00~18:00 (공휴일 제외)</p>
     <div class="links"><a href="#">이용약관</a><a href="#">개인정보처리방침</a></div>
     <p class="biz">(주)교원구몬 · 서울시 중구 을지로 51 (을지로2가 6번지)<br>통신판매업 신고 : 제2020-서울중구-1461호</p>
@@ -215,7 +215,5 @@
   <p style="font-size:var(--fs-3xs);font-weight:300;color:#7A7F87;text-align:center;line-height:1.6;padding:6px 24px 24px;margin:0">※ 원활한 학습 안내를 위해 제작한 임시 안내 페이지입니다.</p>
 </div>
 <script>
-  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -18% 0px'});   /* 화면 아래끝에 걸치자마자가 아니라, 18%쯤 올라온 뒤 등장 */
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body></html>
