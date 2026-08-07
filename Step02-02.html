@@ -98,8 +98,15 @@
   .hero .sub{font-size:min(var(--fs-body), calc(100cqw / 17.4))}
   .tabs{position:sticky;top:56px;z-index:40;background:rgba(14,16,19,.96);backdrop-filter:blur(10px);padding:12px 16px;border-bottom:1px solid var(--line)}
   .tabrow{display:flex;gap:6px;background:var(--sky);border-radius:14px;padding:5px}
-  .tab{flex:1;border:none;background:transparent;font-family:inherit;font-size:var(--fs-sm);font-weight:800;color:var(--muted);padding:10px 6px;min-height:44px;border-radius:10px;cursor:pointer;transition:all .18s;letter-spacing:-.02em;line-height:1.2}
+  .tab{position:relative;flex:1;border:none;background:transparent;font-family:inherit;font-size:var(--fs-sm);font-weight:800;color:var(--muted);padding:10px 6px;min-height:44px;border-radius:10px;cursor:pointer;transition:all .18s;letter-spacing:-.02em;line-height:1.2}
   .tab.on{background:var(--brand);color:#fff;box-shadow:0 4px 12px rgba(224,0,32,.22)}
+  /* 탭 순서 번호(2026-08-06) — 어느 순서로 보면 되는지 한눈에 보이도록 좌상단에 배지를 얹는다.
+     data-n 값을 그대로 쓰므로 탭을 추가/삭제해도 마크업만 고치면 됨.
+     대비: 미선택 배지면(#626B7E) vs 트랙(#1A1D23) 3.15:1 · 숫자 4.86:1 / 선택 배지는 흰 숫자 5.01:1 */
+  .tab::before{content:attr(data-n);position:absolute;left:-5px;top:-6px;width:19px;height:19px;border-radius:50%;
+    background:#626B7E;border:1px solid #828B9D;color:var(--ink);font-size:var(--fs-2xs);font-weight:900;
+    display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 2px 5px rgba(0,0,0,.35)}
+  .tab.on::before{background:var(--brand);border-color:#FF8A97;color:#fff}
   .panel{display:none;padding:24px 20px 8px}
   .panel.on{display:block}
   .p-intro{font-size:var(--fs-body);line-height:1.7;color:var(--muted);margin:0 4px 18px}
@@ -268,8 +275,8 @@
 
   <div class="tabs">
     <div class="tabrow">
-      <button class="tab on" data-t="prep">학습 준비</button>
-      <button class="tab" data-t="self">자학자습<br>방법 안내</button>
+      <button class="tab on" data-t="prep" data-n="1">학습 준비</button>
+      <button class="tab" data-t="self" data-n="2">자학자습<br>방법 안내</button>
     </div>
   </div>
 
