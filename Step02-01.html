@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>스마트구몬 WINGS 학습 준비 · STEP 01</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 <!-- ===== Google Analytics 4 (GA4) ==========================================
      ① 측정 ID는 아래 GA_ID 한 줄뿐입니다(8개 HTML 동일). 2026-08-05 실제 ID 반영 완료.
         속성 = GA4 계정 'kumon-preconsult' 안의 '구몬 화상학습 고객여정 안내'.
@@ -182,10 +182,26 @@
   .abh{font-size:var(--fs-body);font-weight:800;color:#fff;text-align:center;padding:10px}
   .abh.main{background:#7E5BD1}.abh.uni{background:#8DC044;color:#16240A}.abh.lib{background:#F178AC;color:#2E0A1A}.abh.gyo{background:#F8D5FF;color:#4A1060}
   /* 아이콘+QR을 한 행에 가운데, 설명은 그 아래 전체폭 가운데 정렬 */
-  .abbody{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;padding:16px}
+  .abbody{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:center;gap:10px 12px;padding:16px}
+  .abbody .orsep{align-self:center;margin-top:-14px}
+  /* 손글씨가 붙으면서 아이콘·QR 한 줄이 좁은 폭에서 안 들어감(390px 실측 필요폭 243 / 여유 253,
+     360px는 223뿐) → 370px 미만에서는 세로로 쌓는다. 억지로 한 줄에 밀어넣지 말 것. */
+  @media(max-width:369px){.abbody{flex-direction:column;gap:8px}.abbody .orsep{margin-top:0}}
   .abimg{display:block;line-height:0}
   .abimg img{width:84px;height:84px;border-radius:20px;display:block}
   .abqr{width:84px;height:84px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:5px}
+  /* ===== 손글씨 안내(2026-08-06) =====
+     위 설명문("앱 이미지를 누르거나 QR 코드를 스캔")을 못 보고 지나치는 경우가 있어,
+     눌러야 할 것 바로 옆에 손글씨로 다시 표시한다. 글꼴 Nanum Pen Script(Google Fonts),
+     색 #FFD34D = 카드 배경 #333944 위에서 8.11:1. 돼지꼬리 화살표는 인라인 SVG. */
+  .hnote{display:flex;align-items:center;justify-content:center;gap:1px;margin-top:8px;
+         font-family:'Nanum Pen Script','Noto Sans KR',cursive;font-size:15px;line-height:1.1;
+         color:#FFD34D;white-space:nowrap;letter-spacing:0}
+  .hnote svg{width:18px;height:16px}
+  .hnote svg{flex-shrink:0;display:block}
+  .hnote.flip svg{transform:scaleX(-1)}
+  .orsep{font-family:'Nanum Pen Script','Noto Sans KR',cursive;font-size:16px;line-height:1;color:var(--muted);white-space:nowrap}
+  .pickcol{display:flex;flex-direction:column;align-items:center}
   .abdesc{flex:1 0 100%;min-width:0;text-align:center;container-type:inline-size;font-size:var(--fs-body);font-size:clamp(11px,calc(100cqw / 13.6),var(--fs-body));color:var(--muted);line-height:1.55}
   .abdesc b{color:var(--ink);font-weight:800}
   /* 보조앱 카드: 3개를 항상 한 행에(3열 고정). 카드가 좁으므로 글씨는 한 단계 작게 */
@@ -301,8 +317,15 @@
         <div class="appbox">
           <div class="abh main">스마트구몬N 학습</div>
           <div class="abbody">
-            <a class="abimg" data-app="smartkumonn" href="#" target="_blank" rel="noopener"><img src="img/smartkumonn.png" alt="스마트구몬N 학습앱" loading="lazy"></a>
-            <div class="abqr"><img class="qrimg" alt="앱 설치 QR 코드" loading="lazy"></div>
+            <div class="pickcol">
+              <a class="abimg" data-app="smartkumonn" href="#" target="_blank" rel="noopener"><img src="img/smartkumonn.png" alt="스마트구몬N 학습앱" loading="lazy"></a>
+              <div class="hnote"><svg width="21" height="19" viewBox="0 0 34 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M31 27c-9 1-17-3-18-9-.6-4 3-6 5-4s-1 6-5 5C8 18 8 11 8 3"/><path d="M4.5 7.5 8 3l3.5 4.5"/></svg>아이콘 클릭</div>
+            </div>
+            <div class="orsep">또는</div>
+            <div class="pickcol">
+              <div class="abqr"><img class="qrimg" alt="앱 설치 QR 코드" loading="lazy"></div>
+              <div class="hnote flip">QR코드 스캔<svg width="21" height="19" viewBox="0 0 34 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M31 27c-9 1-17-3-18-9-.6-4 3-6 5-4s-1 6-5 5C8 18 8 11 8 3"/><path d="M4.5 7.5 8 3l3.5 4.5"/></svg></div>
+            </div>
             <p class="abdesc">화상수업과 교재풀이 등<br><b>학습은 모두 이 앱</b>으로 진행해요.</p>
           </div>
         </div>

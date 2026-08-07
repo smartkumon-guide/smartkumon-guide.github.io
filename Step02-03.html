@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>스마일(성인)화상 학습 준비 · STEP 03</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 <!-- ===== Google Analytics 4 (GA4) ==========================================
      ① 측정 ID는 아래 GA_ID 한 줄뿐입니다(8개 HTML 동일). 2026-08-05 실제 ID 반영 완료.
         속성 = GA4 계정 'kumon-preconsult' 안의 '구몬 화상학습 고객여정 안내'.
@@ -175,9 +175,22 @@
   .abdesc.sm{font-size:var(--fs-sm);line-height:1.45;padding:0 8px;flex:1;min-width:0;width:100%;color:var(--muted);word-break:normal}
   .abqr.sm{width:72px;height:72px;margin-top:8px;border-radius:12px;padding:4px}
   .appgrid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;width:calc(100% - 10px);margin:0 auto}
+  /* ===== 손글씨 안내(2026-08-06) =====
+     위 설명문을 못 보고 지나치는 경우가 있어, 눌러야 할 것 바로 아래에 손글씨로 다시 표시.
+     글꼴 Nanum Pen Script(Google Fonts), 색 #FFD34D = 카드 배경 #333944 위 8.11:1.
+     ⚠️ 두 카드 사이(거터)에 '또는'을 넣지 않는다 — 이 페이지는 두 앱을 '모두' 설치해야 하는데
+     카드 사이의 '또는'은 둘 중 하나만 고르라는 뜻으로 읽힌다. */
+  .hnote{display:flex;align-items:center;justify-content:center;gap:1px;margin-top:8px;
+         font-family:'Nanum Pen Script','Noto Sans KR',cursive;font-size:15px;line-height:1.1;
+         color:#FFD34D;white-space:nowrap;letter-spacing:0}
+  .hnote svg{flex-shrink:0;display:block;width:18px;height:16px}
+  .hnote.flip svg{transform:scaleX(-1)}
   .abh.color{background:#F4DE93;color:#3A2E12}
   .abh.client{background:#C2C6CA;color:#33373B}
-  .appgrid2 .abimg.sm img{width:74px;height:74px;border-radius:16px;margin:14px auto 8px}
+  .appgrid2 .abimg.sm img{width:74px;height:74px;border-radius:16px;margin:14px auto 0}
+  /* 간격은 .hnote 의 margin-top(8px) 하나로 통일 — 아이콘/QR 어느 쪽이든 라벨까지 8px */
+  .appgrid2 .hnote{margin-bottom:8px}
+  .appgrid2 .appcard .hnote:last-child{margin-bottom:0}
   .appgrid2 .abdesc.sm{min-height:44px}
   /* === 섹션 머리(A/B)·입장 안내 === */
   .mh{display:flex;align-items:center;gap:10px;margin:8px 4px 14px}
@@ -261,14 +274,18 @@
           <div class="appcard">
             <div class="abh color">구몬 화상학습</div>
             <a class="abimg sm" data-app="colorapp" href="#" target="_blank" rel="noopener"><img src="img/colorapp.png" alt="구몬 화상학습 (컬러) 앱" loading="lazy"></a>
+            <div class="hnote"><svg width="18" height="16" viewBox="0 0 34 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M31 27c-9 1-17-3-18-9-.6-4 3-6 5-4s-1 6-5 5C8 18 8 11 8 3"/><path d="M4.5 7.5 8 3l3.5 4.5"/></svg>아이콘 클릭</div>
             <p class="abdesc sm">실제 화상학습 앱</p>
             <div class="abqr sm"><img class="qrimg" alt="앱 설치 QR 코드" loading="lazy"></div>
+            <div class="hnote flip">QR코드 스캔<svg width="18" height="16" viewBox="0 0 34 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M31 27c-9 1-17-3-18-9-.6-4 3-6 5-4s-1 6-5 5C8 18 8 11 8 3"/><path d="M4.5 7.5 8 3l3.5 4.5"/></svg></div>
           </div>
           <div class="appcard">
             <div class="abh client">구몬 화상학습 클라이언트</div>
             <a class="abimg sm" data-app="grayapp" href="#" target="_blank" rel="noopener"><img src="img/grayapp.png" alt="구몬 화상학습 클라이언트 (회색) 앱" loading="lazy"></a>
+            <div class="hnote"><svg width="18" height="16" viewBox="0 0 34 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M31 27c-9 1-17-3-18-9-.6-4 3-6 5-4s-1 6-5 5C8 18 8 11 8 3"/><path d="M4.5 7.5 8 3l3.5 4.5"/></svg>아이콘 클릭</div>
             <p class="abdesc sm">학습 보조용 앱<br>(설치 후 사용 X)</p>
             <div class="abqr sm"><img class="qrimg" alt="앱 설치 QR 코드" loading="lazy"></div>
+            <div class="hnote flip">QR코드 스캔<svg width="18" height="16" viewBox="0 0 34 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M31 27c-9 1-17-3-18-9-.6-4 3-6 5-4s-1 6-5 5C8 18 8 11 8 3"/><path d="M4.5 7.5 8 3l3.5 4.5"/></svg></div>
           </div>
         </div>
       </div>
