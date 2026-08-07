@@ -106,8 +106,11 @@
   .subj-info{padding:12px 13px 14px}
   .subj-nm{font-size:var(--fs-md);font-weight:800;color:var(--ink);letter-spacing:-.02em}
   .subj-d{font-size:var(--fs-sm);color:var(--muted);line-height:1.5;margin-top:3px}
-  .subj-note{font-size:var(--fs-sm);color:var(--muted);line-height:1.6;margin-top:20px;background:var(--sky);border-radius:10px;padding:13px 14px}
-  .subj-note b{color:var(--ink);font-weight:800}
+  /* 평생교육이용권 안내(2026-08-06 개편) — 회색 박스 각주에서 '가운데 3줄 강조문'으로 바꿈.
+     가운데 줄만 브랜드 레드(--brand-text)로 키운다. 박스·※ 표시는 없앰. 되돌리지 말 것.
+     줄바꿈 고정용 clamp는 불필요 — 320px에서도 가장 긴 가운데 줄이 187px(칸 272px)로 여유 85px(실측). */
+  .subj-note{font-size:var(--fs-body);color:var(--ink);font-weight:700;line-height:1.75;margin-top:26px;text-align:center;letter-spacing:-.02em}
+  .subj-note b{display:inline-block;color:var(--brand-text);font-size:1.3em;font-weight:900;line-height:1.4;margin:2px 0}
   .disc{font-size:var(--fs-3xs);font-weight:300;color:#7A7F87;text-align:center;line-height:1.6;padding:8px 24px 26px}
   .reveal{opacity:0;transform:translateY(14px);transition:opacity .8s cubic-bezier(.22,.7,.3,1),transform .8s cubic-bezier(.22,.7,.3,1)}
   .reveal.in{opacity:1;transform:none}
@@ -139,7 +142,7 @@
       <a class="subj reveal" href="https://ksmile.kumon.co.kr/VodSubject/Korea" target="_blank" rel="noopener"><img src="img/step04_kumon_korean.jpg" alt="완전국어" loading="lazy"><div class="subj-info"><div class="subj-nm">완전국어</div><div class="subj-d">고도의 독해 능력 완성</div></div></a>
       <a class="subj center reveal"><img src="img/step04_kumon_science.jpg" alt="구몬과학" loading="lazy"><div class="subj-info"><div class="subj-nm">구몬과학</div><div class="subj-d">한눈에 보이는 과학 원리</div></div></a>
     </div>
-    <p class="subj-note reveal">※ 구몬 화상학습은 <b>평생교육이용권</b>으로도 학습이 가능합니다.</p>
+    <p class="subj-note reveal">구몬 화상학습은<br><b>평생교육이용권으로도</b><br>학습이 가능합니다.</p>
   </section>
 
   <p class="disc">※ 원활한 학습 안내를 위해 제작한 임시 안내 페이지입니다.</p>
