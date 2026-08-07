@@ -102,11 +102,13 @@
   .tab.on{background:var(--brand);color:#fff;box-shadow:0 4px 12px rgba(224,0,32,.22)}
   /* 탭 순서 번호(2026-08-06) — 어느 순서로 보면 되는지 한눈에 보이도록 좌상단에 배지를 얹는다.
      data-n 값을 그대로 쓰므로 탭을 추가/삭제해도 마크업만 고치면 됨.
-     대비: 미선택 배지면(#626B7E) vs 트랙(#1A1D23) 3.15:1 · 숫자 4.86:1 / 선택 배지는 흰 숫자 5.01:1 */
-  .tab::before{content:attr(data-n);position:absolute;left:-5px;top:-6px;width:19px;height:19px;border-radius:50%;
+     배지는 '자기 탭의 왼쪽 모서리'에만 걸치게 둔다(left:3px) — 왼쪽으로 튀어나오면 옆 탭에 붙은 것처럼 보임.
+     top:-13px 이라 2줄 라벨(글자 윗변)과도 겹치지 않는다(실측 간격 0~8px).
+     선택 = 흰 원 + 레드 숫자(5.87:1) / 미선택 = #626B7E 원 + 밝은 숫자(4.86:1) */
+  .tab::before{content:attr(data-n);position:absolute;left:3px;top:-13px;width:19px;height:19px;border-radius:50%;
     background:#626B7E;border:1px solid #828B9D;color:var(--ink);font-size:var(--fs-2xs);font-weight:900;
     display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 2px 5px rgba(0,0,0,.35)}
-  .tab.on::before{background:var(--brand);border-color:#FF8A97;color:#fff}
+  .tab.on::before{background:#fff;border-color:#fff;color:var(--brand)}
   .panel{display:none;padding:24px 20px 8px}
   .panel.on{display:block}
   .p-intro{font-size:var(--fs-body);line-height:1.7;color:var(--muted);margin:0 4px 18px}
