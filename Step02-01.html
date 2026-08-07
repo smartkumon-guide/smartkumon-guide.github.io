@@ -484,6 +484,12 @@
     Object.keys(LINKS).forEach(app=>{urls.push('img/qr-'+app+'-aos.svg','img/qr-'+app+'-ios.svg')});
     if(typeof SIGNUP!=='undefined')Object.keys(SIGNUP).forEach(k=>urls.push(SIGNUP[k].qr));
     urls.filter(Boolean).forEach(u=>{const im=new Image();im.decoding='async';im.src=u});
+    /* ⚠️ 손글씨(Nanum Pen Script)도 미리 받아 둔다 — .hnote 는 선택 전까지 display:none 안에 있어
+       폰트 요청이 아예 안 걸린다. 그대로 두면 클릭 순간 대체 글꼴(폭이 1.5배)로 먼저 그려졌다가
+       폰트가 도착하면서 라벨 폭이 92→61px 로 줄어 '툭 튀는' 것처럼 보였음(실측). 지우지 말 것. */
+    if(document.fonts&&document.fonts.load){
+      try{ document.fonts.load('15px "Nanum Pen Script"','아이콘 클릭 QR코드 스캔') }catch(e){}
+    }
     /* 튜토리얼 iframe 은 숨은 패널 안에 있어 픽셀폰트(Galmuri)를 받지 않는다(실측: fonts.check=false).
        → 부모에서 같은 CDN 폰트를 미리 받아 캐시에 넣어 두면 탭을 열 때 곧바로 제 글꼴로 그려진다.
        화면에 영향이 없도록 1px 짜리 화면 밖 프로브만 둔다. */
