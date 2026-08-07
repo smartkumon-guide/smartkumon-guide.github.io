@@ -203,8 +203,8 @@
   </section>
 
   <section class="sec tint">
-    <h2 class="sec-h reveal">학습 방식 2가지</h2>
-    <p class="sec-d reveal">화상 vs 셀프, 나에게 꼭 맞는 학습방식은?</p>
+    <h2 class="sec-h">학습 방식 2가지</h2>
+    <p class="sec-d">화상 vs 셀프, 나에게 꼭 맞는 학습방식은?</p>
     <div class="ways">
       <div class="way online">
         <div class="way-hd online">화상학습</div>
@@ -249,8 +249,8 @@
       <img src="img/step2_anydevice.jpg" alt="디바이스 구매 없이 내가 가진 패드로 바로 학습 가능 (스마트구몬N 앱 설치 시)" loading="lazy">
       <a class="anydev-btn" href="https://www.kumon.co.kr/Customer/DeviceSearch" target="_blank" rel="noopener" aria-label="학습 가능 기종 확인하기"></a>
     </div>
-    <h2 class="sec-h reveal">상품별 비교</h2>
-    <p class="sec-d reveal">3가지 상품의 핵심을 표로 비교해 보세요.</p>
+    <h2 class="sec-h">상품별 비교</h2>
+    <p class="sec-d">3가지 상품의 핵심을 표로 비교해 보세요.</p>
     <div class="tablewrap reveal">
       <table>
         <colgroup><col class="c-head"><col><col><col></colgroup>
@@ -301,8 +301,8 @@
 
   <section class="sec tint" style="padding-left:0;padding-right:0">
     <div style="padding:0 24px">
-      <h2 class="sec-h reveal">상품별 특장점</h2>
-      <p class="sec-d reveal">옆으로 넘기며 상품별 강점을 확인해 보세요.</p>
+      <h2 class="sec-h">상품별 특장점</h2>
+      <p class="sec-d">옆으로 넘기며 상품별 강점을 확인해 보세요.</p>
     </div>
     <div class="cvp pc-vp"><div class="pcards" id="pcards">
       <div class="pcard best">
@@ -364,7 +364,8 @@
     imgs.forEach(i=>{i.addEventListener('load',one,{once:true});i.addEventListener('error',one,{once:true})});
     setTimeout(show,1500);
   }
-  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){revealWhenReady(e.target);io.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -28% 0px'});   /* 블록 윗변이 화면 72% 위로 올라온 뒤 등장(2026-08-06 재조정) */
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){revealWhenReady(e.target);io.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -10% 0px'});   /* 블록 윗변이 화면 90%까지 올라오면 바로 등장 — 2차 피드백에서
+     '데일리 학습 케어·배너·비교표·특장점이 너무 늦게 뜬다'고 해 -28% → -10% 로 앞당김. */
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   // 학습 방식 카드: 살짝만 스크롤해도 시작되는 순차 연출.
   //   ① 사진 위로 어두운 오버레이가 덮이고 ② 질문이 한 글자씩 타이핑되듯 나타난 뒤
@@ -414,7 +415,8 @@
       if(!e.isIntersecting) return;
       wo.disconnect();
       playCol(cols[0], ()=>{ if(cols[1]) playCol(cols[1], ()=>{}) });
-    }),{threshold:0,rootMargin:'-22% 0px -22% 0px'});   /* 화면 세로 가운데 56% 띠에 들어와야 시작(2026-08-06) */
+    }),{threshold:0,rootMargin:'0px 0px -52% 0px'});   /* .ways 윗변이 화면 48%(중간)까지 올라와야 시작.
+       구 -22%/-22% 는 카드가 화면 아래쪽에 걸치기만 해도 시작돼 '이미 재생 중'으로 보였음. */
     wo.observe(ways);
   })();
   /* ===== 캐러셀 (카드뉴스 · 상품별 특장점 공용) =========================
